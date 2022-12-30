@@ -32,13 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet.TestApp", "Source\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet.AspTestApp", "Source\MQTTnet.AspTestApp\MQTTnet.AspTestApp.csproj", "{72867E4C-4E15-4E8E-8FAB-AE9253286BBC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet.Clustering.Orleans.Client", "Source\MQTTnet.Clustering.Orleans.Client\MQTTnet.Clustering.Orleans.Client.csproj", "{8A42BC5C-72A0-4434-A6B3-35204B12BBD9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet.Clustering.Orleans.Interfaces", "Source\MQTTnet.Clustering.Orleans.Interfaces\MQTTnet.Clustering.Orleans.Interfaces.csproj", "{FE31F938-2E0E-4866-BB31-0DF87F6D8A43}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet.Clustering.Orleans.Server", "Source\MQTTnet.Clustering.Orleans.Server\MQTTnet.Clustering.Orleans.Server.csproj", "{679C3DE7-9EAD-47C8-A030-E952FD5E2077}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet.Clustering.Orleans.Grains", "Source\MQTTnet.Clustering.Orleans.Grains\MQTTnet.Clustering.Orleans.Grains.csproj", "{90FBFED6-BEA9-4F29-904D-D71FC2BDB715}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTnet.Hosting", "Source\MQTTnet.Hosting\MQTTnet.Hosting.csproj", "{C754A825-BEE2-4676-A46E-EE54D2CCBDB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,22 +84,10 @@ Global
 		{72867E4C-4E15-4E8E-8FAB-AE9253286BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72867E4C-4E15-4E8E-8FAB-AE9253286BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72867E4C-4E15-4E8E-8FAB-AE9253286BBC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A42BC5C-72A0-4434-A6B3-35204B12BBD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A42BC5C-72A0-4434-A6B3-35204B12BBD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A42BC5C-72A0-4434-A6B3-35204B12BBD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A42BC5C-72A0-4434-A6B3-35204B12BBD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE31F938-2E0E-4866-BB31-0DF87F6D8A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE31F938-2E0E-4866-BB31-0DF87F6D8A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE31F938-2E0E-4866-BB31-0DF87F6D8A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE31F938-2E0E-4866-BB31-0DF87F6D8A43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{679C3DE7-9EAD-47C8-A030-E952FD5E2077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{679C3DE7-9EAD-47C8-A030-E952FD5E2077}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{679C3DE7-9EAD-47C8-A030-E952FD5E2077}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{679C3DE7-9EAD-47C8-A030-E952FD5E2077}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90FBFED6-BEA9-4F29-904D-D71FC2BDB715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90FBFED6-BEA9-4F29-904D-D71FC2BDB715}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90FBFED6-BEA9-4F29-904D-D71FC2BDB715}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90FBFED6-BEA9-4F29-904D-D71FC2BDB715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C754A825-BEE2-4676-A46E-EE54D2CCBDB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C754A825-BEE2-4676-A46E-EE54D2CCBDB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C754A825-BEE2-4676-A46E-EE54D2CCBDB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C754A825-BEE2-4676-A46E-EE54D2CCBDB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
