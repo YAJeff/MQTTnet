@@ -9,7 +9,7 @@ namespace MQTTnet.Server
     public sealed class MqttServerOptions
     {
         public TimeSpan DefaultCommunicationTimeout { get; set; } = TimeSpan.FromSeconds(100);
-        
+
         public MqttServerTcpEndpointOptions DefaultEndpointOptions { get; } = new MqttServerTcpEndpointOptions();
 
         public bool EnablePersistentSessions { get; set; }
@@ -35,5 +35,17 @@ namespace MQTTnet.Server
         ///     Do not change this value when no memory issues are experienced.
         /// </summary>
         public int WriterBufferSizeMax { get; set; } = 65535;
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether messages published to standard topics should be passed
+        /// along to shared subscriptions.
+        /// </summary>
+        public bool RelayMessagesToSharedSubscriptions { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value that indicates if publishing directly to shared subscription topics is allowed.
+        /// </summary>
+        public bool AllowPublishingToSharedSubscriptions { get; set; } = false;
+
     }
 }

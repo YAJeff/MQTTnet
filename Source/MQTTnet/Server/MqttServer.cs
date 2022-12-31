@@ -105,6 +105,12 @@ namespace MQTTnet.Server
             remove => _eventContainer.InterceptingPublishEvent.RemoveHandler(value);
         }
 
+        public event Func<InterceptingPublishToSharedSubscriptionEventArgs, Task> InterceptingPublishToSharedSubscriptionAsync
+        {
+            add => _eventContainer.InterceptingPublishToSharedSubscriptionEvent.AddHandler(value);
+            remove => _eventContainer.InterceptingPublishToSharedSubscriptionEvent.RemoveHandler(value);
+        }
+
         public event Func<InterceptingSubscriptionEventArgs, Task> InterceptingSubscriptionAsync
         {
             add => _eventContainer.InterceptingSubscriptionEvent.AddHandler(value);

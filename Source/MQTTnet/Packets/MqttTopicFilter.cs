@@ -46,10 +46,15 @@ namespace MQTTnet.Packets
         /// </summary>
         public string Topic { get; set; }
 
+        /// <summary>
+        /// Gets or sets the share name for a shared subscription.
+        /// </summary>
+        public string ShareName { get; set; }
+
         public override string ToString()
         {
             return
-                $"TopicFilter: [Topic={Topic}] [QualityOfServiceLevel={QualityOfServiceLevel}] [NoLocal={NoLocal}] [RetainAsPublished={RetainAsPublished}] [RetainHandling={RetainHandling}]";
+                $"TopicFilter: [Topic={Topic}] [QualityOfServiceLevel={QualityOfServiceLevel}] [NoLocal={NoLocal}] [RetainAsPublished={RetainAsPublished}] [RetainHandling={RetainHandling}] [ShareName={ShareName}]";
         }
     }
 }

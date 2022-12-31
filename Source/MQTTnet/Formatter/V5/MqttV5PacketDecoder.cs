@@ -8,6 +8,7 @@ using MQTTnet.Adapter;
 using MQTTnet.Exceptions;
 using MQTTnet.Packets;
 using MQTTnet.Protocol;
+using MQTTnet.Server;
 
 namespace MQTTnet.Formatter.V5
 {
@@ -680,10 +681,18 @@ namespace MQTTnet.Formatter.V5
                 var retainAsPublished = (options & (1 << 3)) > 0;
                 var retainHandling = (MqttRetainHandling)((options >> 4) & 3);
 
+                string shareName = null;
+                if (MqttSharedSubscriptionTopicKey.TryParse(topic, out var sharedSubscriptionKey))
+                {
+                    shareName = sharedSubscriptionKey.ShareName;
+                    topic = sharedSubscriptionKey.Topic;
+                }
+                
                 packet.TopicFilters.Add(
                     new MqttTopicFilter
                     {
                         Topic = topic,
+                        ShareName = shareName,
                         QualityOfServiceLevel = qos,
                         NoLocal = noLocal,
                         RetainAsPublished = retainAsPublished,

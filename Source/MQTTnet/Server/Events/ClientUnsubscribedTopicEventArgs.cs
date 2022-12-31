@@ -9,10 +9,11 @@ namespace MQTTnet.Server
 {
     public sealed class ClientUnsubscribedTopicEventArgs : EventArgs
     {
-        public ClientUnsubscribedTopicEventArgs(string clientId, string topicFilter, IDictionary sessionItems)
+        public ClientUnsubscribedTopicEventArgs(string clientId, string topicFilter, string shareName, IDictionary sessionItems)
         {
             ClientId = clientId ?? throw new ArgumentNullException(nameof(clientId));
             TopicFilter = topicFilter ?? throw new ArgumentNullException(nameof(topicFilter));
+            ShareName = shareName;
             SessionItems = sessionItems ?? throw new ArgumentNullException(nameof(sessionItems));
         }
 
@@ -32,5 +33,8 @@ namespace MQTTnet.Server
         ///     The topic filter can contain topics and wildcards.
         /// </summary>
         public string TopicFilter { get; }
+
+        public string ShareName { get; }
+
     }
 }

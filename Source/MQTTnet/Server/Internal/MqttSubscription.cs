@@ -163,7 +163,7 @@ namespace MQTTnet.Server
 * To also handle a larger number of subscribers, it may be beneficial to maintain
 * a subscribers-by-subscription-topic dictionary.
 */
-    public sealed class MqttSubscription
+    public class MqttSubscription
     {
         public MqttSubscription(
             string topic,

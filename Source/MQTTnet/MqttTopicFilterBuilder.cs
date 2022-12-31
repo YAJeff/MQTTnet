@@ -29,10 +29,17 @@ namespace MQTTnet
         bool _noLocal;
         bool _retainAsPublished;
         MqttRetainHandling _retainHandling = MqttRetainHandling.SendAtSubscribe;
+        private string _shareName;
 
         public MqttTopicFilterBuilder WithTopic(string topic)
         {
             _topic = topic;
+            return this;
+        }
+
+        public MqttTopicFilterBuilder WithShareName(string shareName)
+        {
+            _shareName = shareName;
             return this;
         }
 
@@ -87,6 +94,7 @@ namespace MQTTnet
 
             return new MqttTopicFilter
             {
+                ShareName = _shareName,
                 Topic = _topic,
                 QualityOfServiceLevel = _qualityOfServiceLevel,
                 NoLocal = _noLocal,

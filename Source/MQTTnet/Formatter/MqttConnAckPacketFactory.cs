@@ -24,7 +24,7 @@ namespace MQTTnet.Formatter
                 ReasonCode = validatingConnectionEventArgs.ReasonCode,
                 RetainAvailable = true,
                 SubscriptionIdentifiersAvailable = true,
-                SharedSubscriptionAvailable = false,
+                SharedSubscriptionAvailable = true,
                 TopicAliasMaximum = ushort.MaxValue,
                 MaximumQoS = MqttQualityOfServiceLevel.ExactlyOnce,
                 WildcardSubscriptionAvailable = true,

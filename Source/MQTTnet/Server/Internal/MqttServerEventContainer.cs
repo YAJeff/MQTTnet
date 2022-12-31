@@ -26,7 +26,9 @@ namespace MQTTnet.Server
         public AsyncEvent<InterceptingPacketEventArgs> InterceptingOutboundPacketEvent { get; } = new AsyncEvent<InterceptingPacketEventArgs>();
 
         public AsyncEvent<InterceptingPublishEventArgs> InterceptingPublishEvent { get; } = new AsyncEvent<InterceptingPublishEventArgs>();
-        
+
+        public AsyncEvent<InterceptingPublishToSharedSubscriptionEventArgs> InterceptingPublishToSharedSubscriptionEvent { get; } = new AsyncEvent<InterceptingPublishToSharedSubscriptionEventArgs>();
+
         public AsyncEvent<InterceptingSubscriptionEventArgs> InterceptingSubscriptionEvent { get; } = new AsyncEvent<InterceptingSubscriptionEventArgs>();
 
         public AsyncEvent<InterceptingUnsubscriptionEventArgs> InterceptingUnsubscriptionEvent { get; } = new AsyncEvent<InterceptingUnsubscriptionEventArgs>();

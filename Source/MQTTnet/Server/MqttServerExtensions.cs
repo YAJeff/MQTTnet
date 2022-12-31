@@ -67,7 +67,7 @@ namespace MQTTnet.Server
             return server.SubscribeAsync(clientId, topicFilters);
         }
 
-        public static Task SubscribeAsync(this MqttServer server, string clientId, string topic)
+        public static Task SubscribeAsync(this MqttServer server, string clientId, string topic, string shareName = null)
         {
             if (server == null)
             {
@@ -84,7 +84,7 @@ namespace MQTTnet.Server
                 throw new ArgumentNullException(nameof(topic));
             }
 
-            var topicFilters = new MqttTopicFilterBuilder().WithTopic(topic).Build();
+            var topicFilters = new MqttTopicFilterBuilder().WithTopic(topic).WithShareName(shareName).Build();
             return server.SubscribeAsync(clientId, topicFilters);
         }
     }

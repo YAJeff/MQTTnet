@@ -137,6 +137,13 @@ namespace MQTTnet.Server
             return this;
         }
 
+        public MqttServerOptionsBuilder WithoutAutoRelayToSharedSubscriptions(bool allowPublishingToSharedSubscriptions = true)
+        {
+            _options.RelayMessagesToSharedSubscriptions = false;
+            _options.AllowPublishingToSharedSubscriptions = allowPublishingToSharedSubscriptions;
+            return this;
+        }
+
 #if !WINDOWS_UWP
         public MqttServerOptionsBuilder WithRemoteCertificateValidationCallback(RemoteCertificateValidationCallback value)
         {

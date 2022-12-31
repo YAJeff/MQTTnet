@@ -74,6 +74,11 @@ namespace MQTTnet.Server
         public MqttTopicFilter TopicFilter { get; set; }
 
         /// <summary>
+        /// Gets a value indicating it is a shared subscription.
+        /// </summary>
+        public bool IsShared => TopicFilter.ShareName != null;
+
+        /// <summary>
         ///     Gets or sets the user properties.
         /// </summary>
         public List<MqttUserProperty> UserProperties { get; set; }

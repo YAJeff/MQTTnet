@@ -16,10 +16,11 @@ using MQTTnet.Formatter;
 using MQTTnet.Internal;
 using MQTTnet.Packets;
 using MQTTnet.Protocol;
+using MQTTnet.Server.Internal;
 
 namespace MQTTnet.Server
 {
-    public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification, IDisposable
+    public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification, ISharedSubscriptionChangedNotification, IDisposable
     {
         readonly Dictionary<string, MqttClient> _clients = new Dictionary<string, MqttClient>(4096);
 
@@ -38,6 +39,12 @@ namespace MQTTnet.Server
 
         readonly object _sessionsManagementLock = new object();
         readonly HashSet<MqttSession> _subscriberSessions = new HashSet<MqttSession>();
+
+        readonly AsyncLock _sharedSubscriptionsLock = new AsyncLock();
+
+        readonly Dictionary<MqttSharedSubscriptionTopicKey, MqttSharedSubscription> _sharedSubscriptions = new Dictionary<MqttSharedSubscriptionTopicKey, MqttSharedSubscription>();
+        readonly Dictionary<ulong, Dictionary<MqttSharedSubscriptionTopicKey, MqttSharedSubscription>> _noWildcardSharedSubscriptionsByTopicHash = new Dictionary<ulong, Dictionary<MqttSharedSubscriptionTopicKey, MqttSharedSubscription>>();
+        readonly Dictionary<ulong, TopicHashMaskSharedSubscriptions> _wildcardSharedSubscriptionsByTopicHash = new Dictionary<ulong, TopicHashMaskSharedSubscriptions>();
 
         public MqttClientSessionsManager(
             MqttServerOptions options,
@@ -139,77 +146,72 @@ namespace MQTTnet.Server
             List<MqttUserProperty> userProperties = null;
             var reasonCode = 0; // The reason code is later converted into several different but compatible enums!
 
-            // Allow the user to intercept application message...
-            if (_eventContainer.InterceptingPublishEvent.HasHandlers)
+            var isSharedSubscriptionTopic = MqttSharedSubscriptionTopicKey.TryParse(applicationMessage.Topic, out var sharedSubscriptionTopic);
+
+            if (isSharedSubscriptionTopic)
             {
-                var interceptingPublishEventArgs = new InterceptingPublishEventArgs(applicationMessage, cancellationToken, senderId, senderSessionItems);
-                if (string.IsNullOrEmpty(interceptingPublishEventArgs.ApplicationMessage.Topic))
+                applicationMessage.Topic = sharedSubscriptionTopic.Topic;
+
+                MqttSubscription.CalculateTopicHash(applicationMessage.Topic, out var topicHash, out var _, out _);
+
+                var possibleSubscriptions = new Dictionary<MqttSharedSubscriptionTopicKey, MqttSharedSubscription>();
+
+                using (await _sharedSubscriptionsLock.EnterAsync())
                 {
-                    // This can happen if a topic alias us used but the topic is
-                    // unknown to the server.
-                    interceptingPublishEventArgs.Response.ReasonCode = MqttPubAckReasonCode.TopicNameInvalid;
-                    interceptingPublishEventArgs.ProcessPublish = false;
-                }
-
-                await _eventContainer.InterceptingPublishEvent.InvokeAsync(interceptingPublishEventArgs).ConfigureAwait(false);
-
-                applicationMessage = interceptingPublishEventArgs.ApplicationMessage;
-                closeConnection = interceptingPublishEventArgs.CloseConnection;
-                processPublish = interceptingPublishEventArgs.ProcessPublish;
-                reasonString = interceptingPublishEventArgs.Response.ReasonString;
-                userProperties = interceptingPublishEventArgs.Response.UserProperties;
-                reasonCode = (int)interceptingPublishEventArgs.Response.ReasonCode;
-            }
-
-            // Process the application message...
-            if (processPublish && applicationMessage != null)
-            {
-                var matchingSubscribersCount = 0;
-                try
-                {
-                    if (applicationMessage.Retain)
+                    var matchingSubscribersCount = 0;
+                    
+                    if (_noWildcardSharedSubscriptionsByTopicHash.TryGetValue(topicHash, out var sharedSubscriptionsByKey))
                     {
-                        await _retainedMessagesManager.UpdateMessage(senderId, applicationMessage).ConfigureAwait(false);
+                        foreach (var sharedSubscriptionKvp in sharedSubscriptionsByKey)
+                        {
+                            possibleSubscriptions.Add(sharedSubscriptionKvp.Key, sharedSubscriptionKvp.Value);
+                        }
                     }
 
-                    List<MqttSession> subscriberSessions;
-                    lock (_sessionsManagementLock)
+                    foreach (var wcs in _wildcardSharedSubscriptionsByTopicHash)
                     {
-                        subscriberSessions = _subscriberSessions.ToList();
+                        var subscriptionHash = wcs.Key;
+                        var subscriptionsByHashMask = wcs.Value.SubscriptionsByHashMask;
+                        foreach (var shm in subscriptionsByHashMask)
+                        {
+                            var subscriptionHashMask = shm.Key;
+                            if ((topicHash & subscriptionHashMask) == subscriptionHash)
+                            {
+                                foreach (var sharedSubscriptionKvp in shm.Value)
+                                {
+                                    possibleSubscriptions.Add(sharedSubscriptionKvp.Key, sharedSubscriptionKvp.Value);
+                                }
+                            }
+                        }
                     }
 
-                    // Calculate application message topic hash once for subscription checks
-                    MqttSubscription.CalculateTopicHash(applicationMessage.Topic, out var topicHash, out _, out _);
-
-                    foreach (var session in subscriberSessions)
+                    foreach (var subscription in possibleSubscriptions)
                     {
-                        if (!session.TryCheckSubscriptions(
-                                applicationMessage.Topic,
-                                topicHash,
-                                applicationMessage.QualityOfServiceLevel,
-                                senderId,
-                                out var checkSubscriptionsResult))
-                        {
-                            // Checking the subscriptions has failed for the session. The session
-                            // will be ignored.
+                        if (subscription.Key.ShareName != sharedSubscriptionTopic.ShareName)
                             continue;
-                        }
 
-                        if (!checkSubscriptionsResult.IsSubscribed)
-                        {
+                        if (MqttTopicFilterComparer.Compare(applicationMessage.Topic, subscription.Key.Topic) != MqttTopicFilterCompareResult.IsMatch)
                             continue;
-                        }
+
+                        var eventArgs = new InterceptingPublishToSharedSubscriptionEventArgs(applicationMessage, cancellationToken, senderId, subscription.Key.ShareName, senderSessionItems);
+                        await _eventContainer.InterceptingPublishToSharedSubscriptionEvent.InvokeAsync(eventArgs);
 
                         var publishPacketCopy = MqttPacketFactories.Publish.Create(applicationMessage);
-                        publishPacketCopy.QualityOfServiceLevel = checkSubscriptionsResult.QualityOfServiceLevel;
-                        publishPacketCopy.SubscriptionIdentifiers = checkSubscriptionsResult.SubscriptionIdentifiers;
+                        publishPacketCopy.QualityOfServiceLevel = subscription.Value.GrantedQualityOfServiceLevel;
+                        publishPacketCopy.SubscriptionIdentifiers = new List<uint>() { subscription.Value.Identifier };
 
-                        if (publishPacketCopy.QualityOfServiceLevel > 0)
-                        {
-                            publishPacketCopy.PacketIdentifier = session.PacketIdentifierProvider.GetNextPacketIdentifier();
-                        }
+                        processPublish = eventArgs.ProcessPublish;
+                        //if (publishPacketCopy.QualityOfServiceLevel > 0)
+                        //{
+                        //    publishPacketCopy.PacketIdentifier = session.PacketIdentifierProvider.GetNextPacketIdentifier();
+                        //}
 
-                        if (checkSubscriptionsResult.RetainAsPublished)
+                        //if (publishPacketCopy.QualityOfServiceLevel > 0)
+                        //{
+                        //    publishPacketCopy.PacketIdentifier = session.PacketIdentifierProvider.GetNextPacketIdentifier();
+                        //}
+
+                        if (subscription.Value.RetainAsPublished)
                         {
                             // Transfer the original retain state from the publisher. This is a MQTTv5 feature.
                             publishPacketCopy.Retain = applicationMessage.Retain;
@@ -219,10 +221,13 @@ namespace MQTTnet.Server
                             publishPacketCopy.Retain = false;
                         }
 
-                        session.EnqueueDataPacket(new MqttPacketBusItem(publishPacketCopy));
-                        matchingSubscribersCount++;
+                        if (processPublish)
+                        {
+                            subscription.Value.EnqueueDataPacket(new MqttPacketBusItem(publishPacketCopy));
+                            matchingSubscribersCount++;
+                        }
 
-                        _logger.Verbose("Client '{0}': Queued PUBLISH packet with topic '{1}'.", session.Id, applicationMessage.Topic);
+                        _logger.Verbose("Share name '{0}': Queued PUBLISH packet with topic '{1}'.", subscription.Key.ShareName, applicationMessage.Topic);
                     }
 
                     if (matchingSubscribersCount == 0)
@@ -231,9 +236,182 @@ namespace MQTTnet.Server
                         await FireApplicationMessageNotConsumedEvent(applicationMessage, senderId).ConfigureAwait(false);
                     }
                 }
-                catch (Exception exception)
+
+            }
+            else
+            {
+                // Allow the user to intercept application message...
+                if (_eventContainer.InterceptingPublishEvent.HasHandlers)
                 {
-                    _logger.Error(exception, "Unhandled exception while processing next queued application message.");
+                    var interceptingPublishEventArgs = new InterceptingPublishEventArgs(applicationMessage, cancellationToken, senderId, senderSessionItems);
+                    if (string.IsNullOrEmpty(interceptingPublishEventArgs.ApplicationMessage.Topic))
+                    {
+                        // This can happen if a topic alias us used but the topic is
+                        // unknown to the server.
+                        interceptingPublishEventArgs.Response.ReasonCode = MqttPubAckReasonCode.TopicNameInvalid;
+                        interceptingPublishEventArgs.ProcessPublish = false;
+                    }
+
+                    await _eventContainer.InterceptingPublishEvent.InvokeAsync(interceptingPublishEventArgs).ConfigureAwait(false);
+
+                    applicationMessage = interceptingPublishEventArgs.ApplicationMessage;
+                    closeConnection = interceptingPublishEventArgs.CloseConnection;
+                    processPublish = interceptingPublishEventArgs.ProcessPublish;
+                    reasonString = interceptingPublishEventArgs.Response.ReasonString;
+                    userProperties = interceptingPublishEventArgs.Response.UserProperties;
+                    reasonCode = (int)interceptingPublishEventArgs.Response.ReasonCode;
+                }
+
+
+                // Process the application message...
+                if (processPublish && applicationMessage != null)
+                {
+                    var matchingSubscribersCount = 0;
+                    try
+                    {
+                        if (applicationMessage.Retain)
+                        {
+                            await _retainedMessagesManager.UpdateMessage(senderId, applicationMessage).ConfigureAwait(false);
+                        }
+
+                        List<MqttSession> subscriberSessions;
+                        lock (_sessionsManagementLock)
+                        {
+                            subscriberSessions = _subscriberSessions.ToList();
+                        }
+
+                        // Calculate application message topic hash once for subscription checks
+                        MqttSubscription.CalculateTopicHash(applicationMessage.Topic, out var topicHash, out _, out _);
+
+                        foreach (var session in subscriberSessions)
+                        {
+                            if (!session.TryCheckSubscriptions(
+                                    applicationMessage.Topic,
+                                    topicHash,
+                                    applicationMessage.QualityOfServiceLevel,
+                                    senderId,
+                                    out var checkSubscriptionsResult))
+                            {
+                                // Checking the subscriptions has failed for the session. The session
+                                // will be ignored.
+                                continue;
+                            }
+
+                            if (!checkSubscriptionsResult.IsSubscribed)
+                            {
+                                continue;
+                            }
+
+                            var publishPacketCopy = MqttPacketFactories.Publish.Create(applicationMessage);
+                            publishPacketCopy.QualityOfServiceLevel = checkSubscriptionsResult.QualityOfServiceLevel;
+                            publishPacketCopy.SubscriptionIdentifiers = checkSubscriptionsResult.SubscriptionIdentifiers;
+
+                            if (publishPacketCopy.QualityOfServiceLevel > 0)
+                            {
+                                publishPacketCopy.PacketIdentifier = session.PacketIdentifierProvider.GetNextPacketIdentifier();
+                            }
+
+                            if (checkSubscriptionsResult.RetainAsPublished)
+                            {
+                                // Transfer the original retain state from the publisher. This is a MQTTv5 feature.
+                                publishPacketCopy.Retain = applicationMessage.Retain;
+                            }
+                            else
+                            {
+                                publishPacketCopy.Retain = false;
+                            }
+
+                            session.EnqueueDataPacket(new MqttPacketBusItem(publishPacketCopy));
+                            matchingSubscribersCount++;
+
+                            _logger.Verbose("Client '{0}': Queued PUBLISH packet with topic '{1}'.", session.Id, applicationMessage.Topic);
+                        }
+
+                        if (_options.RelayMessagesToSharedSubscriptions)
+                        {
+                            var possibleSubscriptions = new Dictionary<MqttSharedSubscriptionTopicKey, MqttSharedSubscription>();
+
+                            using (await _sharedSubscriptionsLock.EnterAsync())
+                            {
+                                if (_noWildcardSharedSubscriptionsByTopicHash.TryGetValue(topicHash, out var sharedSubscriptionsByKey))
+                                {
+                                    foreach (var sharedSubscriptionKvp in sharedSubscriptionsByKey)
+                                    {
+                                        possibleSubscriptions.Add(sharedSubscriptionKvp.Key, sharedSubscriptionKvp.Value);
+                                    }
+                                }
+
+                                foreach (var wcs in _wildcardSharedSubscriptionsByTopicHash)
+                                {
+                                    var subscriptionHash = wcs.Key;
+                                    var subscriptionsByHashMask = wcs.Value.SubscriptionsByHashMask;
+                                    foreach (var shm in subscriptionsByHashMask)
+                                    {
+                                        var subscriptionHashMask = shm.Key;
+                                        if ((topicHash & subscriptionHashMask) == subscriptionHash)
+                                        {
+                                            foreach (var sharedSubscriptionKvp in shm.Value)
+                                            {
+                                                possibleSubscriptions.Add(sharedSubscriptionKvp.Key, sharedSubscriptionKvp.Value);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                foreach (var subscription in possibleSubscriptions)
+                                {
+                                    if (MqttTopicFilterComparer.Compare(applicationMessage.Topic, subscription.Key.Topic) != MqttTopicFilterCompareResult.IsMatch)
+                                        continue;
+
+                                    var eventArgs = new InterceptingPublishToSharedSubscriptionEventArgs(applicationMessage, cancellationToken, senderId, subscription.Key.ShareName, senderSessionItems);
+                                    await _eventContainer.InterceptingPublishToSharedSubscriptionEvent.InvokeAsync(eventArgs);
+
+                                    var publishPacketCopy = MqttPacketFactories.Publish.Create(applicationMessage);
+                                    publishPacketCopy.QualityOfServiceLevel = subscription.Value.GrantedQualityOfServiceLevel;
+                                    publishPacketCopy.SubscriptionIdentifiers = new List<uint>() { subscription.Value.Identifier };
+
+                                    processPublish = eventArgs.ProcessPublish;
+                                    //if (publishPacketCopy.QualityOfServiceLevel > 0)
+                                    //{
+                                    //    publishPacketCopy.PacketIdentifier = session.PacketIdentifierProvider.GetNextPacketIdentifier();
+                                    //}
+
+                                    //if (publishPacketCopy.QualityOfServiceLevel > 0)
+                                    //{
+                                    //    publishPacketCopy.PacketIdentifier = session.PacketIdentifierProvider.GetNextPacketIdentifier();
+                                    //}
+
+                                    if (subscription.Value.RetainAsPublished)
+                                    {
+                                        // Transfer the original retain state from the publisher. This is a MQTTv5 feature.
+                                        publishPacketCopy.Retain = applicationMessage.Retain;
+                                    }
+                                    else
+                                    {
+                                        publishPacketCopy.Retain = false;
+                                    }
+
+                                    if (processPublish)
+                                    {
+                                        subscription.Value.EnqueueDataPacket(new MqttPacketBusItem(publishPacketCopy));
+                                        matchingSubscribersCount++;
+                                    }
+
+                                    _logger.Verbose("Share name '{0}': Queued PUBLISH packet with topic '{1}'.", subscription.Key.ShareName, applicationMessage.Topic);
+                                }
+                            }
+                        }
+
+                        if (matchingSubscribersCount == 0)
+                        {
+                            reasonCode = (int)MqttPubAckReasonCode.NoMatchingSubscribers;
+                            await FireApplicationMessageNotConsumedEvent(applicationMessage, senderId).ConfigureAwait(false);
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        _logger.Error(exception, "Unhandled exception while processing next queued application message.");
+                    }
                 }
             }
 
@@ -432,6 +610,127 @@ namespace MQTTnet.Server
                     // last subscription removed
                     _subscriberSessions.Remove(clientSession);
                 }
+            }
+        }
+
+        public void OnSharedSubscriptionsAdded(MqttSession clientSession, List<MqttSharedSubscription> sharedSubscriptions)
+        {
+            foreach (var sharedSubscription in sharedSubscriptions)
+            {
+                var key = MqttSharedSubscriptionTopicKey.Create(sharedSubscription.ShareName, sharedSubscription.Topic);
+
+                MqttSubscription.CalculateTopicHash(sharedSubscription.Topic, out var topicHash, out var topicHashMask, out var hasWildcard);
+
+                using (_sharedSubscriptionsLock.EnterAsync().GetAwaiter().GetResult())
+                {
+                    if (hasWildcard)
+                    {
+                        if (!_wildcardSharedSubscriptionsByTopicHash.TryGetValue(topicHash, out var subscriptionsByHashMask))
+                        {
+                            subscriptionsByHashMask = new TopicHashMaskSharedSubscriptions();
+                            _wildcardSharedSubscriptionsByTopicHash.Add(topicHash, subscriptionsByHashMask);
+                        }
+
+                        if (subscriptionsByHashMask.SubscriptionsByHashMask.TryGetValue(topicHashMask, out var subscriptions))
+                        {
+                            if (!subscriptions.TryGetValue(key, out var subscription))
+                            {
+                                subscriptionsByHashMask.AddSubscription(sharedSubscription);
+                            }
+                        }
+                        else
+                        {
+                            subscriptionsByHashMask.AddSubscription(sharedSubscription);
+                        }
+                    }
+                    else
+                    {
+                        if (!_noWildcardSharedSubscriptionsByTopicHash.TryGetValue(topicHash, out var subscriptions))
+                        {
+                            subscriptions = new Dictionary<MqttSharedSubscriptionTopicKey, MqttSharedSubscription>();
+                            _noWildcardSharedSubscriptionsByTopicHash.Add(topicHash, subscriptions);
+                        }
+
+                        if (!subscriptions.ContainsKey(key))
+                        {
+                            subscriptions.Add(key, sharedSubscription);
+                        }
+                    }
+
+                    sharedSubscription.AddSession(clientSession);
+                    if (!_sharedSubscriptions.ContainsKey(key))
+                        _sharedSubscriptions.Add(key, sharedSubscription);
+                }
+            }
+        }
+
+        public void OnSharedSubscriptionsRemoved(MqttSession clientSession, List<MqttSharedSubscriptionTopicKey> sharedSubscriptions)
+        {
+            foreach (var sharedSubscriptionTopicKey in sharedSubscriptions)
+            {
+                MqttSubscription.CalculateTopicHash(sharedSubscriptionTopicKey.Topic, out var topicHash, out var topicHashMask, out var hasWildcard);
+                var key = MqttSharedSubscriptionTopicKey.Create(sharedSubscriptionTopicKey.ShareName, sharedSubscriptionTopicKey.Topic);
+
+                using (_sharedSubscriptionsLock.EnterAsync().GetAwaiter().GetResult())
+                {
+                    if (hasWildcard)
+                    {
+                        if (_wildcardSharedSubscriptionsByTopicHash.TryGetValue(topicHash, out var subscriptionsByHashMask))
+                        {
+                            if (subscriptionsByHashMask.SubscriptionsByHashMask.TryGetValue(topicHashMask, out var wildcardSubscriptionsBySharedTopicKey))
+                            {
+                                if (wildcardSubscriptionsBySharedTopicKey.TryGetValue(key, out var sharedSubscription))
+                                {
+                                    sharedSubscription.RemoveSession(clientSession);
+
+                                    if (sharedSubscription.Sessions.Count == 0)
+                                    {
+                                        wildcardSubscriptionsBySharedTopicKey.Remove(key);
+                                        _sharedSubscriptions.Remove(key);
+                                    }
+                                }
+
+                                if (wildcardSubscriptionsBySharedTopicKey.Count == 0)
+                                {
+                                    subscriptionsByHashMask.SubscriptionsByHashMask.Remove(topicHashMask);
+                                }
+                            }
+                            if (subscriptionsByHashMask.SubscriptionsByHashMask.Count == 0)
+                            {
+                                _wildcardSharedSubscriptionsByTopicHash.Remove(topicHash);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (_noWildcardSharedSubscriptionsByTopicHash.TryGetValue(topicHash, out var noWildcardSubscriptionsBySharedTopicKey))
+                        {
+                            if (noWildcardSubscriptionsBySharedTopicKey.TryGetValue(key, out var sharedSubscription))
+                            {
+                                sharedSubscription.RemoveSession(clientSession);
+
+                                if (sharedSubscription.Sessions.Count == 0)
+                                {
+                                    noWildcardSubscriptionsBySharedTopicKey.Remove(key);
+                                    _sharedSubscriptions.Remove(key);
+                                }
+                            }
+
+                            if (noWildcardSubscriptionsBySharedTopicKey.Count == 0)
+                            {
+                                _noWildcardSharedSubscriptionsByTopicHash.Remove(topicHash);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public MqttSharedSubscription OnResolveSharedSubscription(MqttSharedSubscriptionTopicKey sharedSubscription)
+        {
+            using (_sharedSubscriptionsLock.EnterAsync().GetAwaiter().GetResult())
+            {
+                return _sharedSubscriptions.TryGetValue(sharedSubscription, out var subscription) ? subscription : null;
             }
         }
 
@@ -688,6 +987,11 @@ namespace MQTTnet.Server
             }
 
             return eventArgs;
+        }
+
+        public MqttSession ResolveClientSession(string sessionId)
+        {
+            return GetClientSession(sessionId);
         }
     }
 }
