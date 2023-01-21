@@ -27,12 +27,11 @@ namespace MQTTnet.Implementations
         readonly AddressFamily _addressFamily;
         readonly MqttServerOptions _serverOptions;
         readonly MqttServerTcpEndpointBaseOptions _options;
-        private readonly ICertificateProvider _certificateProvider;
         readonly MqttServerTlsTcpEndpointOptions _tlsOptions;
+        X509Certificate2 _tlsCertificate;
 
         CrossPlatformSocket _socket;
         IPEndPoint _localEndPoint;
-        private X509Certificate2 _tlsCertificate;
 
         public MqttTcpServerListener(
             AddressFamily addressFamily,
