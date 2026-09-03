@@ -112,6 +112,7 @@ public sealed class MqttSession : IDisposable
 
     public void Dispose()
     {
+        _clientSessionsManager.EndWillSession(this);
         _packetBus.Dispose();
         _subscriptionsManager.Dispose();
     }
