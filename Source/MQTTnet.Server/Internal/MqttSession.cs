@@ -99,6 +99,16 @@ public sealed class MqttSession : IDisposable
         return _packetBus.DequeueItemAsync(cancellationToken);
     }
 
+    internal Task<MqttPacketBusItem> DequeuePacketAsync(Func<MqttPacketBusItem, bool> canDequeue, CancellationToken cancellationToken)
+    {
+        return _packetBus.DequeueItemAsync(canDequeue, cancellationToken);
+    }
+
+    internal void SignalPacketBus()
+    {
+        _packetBus.Signal();
+    }
+
     public void Dispose()
     {
         _packetBus.Dispose();

@@ -27,9 +27,11 @@ public sealed class MqttConnectedClient : IDisposable
     readonly MqttServerOptions _serverOptions;
     readonly MqttClientSessionsManager _sessionsManager;
     readonly Dictionary<ushort, string> _topicAlias = new();
+    readonly int _initialSendQuota;
 
     CancellationTokenSource _cancellationToken = new();
     bool _disconnectPacketSent;
+    int _sendQuota;
 
     public MqttConnectedClient(
         MqttConnectPacket connectPacket,
@@ -46,6 +48,10 @@ public sealed class MqttConnectedClient : IDisposable
         ConnectPacket = connectPacket ?? throw new ArgumentNullException(nameof(connectPacket));
 
         ChannelAdapter = channelAdapter ?? throw new ArgumentNullException(nameof(channelAdapter));
+        _initialSendQuota = ChannelAdapter.PacketFormatterAdapter.ProtocolVersion == MqttProtocolVersion.V500 && connectPacket.ReceiveMaximum > 0
+            ? connectPacket.ReceiveMaximum
+            : ushort.MaxValue;
+        _sendQuota = _initialSendQuota;
         RemoteEndPoint = channelAdapter.RemoteEndPoint;
         Session = session ?? throw new ArgumentNullException(nameof(session));
 
@@ -138,6 +144,12 @@ public sealed class MqttConnectedClient : IDisposable
             return;
         }
 
+        if (packet is MqttPublishPacket publishPacket && publishPacket.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce &&
+            ChannelAdapter.PacketFormatterAdapter.ProtocolVersion == MqttProtocolVersion.V500)
+        {
+            Interlocked.Decrement(ref _sendQuota);
+        }
+
         await ChannelAdapter.SendPacketAsync(packet, cancellationToken).ConfigureAwait(false);
         Statistics.HandleSentPacket(packet);
     }
@@ -191,6 +203,7 @@ public sealed class MqttConnectedClient : IDisposable
 
     Task HandleIncomingPubAckPacket(MqttPubAckPacket pubAckPacket)
     {
+        ReplenishSendQuota();
         var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubAckPacket.PacketIdentifier);
 
         if (acknowledgedPublishPacket != null)
@@ -203,6 +216,7 @@ public sealed class MqttConnectedClient : IDisposable
 
     Task HandleIncomingPubCompPacket(MqttPubCompPacket pubCompPacket)
     {
+        ReplenishSendQuota();
         var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubCompPacket.PacketIdentifier);
 
         if (acknowledgedPublishPacket != null)
@@ -258,6 +272,13 @@ public sealed class MqttConnectedClient : IDisposable
 
     Task HandleIncomingPubRecPacket(MqttPubRecPacket pubRecPacket)
     {
+        if ((int)pubRecPacket.ReasonCode >= 0x80)
+        {
+            ReplenishSendQuota();
+            var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubRecPacket.PacketIdentifier);
+            return acknowledgedPublishPacket == null ? CompletedTask.Instance : ClientAcknowledgedPublishPacket(acknowledgedPublishPacket, pubRecPacket);
+        }
+
         // Do not fire the event _ClientAcknowledgedPublishPacket_ here because the QoS 2 process is only finished
         // properly when the client has sent the PUBCOMP packet.
         var pubRelPacket = MqttPubRelPacketFactory.Create(pubRecPacket, MqttApplicationMessageReceivedReasonCode.Success);
@@ -496,7 +517,7 @@ public sealed class MqttConnectedClient : IDisposable
         {
             while (!cancellationToken.IsCancellationRequested && !IsTakenOver && IsRunning)
             {
-                packetBusItem = await Session.DequeuePacketAsync(cancellationToken).ConfigureAwait(false);
+                packetBusItem = await Session.DequeuePacketAsync(CanDequeuePacket, cancellationToken).ConfigureAwait(false);
 
                 // Also check the cancellation token here because the dequeue is blocking and may take some time.
                 if (cancellationToken.IsCancellationRequested)
@@ -517,10 +538,16 @@ public sealed class MqttConnectedClient : IDisposable
                 catch (OperationCanceledException)
                 {
                     packetBusItem.Cancel();
+                    StopInternal();
+                    return;
                 }
                 catch (Exception exception)
                 {
                     packetBusItem.Fail(exception);
+                    // A failed write may have sent part of the packet. End this connection
+                    // rather than waiting for an acknowledgement that can never replenish quota.
+                    StopInternal();
+                    return;
                 }
                 finally
                 {
@@ -562,6 +589,30 @@ public sealed class MqttConnectedClient : IDisposable
     void StopInternal()
     {
         _cancellationToken?.TryCancel();
+    }
+
+    bool CanDequeuePacket(MqttPacketBusItem item)
+    {
+        // MQTT 5.0 section 4.9 permits suspending all PUBLISH packets at zero quota.
+        // Control and health traffic must still progress, including QoS 2 PUBREL.
+        return item.Packet is not MqttPublishPacket || ChannelAdapter.PacketFormatterAdapter.ProtocolVersion != MqttProtocolVersion.V500 ||
+            Volatile.Read(ref _sendQuota) > 0;
+    }
+
+    void ReplenishSendQuota()
+    {
+        int quota;
+        do
+        {
+            quota = Volatile.Read(ref _sendQuota);
+            if (quota >= _initialSendQuota)
+            {
+                return;
+            }
+        }
+        while (Interlocked.CompareExchange(ref _sendQuota, quota + 1, quota) != quota);
+
+        Session.SignalPacketBus();
     }
 
     async Task TrySendDisconnectPacket(MqttServerClientDisconnectOptions options)
