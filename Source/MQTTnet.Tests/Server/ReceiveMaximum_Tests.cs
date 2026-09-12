@@ -105,6 +105,109 @@ public sealed class ReceiveMaximum_Tests
     }
 
     [TestMethod]
+    public async Task Unknown_And_Duplicate_PubAck_Do_Not_Release_Quota()
+    {
+        using var environment = new TestEnvironment();
+        await environment.StartServer();
+        var client = await Connect(environment, "receiver");
+        await Subscribe(client, "flow", MqttQualityOfServiceLevel.AtLeastOnce);
+        await Inject(environment, "flow", MqttQualityOfServiceLevel.AtLeastOnce);
+        var first = await Receive<MqttPublishPacket>(client);
+        await Inject(environment, "flow", MqttQualityOfServiceLevel.AtLeastOnce);
+
+        await client.SendAsync(new MqttPubAckPacket { PacketIdentifier = ushort.MaxValue });
+        await AssertPublishRemainsBlocked(environment, client);
+        await client.SendAsync(new MqttPubCompPacket { PacketIdentifier = first.PacketIdentifier });
+        await AssertPublishRemainsBlocked(environment, client);
+        await client.SendAsync(new MqttPubAckPacket { PacketIdentifier = first.PacketIdentifier });
+        var second = await Receive<MqttPublishPacket>(client);
+
+        await client.SendAsync(new MqttPubAckPacket { PacketIdentifier = first.PacketIdentifier });
+        await Inject(environment, "flow", MqttQualityOfServiceLevel.AtLeastOnce);
+        await AssertPublishRemainsBlocked(environment, client);
+        await client.SendAsync(new MqttPubAckPacket { PacketIdentifier = second.PacketIdentifier });
+        await Receive<MqttPublishPacket>(client);
+    }
+
+    [TestMethod]
+    public async Task Unknown_And_Duplicate_Qos2_Acknowledgements_Do_Not_Release_Quota()
+    {
+        using var environment = new TestEnvironment();
+        await environment.StartServer();
+        var client = await Connect(environment, "receiver");
+        await Subscribe(client, "flow", MqttQualityOfServiceLevel.ExactlyOnce);
+        await Inject(environment, "flow", MqttQualityOfServiceLevel.ExactlyOnce);
+        var first = await Receive<MqttPublishPacket>(client);
+        await Inject(environment, "flow", MqttQualityOfServiceLevel.ExactlyOnce);
+
+        await client.SendAsync(new MqttPubRecPacket { PacketIdentifier = ushort.MaxValue, ReasonCode = MqttPubRecReasonCode.UnspecifiedError });
+        await AssertPublishRemainsBlocked(environment, client);
+        await client.SendAsync(new MqttPubAckPacket { PacketIdentifier = first.PacketIdentifier });
+        await AssertPublishRemainsBlocked(environment, client);
+        await client.SendAsync(new MqttPubCompPacket { PacketIdentifier = first.PacketIdentifier });
+        await AssertPublishRemainsBlocked(environment, client);
+        await client.SendAsync(new MqttPubRecPacket { PacketIdentifier = first.PacketIdentifier });
+        await Receive<MqttPubRelPacket>(client);
+        await client.SendAsync(new MqttPubCompPacket { PacketIdentifier = ushort.MaxValue });
+        await AssertPublishRemainsBlocked(environment, client);
+        await client.SendAsync(new MqttPubCompPacket { PacketIdentifier = first.PacketIdentifier });
+        var second = await Receive<MqttPublishPacket>(client);
+
+        await client.SendAsync(new MqttPubCompPacket { PacketIdentifier = first.PacketIdentifier });
+        await Inject(environment, "flow", MqttQualityOfServiceLevel.ExactlyOnce);
+        await AssertPublishRemainsBlocked(environment, client);
+        await client.SendAsync(new MqttPubRecPacket { PacketIdentifier = second.PacketIdentifier });
+        await Receive<MqttPubRelPacket>(client);
+        await client.SendAsync(new MqttPubCompPacket { PacketIdentifier = second.PacketIdentifier });
+        await Receive<MqttPublishPacket>(client);
+    }
+
+    [TestMethod]
+    public async Task PubComp_Does_Not_Release_Quota_Until_PubRel_Is_Sent()
+    {
+        using var environment = new TestEnvironment();
+        var server = await environment.StartServer();
+        var pubRelIntercepted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releasePubRel = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var prematurePubCompIntercepted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releasePrematurePubComp = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var interceptPrematurePubComp = true;
+        server.InterceptingOutboundPacketAsync += async args =>
+        {
+            if (args.Packet is MqttPubRelPacket)
+            {
+                pubRelIntercepted.TrySetResult();
+                await releasePubRel.Task;
+            }
+        };
+        server.InterceptingInboundPacketAsync += async args =>
+        {
+            if (args.Packet is MqttPubCompPacket && interceptPrematurePubComp)
+            {
+                interceptPrematurePubComp = false;
+                prematurePubCompIntercepted.TrySetResult();
+                await releasePrematurePubComp.Task;
+            }
+        };
+        var client = await Connect(environment, "receiver");
+        await Subscribe(client, "flow", MqttQualityOfServiceLevel.ExactlyOnce);
+        await Inject(environment, "flow", MqttQualityOfServiceLevel.ExactlyOnce);
+        var first = await Receive<MqttPublishPacket>(client);
+        await Inject(environment, "flow", MqttQualityOfServiceLevel.ExactlyOnce);
+
+        await client.SendAsync(new MqttPubRecPacket { PacketIdentifier = first.PacketIdentifier });
+        await pubRelIntercepted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        await client.SendAsync(new MqttPubCompPacket { PacketIdentifier = first.PacketIdentifier });
+        await prematurePubCompIntercepted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        releasePrematurePubComp.TrySetResult();
+        Assert.AreEqual(1L, (await server.GetSessionsAsync()).Single().PendingApplicationMessagesCount);
+
+        releasePubRel.TrySetResult();
+        await Receive<MqttPubRelPacket>(client);
+        await Receive<MqttPublishPacket>(client);
+    }
+
+    [TestMethod]
     public async Task Control_Responses_Progress_At_Zero_Quota()
     {
         using var environment = new TestEnvironment();
@@ -310,6 +413,13 @@ public sealed class ReceiveMaximum_Tests
         var packet = await client.ReceiveAsync(timeout.Token);
         Assert.IsInstanceOfType<T>(packet);
         return (T)packet;
+    }
+
+    static async Task AssertPublishRemainsBlocked(TestEnvironment environment, ILowLevelMqttClient client)
+    {
+        await client.SendAsync(MqttPingReqPacket.Instance);
+        await Receive<MqttPingRespPacket>(client);
+        Assert.AreEqual(1L, (await environment.Server.GetSessionsAsync()).Single().PendingApplicationMessagesCount);
     }
 
     static async Task Subscribe(ILowLevelMqttClient client, string topic, MqttQualityOfServiceLevel qos)
