@@ -24,8 +24,11 @@ public sealed class MqttConnectedClient : IDisposable
 {
     readonly MqttServerEventContainer _eventContainer;
     readonly MqttNetSourceLogger _logger;
+    readonly AsyncLock _qos2AcknowledgementLock = new();
+    readonly HashSet<ushort> _qos2PublishPacketIdentifiersAwaitingPubRel = new();
     readonly MqttServerOptions _serverOptions;
     readonly MqttClientSessionsManager _sessionsManager;
+    readonly HashSet<ushort> _qos2PublishPacketIdentifiersAwaitingPubComp = new();
     readonly Dictionary<ushort, string> _topicAlias = new();
     readonly int _initialSendQuota;
 
@@ -83,6 +86,7 @@ public sealed class MqttConnectedClient : IDisposable
     public void Dispose()
     {
         _cancellationToken?.Dispose();
+        _qos2AcknowledgementLock.Dispose();
     }
 
     public void ResetStatistics()
@@ -136,12 +140,31 @@ public sealed class MqttConnectedClient : IDisposable
 
     public async Task SendPacketAsync(MqttPacket packet, CancellationToken cancellationToken)
     {
+        if (packet is MqttPubRelPacket pubRelPacket)
+        {
+            using (await _qos2AcknowledgementLock.EnterAsync(cancellationToken).ConfigureAwait(false))
+            {
+                var sentPacket = await SendPacketCoreAsync(packet, cancellationToken).ConfigureAwait(false);
+                if (sentPacket is MqttPubRelPacket && _qos2PublishPacketIdentifiersAwaitingPubRel.Remove(pubRelPacket.PacketIdentifier))
+                {
+                    _qos2PublishPacketIdentifiersAwaitingPubComp.Add(pubRelPacket.PacketIdentifier);
+                }
+            }
+
+            return;
+        }
+
+        await SendPacketCoreAsync(packet, cancellationToken).ConfigureAwait(false);
+    }
+
+    async Task<MqttPacket> SendPacketCoreAsync(MqttPacket packet, CancellationToken cancellationToken)
+    {
         packet = await InterceptPacketAsync(packet, cancellationToken).ConfigureAwait(false);
         if (packet == null)
         {
             // The interceptor has decided that this packet will not used at all.
             // This might break the protocol but the user wants that.
-            return;
+            return null;
         }
 
         if (packet is MqttPublishPacket publishPacket && publishPacket.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce &&
@@ -152,6 +175,7 @@ public sealed class MqttConnectedClient : IDisposable
 
         await ChannelAdapter.SendPacketAsync(packet, cancellationToken).ConfigureAwait(false);
         Statistics.HandleSentPacket(packet);
+        return packet;
     }
 
     public async Task StopAsync(MqttServerClientDisconnectOptions disconnectOptions)
@@ -203,28 +227,34 @@ public sealed class MqttConnectedClient : IDisposable
 
     Task HandleIncomingPubAckPacket(MqttPubAckPacket pubAckPacket)
     {
-        ReplenishSendQuota();
-        var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubAckPacket.PacketIdentifier);
+        var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubAckPacket.PacketIdentifier, MqttQualityOfServiceLevel.AtLeastOnce);
 
         if (acknowledgedPublishPacket != null)
         {
+            ReplenishSendQuota();
             return ClientAcknowledgedPublishPacket(acknowledgedPublishPacket, pubAckPacket);
         }
 
         return CompletedTask.Instance;
     }
 
-    Task HandleIncomingPubCompPacket(MqttPubCompPacket pubCompPacket)
+    async Task HandleIncomingPubCompPacket(MqttPubCompPacket pubCompPacket)
     {
-        ReplenishSendQuota();
-        var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubCompPacket.PacketIdentifier);
-
-        if (acknowledgedPublishPacket != null)
+        using (await _qos2AcknowledgementLock.EnterAsync().ConfigureAwait(false))
         {
-            return ClientAcknowledgedPublishPacket(acknowledgedPublishPacket, pubCompPacket);
-        }
+            if (!_qos2PublishPacketIdentifiersAwaitingPubComp.Remove(pubCompPacket.PacketIdentifier))
+            {
+                return;
+            }
 
-        return CompletedTask.Instance;
+            var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubCompPacket.PacketIdentifier, MqttQualityOfServiceLevel.ExactlyOnce);
+
+            if (acknowledgedPublishPacket != null)
+            {
+                ReplenishSendQuota();
+                await ClientAcknowledgedPublishPacket(acknowledgedPublishPacket, pubCompPacket).ConfigureAwait(false);
+            }
+        }
     }
 
     async Task HandleIncomingPublishPacket(MqttPublishPacket publishPacket, CancellationToken cancellationToken)
@@ -270,21 +300,41 @@ public sealed class MqttConnectedClient : IDisposable
         }
     }
 
-    Task HandleIncomingPubRecPacket(MqttPubRecPacket pubRecPacket)
+    async Task HandleIncomingPubRecPacket(MqttPubRecPacket pubRecPacket)
     {
-        if ((int)pubRecPacket.ReasonCode >= 0x80)
+        using (await _qos2AcknowledgementLock.EnterAsync().ConfigureAwait(false))
         {
-            ReplenishSendQuota();
-            var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubRecPacket.PacketIdentifier);
-            return acknowledgedPublishPacket == null ? CompletedTask.Instance : ClientAcknowledgedPublishPacket(acknowledgedPublishPacket, pubRecPacket);
+            if ((int)pubRecPacket.ReasonCode >= 0x80)
+            {
+                if (_qos2PublishPacketIdentifiersAwaitingPubRel.Contains(pubRecPacket.PacketIdentifier) ||
+                    _qos2PublishPacketIdentifiersAwaitingPubComp.Contains(pubRecPacket.PacketIdentifier))
+                {
+                    return;
+                }
+
+                var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubRecPacket.PacketIdentifier, MqttQualityOfServiceLevel.ExactlyOnce);
+                if (acknowledgedPublishPacket != null)
+                {
+                    ReplenishSendQuota();
+                    await ClientAcknowledgedPublishPacket(acknowledgedPublishPacket, pubRecPacket).ConfigureAwait(false);
+                }
+
+                return;
+            }
+
+            // Do not fire the event _ClientAcknowledgedPublishPacket_ here because the QoS 2 process is only finished
+            // properly when the client has sent the PUBCOMP packet.
+            var publishPacket = Session.PeekAcknowledgePublishPacket(pubRecPacket.PacketIdentifier);
+            if (publishPacket?.QualityOfServiceLevel != MqttQualityOfServiceLevel.ExactlyOnce)
+            {
+                return;
+            }
+
+            _qos2PublishPacketIdentifiersAwaitingPubRel.Add(pubRecPacket.PacketIdentifier);
         }
 
-        // Do not fire the event _ClientAcknowledgedPublishPacket_ here because the QoS 2 process is only finished
-        // properly when the client has sent the PUBCOMP packet.
         var pubRelPacket = MqttPubRelPacketFactory.Create(pubRecPacket, MqttApplicationMessageReceivedReasonCode.Success);
         Session.EnqueueControlPacket(new MqttPacketBusItem(pubRelPacket));
-
-        return CompletedTask.Instance;
     }
 
     void HandleIncomingPubRelPacket(MqttPubRelPacket pubRelPacket)

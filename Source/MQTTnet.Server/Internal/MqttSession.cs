@@ -66,13 +66,14 @@ public sealed class MqttSession : IDisposable
 
     public bool WillMessageSent { get; set; }
 
-    public MqttPublishPacket AcknowledgePublishPacket(ushort packetIdentifier)
+    public MqttPublishPacket AcknowledgePublishPacket(ushort packetIdentifier, MqttQualityOfServiceLevel qualityOfServiceLevel)
     {
         MqttPublishPacket publishPacket;
 
         lock (_unacknowledgedPublishPackets)
         {
-            publishPacket = _unacknowledgedPublishPackets.FirstOrDefault(p => p.PacketIdentifier.Equals(packetIdentifier));
+            publishPacket = _unacknowledgedPublishPackets.FirstOrDefault(
+                p => p.PacketIdentifier.Equals(packetIdentifier) && p.QualityOfServiceLevel == qualityOfServiceLevel);
             _unacknowledgedPublishPackets.Remove(publishPacket);
         }
 
