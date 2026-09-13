@@ -43,6 +43,11 @@ public class MqttServer : Disposable
         _keepAliveMonitor = new MqttServerKeepAliveMonitor(options, _clientSessionsManager, _rootLogger);
     }
 
+    /// <summary>
+    /// Reports native dispatch and retained-subscription admission attempts, including interceptor rejection and failure.
+    /// The outcome describes past admission; delivery, acknowledgement or eviction may precede this callback.
+    /// Direct session-status enqueue methods report their result to their caller instead.
+    /// </summary>
     public event Func<ApplicationMessageEnqueuedEventArgs, Task> ApplicationMessageEnqueuedOrDroppedAsync
     {
         add => _eventContainer.ApplicationMessageEnqueuedOrDroppedEvent.AddHandler(value);
@@ -53,6 +58,18 @@ public class MqttServer : Disposable
     {
         add => _eventContainer.ApplicationMessageNotConsumedEvent.AddHandler(value);
         remove => _eventContainer.ApplicationMessageNotConsumedEvent.RemoveHandler(value);
+    }
+
+    /// <summary>
+    /// Reports QoS1/2 ownership invalidation caused by recovery overflow or session disposal.
+    /// Notifications run outside the admission gate but may run within session-management operations.
+    /// Use the supplied session items; do not synchronously reenter session-management methods.
+    /// Notifications may overlap enqueue outcomes and acknowledgements and must be handled idempotently.
+    /// </summary>
+    public event Func<SessionApplicationMessagesInvalidatedEventArgs, Task> SessionApplicationMessagesInvalidatedAsync
+    {
+        add => _eventContainer.SessionApplicationMessagesInvalidatedEvent.AddHandler(value);
+        remove => _eventContainer.SessionApplicationMessagesInvalidatedEvent.RemoveHandler(value);
     }
 
     public event Func<ClientAcknowledgedPublishPacketEventArgs, Task> ClientAcknowledgedPublishPacketAsync

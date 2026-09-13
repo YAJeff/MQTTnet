@@ -197,40 +197,25 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                         continue;
                     }
 
-                    if (await _eventContainer.ShouldSkipEnqueue(senderId, session.Id, applicationMessage))
+                    var accepted = await session.EnqueueApplicationMessageAsync(senderId, applicationMessage, () =>
+                    {
+                        var publishPacketCopy = MqttPublishPacketFactory.Create(applicationMessage);
+                        publishPacketCopy.QualityOfServiceLevel = checkSubscriptionsResult.QualityOfServiceLevel;
+                        publishPacketCopy.SubscriptionIdentifiers = checkSubscriptionsResult.SubscriptionIdentifiers;
+                        if (publishPacketCopy.QualityOfServiceLevel > 0)
+                        {
+                            publishPacketCopy.PacketIdentifier = session.PacketIdentifierProvider.GetNextPacketIdentifier();
+                        }
+
+                        publishPacketCopy.Retain = checkSubscriptionsResult.RetainAsPublished && applicationMessage.Retain;
+                        return publishPacketCopy;
+                    }).ConfigureAwait(false);
+                    if (!accepted)
                     {
                         continue;
                     }
 
-                    var publishPacketCopy = MqttPublishPacketFactory.Create(applicationMessage);
-                    publishPacketCopy.QualityOfServiceLevel = checkSubscriptionsResult.QualityOfServiceLevel;
-                    publishPacketCopy.SubscriptionIdentifiers = checkSubscriptionsResult.SubscriptionIdentifiers;
-
-                    if (publishPacketCopy.QualityOfServiceLevel > 0)
-                    {
-                        publishPacketCopy.PacketIdentifier = session.PacketIdentifierProvider.GetNextPacketIdentifier();
-                    }
-
-                    if (checkSubscriptionsResult.RetainAsPublished)
-                    {
-                        // Transfer the original retain state from the publisher. This is a MQTTv5 feature.
-                        publishPacketCopy.Retain = applicationMessage.Retain;
-                    }
-                    else
-                    {
-                        publishPacketCopy.Retain = false;
-                    }
-
                     matchingSubscribersCount++;
-
-                    var result = session.EnqueueDataPacket(new MqttPacketBusItem(publishPacketCopy));
-
-                    if (_eventContainer.ApplicationMessageEnqueuedOrDroppedEvent.HasHandlers)
-                    {
-                        var eventArgs = new ApplicationMessageEnqueuedEventArgs(senderId, session.Id, applicationMessage, result == EnqueueDataPacketResult.Dropped);
-                        await _eventContainer.ApplicationMessageEnqueuedOrDroppedEvent.InvokeAsync(eventArgs).ConfigureAwait(false);
-                    }
-
                     _logger.Verbose("Client '{0}': Queued PUBLISH packet with topic '{1}'", session.Id, applicationMessage.Topic);
                 }
 
@@ -492,6 +477,11 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         }
     }
 
+    internal Task NotifyApplicationMessagesInvalidatedAsync(SessionApplicationMessagesInvalidatedEventArgs eventArgs)
+    {
+        return _eventContainer.SessionApplicationMessagesInvalidatedEvent.TryInvokeAsync(eventArgs, _logger);
+    }
+
     public void Start()
     {
         if (!_options.EnablePersistentSessions)
@@ -519,13 +509,8 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
 
         foreach (var retainedMessageMatch in subscribeResult.RetainedMessages)
         {
-            if (await _eventContainer.ShouldSkipEnqueue(string.Empty, clientId, retainedMessageMatch.ApplicationMessage))
-            {
-                continue;
-            }
-
-            var publishPacket = MqttPublishPacketFactory.Create(retainedMessageMatch);
-            clientSession.EnqueueDataPacket(new MqttPacketBusItem(publishPacket));
+            await clientSession.EnqueueApplicationMessageAsync(string.Empty, retainedMessageMatch.ApplicationMessage,
+                () => MqttPublishPacketFactory.Create(retainedMessageMatch)).ConfigureAwait(false);
         }
     }
 

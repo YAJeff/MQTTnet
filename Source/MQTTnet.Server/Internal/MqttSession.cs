@@ -128,6 +128,7 @@ public sealed class MqttSession : IDisposable
     public void Dispose()
     {
         _clientSessionsManager.EndWillSession(this);
+        List<MqttPublishPacket> invalidated = null;
         lock (_dataEnqueueLock)
         {
             if (_disposed)
@@ -136,9 +137,17 @@ public sealed class MqttSession : IDisposable
             }
 
             _disposed = true;
+            if (_eventContainer.SessionApplicationMessagesInvalidatedEvent.HasHandlers)
+            {
+                lock (_unacknowledgedPublishPackets)
+                {
+                    invalidated = _unacknowledgedPublishPackets.ToList();
+                }
+            }
             _packetBus.Dispose();
         }
 
+        NotifyInvalidatedPackets(invalidated, MqttSessionApplicationMessagesInvalidationReason.SessionDisposed);
         _subscriptionsManager.Dispose();
     }
 
@@ -150,6 +159,41 @@ public sealed class MqttSession : IDisposable
     public EnqueueDataPacketResult EnqueueDataPacket(MqttPacketBusItem packetBusItem)
     {
         return EnqueueDataPacket(packetBusItem, true, out _);
+    }
+
+    // Capture this session and one interception context per attempt, even when callers await user code.
+    // Return whether the interceptor accepted the attempt, preserving dispatch subscriber accounting.
+    internal async Task<bool> EnqueueApplicationMessageAsync(
+        string senderId, MqttApplicationMessage applicationMessage, Func<MqttPublishPacket> createPublishPacket)
+    {
+        var context = new InterceptingClientApplicationMessageEnqueueEventArgs(senderId, Id, applicationMessage, Items);
+        var isDropped = true;
+        Exception failure = null;
+        try
+        {
+            await _eventContainer.InterceptingClientEnqueueEvent.InvokeAsync(context).ConfigureAwait(false);
+            if (!context.AcceptEnqueue)
+            {
+                return false;
+            }
+
+            var packet = createPublishPacket();
+            isDropped = EnqueueDataPacket(new MqttPacketBusItem(packet)) == EnqueueDataPacketResult.Dropped;
+            return true;
+        }
+        catch (Exception exception)
+        {
+            failure = exception;
+            throw;
+        }
+        finally
+        {
+            if (_eventContainer.ApplicationMessageEnqueuedOrDroppedEvent.HasHandlers)
+            {
+                var outcome = new ApplicationMessageEnqueuedEventArgs(senderId, Id, applicationMessage, isDropped, Items, context.EnqueueState, failure);
+                await _eventContainer.ApplicationMessageEnqueuedOrDroppedEvent.InvokeAsync(outcome).ConfigureAwait(false);
+            }
+        }
     }
 
     internal EnqueueDataPacketResult EnqueueDataPacket(MqttPacketBusItem packetBusItem, bool allowEviction, out ushort packetIdentifier)
@@ -227,7 +271,7 @@ public sealed class MqttSession : IDisposable
     {
         if (overwritten != null && _eventContainer.QueuedApplicationMessageOverwrittenEvent.HasHandlers)
         {
-            var eventArgs = new QueueMessageOverwrittenEventArgs(Id, overwritten.Packet);
+            var eventArgs = new QueueMessageOverwrittenEventArgs(Id, overwritten.Packet, Items);
             _eventContainer.QueuedApplicationMessageOverwrittenEvent.InvokeAsync(eventArgs).ConfigureAwait(false);
         }
     }
@@ -270,6 +314,7 @@ public sealed class MqttSession : IDisposable
         // Create a copy of all currently unacknowledged publish packets and clear the storage.
         // We must re-enqueue them in order to trigger other code.
         List<MqttPacketBusItem> overwrittenPackets = null;
+        List<MqttPublishPacket> invalidated = null;
         lock (_dataEnqueueLock)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -284,14 +329,21 @@ public sealed class MqttSession : IDisposable
 
             foreach (var publishPacket in unacknowledgedPublishPackets)
             {
-                EnqueueDataPacketCore(new MqttPacketBusItem(publishPacket), publishPacket, true, out var overwritten);
+                var result = EnqueueDataPacketCore(new MqttPacketBusItem(publishPacket), publishPacket, true, out var overwritten);
                 if (overwritten != null)
                 {
                     (overwrittenPackets ??= new List<MqttPacketBusItem>()).Add(overwritten);
                 }
+                if (_eventContainer.SessionApplicationMessagesInvalidatedEvent.HasHandlers)
+                {
+                    // Record actual overflow decisions, not a tracking difference that could misclassify a concurrent ACK.
+                    if (result == EnqueueDataPacketResult.Dropped) (invalidated ??= new List<MqttPublishPacket>()).Add(publishPacket);
+                    if (overwritten != null) (invalidated ??= new List<MqttPublishPacket>()).Add((MqttPublishPacket)overwritten.Packet);
+                }
             }
         }
 
+        NotifyInvalidatedPackets(invalidated, MqttSessionApplicationMessagesInvalidationReason.RecoveryOverflow);
         if (overwrittenPackets != null)
         {
             foreach (var overwritten in overwrittenPackets)
@@ -299,6 +351,13 @@ public sealed class MqttSession : IDisposable
                 NotifyOverwrittenPacket(overwritten);
             }
         }
+    }
+
+    void NotifyInvalidatedPackets(List<MqttPublishPacket> packets, MqttSessionApplicationMessagesInvalidationReason reason)
+    {
+        if (packets == null || (packets.Count == 0 && reason != MqttSessionApplicationMessagesInvalidationReason.SessionDisposed)) return;
+        var eventArgs = new SessionApplicationMessagesInvalidatedEventArgs(Id, Items, packets.AsReadOnly(), reason);
+        _ = _clientSessionsManager.NotifyApplicationMessagesInvalidatedAsync(eventArgs);
     }
 
     public void RemoveSubscribedTopic(string topic)

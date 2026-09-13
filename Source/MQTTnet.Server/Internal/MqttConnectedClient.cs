@@ -352,13 +352,8 @@ public sealed class MqttConnectedClient : IDisposable
 
         foreach (var retainedMessageMatch in subscribeResult.RetainedMessages)
         {
-            if (await _eventContainer.ShouldSkipEnqueue(string.Empty, Id, retainedMessageMatch.ApplicationMessage))
-            {
-                continue;
-            }
-
-            var publishPacket = MqttPublishPacketFactory.Create(retainedMessageMatch);
-            Session.EnqueueDataPacket(new MqttPacketBusItem(publishPacket));
+            await Session.EnqueueApplicationMessageAsync(string.Empty, retainedMessageMatch.ApplicationMessage,
+                () => MqttPublishPacketFactory.Create(retainedMessageMatch)).ConfigureAwait(false);
         }
     }
 

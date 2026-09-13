@@ -46,6 +46,8 @@ public class MqttServerEventContainer
 
     public AsyncEvent<SessionDeletedEventArgs> SessionDeletedEvent { get; } = new();
 
+    public AsyncEvent<SessionApplicationMessagesInvalidatedEventArgs> SessionApplicationMessagesInvalidatedEvent { get; } = new();
+
     public AsyncEvent<EventArgs> StartedEvent { get; } = new();
 
     public AsyncEvent<EventArgs> StoppedEvent { get; } = new();
