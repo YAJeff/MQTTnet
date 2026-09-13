@@ -131,6 +131,8 @@ public sealed class MqttConnectedClient : IDisposable
         _logger.Info("Client '{0}': Connection stopped", Id);
     }
 
+    internal long ConnectionGeneration => _connectionGeneration;
+
     public async Task SendPacketAsync(MqttPacket packet, CancellationToken cancellationToken)
     {
         if (packet is MqttPubRelPacket pubRelPacket)
@@ -154,6 +156,7 @@ public sealed class MqttConnectedClient : IDisposable
         packet = await InterceptPacketAsync(packet, cancellationToken).ConfigureAwait(false);
         if (packet == null)
         {
+            Session.CompleteUntrackedPublish(originalPublish, _connectionGeneration);
             // The interceptor has decided that this packet will not used at all.
             // This might break the protocol but the user wants that.
             return null;
@@ -165,6 +168,7 @@ public sealed class MqttConnectedClient : IDisposable
         {
             if (packet is not MqttDisconnectPacket && (IsTakenOver || !Session.IsCurrentConnection(_connectionGeneration))) return null;
             if (packet is MqttPubRelPacket pubRel && !Session.CanSendPubRel(pubRel.PacketIdentifier, _connectionGeneration)) return null;
+            if (packet is MqttPublishPacket) Session.CompleteUntrackedPublish(originalPublish, _connectionGeneration);
             if (packet is MqttPublishPacket trackedPublish && trackedPublish.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce &&
                 !Session.MarkPublishSent(originalPublish ?? trackedPublish, _connectionGeneration, isolatePublish ? trackedPublish : null)) return null;
 
@@ -629,6 +633,7 @@ public sealed class MqttConnectedClient : IDisposable
     bool CanDequeuePacket(MqttPacketBusItem item)
     {
         if (IsTakenOver || !Session.IsCurrentConnection(_connectionGeneration)) return false;
+        if (item.Packet is MqttPublishPacket && Session.IsDataRecoveryPaused) return false;
         // MQTT 5.0 section 4.9 permits suspending all PUBLISH packets at zero quota.
         // Control and health traffic must still progress, including QoS 2 PUBREL.
         return item.Packet is not MqttPublishPacket || ChannelAdapter.PacketFormatterAdapter.ProtocolVersion != MqttProtocolVersion.V500 ||

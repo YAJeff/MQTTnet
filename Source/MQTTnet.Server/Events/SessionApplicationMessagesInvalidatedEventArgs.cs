@@ -10,7 +10,8 @@ namespace MQTTnet.Server;
 public enum MqttSessionApplicationMessagesInvalidationReason
 {
     RecoveryOverflow,
-    SessionDisposed
+    SessionDisposed,
+    ApplicationMessageReclaimed
 }
 
 public sealed class SessionApplicationMessagesInvalidatedEventArgs : EventArgs

@@ -11,7 +11,7 @@ using MQTTnet.Server.Exceptions;
 
 namespace MQTTnet.Server.Internal;
 
-public sealed class MqttSession : IDisposable
+public sealed partial class MqttSession : IDisposable
 {
     readonly MqttClientSessionsManager _clientSessionsManager;
     readonly MqttConnectPacket _connectPacket;
@@ -78,8 +78,10 @@ public sealed class MqttSession : IDisposable
     // packet handlers use the QoS-aware overload to validate wire acknowledgements.
     public MqttPublishPacket AcknowledgePublishPacket(ushort packetIdentifier)
     {
+        lock (_dataEnqueueLock)
         lock (_unacknowledgedPublishPackets)
         {
+            if (IsDataRecoveryPaused) throw new InvalidOperationException("Acknowledgement is unavailable during ordered recovery.");
             var publishPacket = _unacknowledgedPublishPackets.FirstOrDefault(p => p.PacketIdentifier.Equals(packetIdentifier));
             RemoveTrackedPublish(publishPacket);
             return publishPacket;
@@ -90,8 +92,10 @@ public sealed class MqttSession : IDisposable
     {
         MqttPublishPacket publishPacket;
 
+        lock (_dataEnqueueLock)
         lock (_unacknowledgedPublishPackets)
         {
+            if (IsDataRecoveryPaused) throw new InvalidOperationException("Acknowledgement is unavailable during ordered recovery.");
             publishPacket = _unacknowledgedPublishPackets.FirstOrDefault(
                 p => p.PacketIdentifier.Equals(packetIdentifier) && p.QualityOfServiceLevel == qualityOfServiceLevel);
             RemoveTrackedPublish(publishPacket);
@@ -102,10 +106,18 @@ public sealed class MqttSession : IDisposable
 
     internal long ActivateConnection()
     {
+        MqttSessionRecoveryLease previous;
+        long generation;
+        lock (_dataEnqueueLock)
         lock (_unacknowledgedPublishPackets)
         {
-            return Interlocked.Increment(ref _connectionGeneration);
+            previous = _recoveryLease;
+            _recoveryLease = null;
+            _recoveryPending = _eventContainer.PreparingSessionRecoveryHandler != null ? 1 : 0;
+            generation = Interlocked.Increment(ref _connectionGeneration);
         }
+        previous?.Cancel();
+        return generation;
     }
 
     internal bool IsCurrentConnection(long generation) =>
@@ -128,6 +140,7 @@ public sealed class MqttSession : IDisposable
                 MqttPublishPacketSnapshot.CopyFields(wireSnapshot, packet);
             }
             // A failed write may have been partially visible; recovery must use DUP in that case too.
+            if (state == OutgoingPublishState.Queued) _sendSequences[packet] = ++_nextSendSequence;
             _outgoingPublishStates[packet] = OutgoingPublishState.PublishSent;
             return true;
         }
@@ -190,6 +203,7 @@ public sealed class MqttSession : IDisposable
         if (packet == null) return;
         _unacknowledgedPublishPackets.Remove(packet);
         _outgoingPublishStates.Remove(packet);
+        _sendSequences.Remove(packet);
         _reservedPacketIdentifiers.Remove(packet.PacketIdentifier);
     }
 
@@ -248,6 +262,7 @@ public sealed class MqttSession : IDisposable
         }
 
         NotifyInvalidatedPackets(invalidated, MqttSessionApplicationMessagesInvalidationReason.SessionDisposed);
+        _recoveryLease?.Cancel();
         _subscriptionsManager.Dispose();
     }
 
@@ -317,6 +332,12 @@ public sealed class MqttSession : IDisposable
         lock (_dataEnqueueLock)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
+            if (IsDataRecoveryPaused)
+            {
+                packetIdentifier = 0;
+                if (allowEviction) packetBusItem.Fail(new InvalidOperationException("Session admission is paused for ordered recovery."));
+                return EnqueueDataPacketResult.Dropped;
+            }
             result = EnqueueDataPacketCore(packetBusItem, publishPacket, allowEviction, out overwritten, enqueueState);
             packetIdentifier = result == EnqueueDataPacketResult.Enqueued ? publishPacket.PacketIdentifier : (ushort)0;
         }
@@ -395,10 +416,15 @@ public sealed class MqttSession : IDisposable
             }
         }
 
-        if (enqueueState != null)
+        if (publishPacket.QualityOfServiceLevel == MqttQualityOfServiceLevel.AtMostOnce && _eventContainer.PreparingSessionRecoveryHandler != null)
+        {
+            lock (_unacknowledgedPublishPackets) _outgoingPublishStates[publishPacket] = OutgoingPublishState.Queued;
+        }
+
+        if (enqueueState != null || _eventContainer.PreparingSessionRecoveryHandler != null)
         {
             // Attach before the packet becomes visible to the sender. Recovery reuses the packet and its original context.
-            _admissionContexts.GetValue(publishPacket, _ => new AdmissionContext(enqueueState));
+            _admissionContexts.GetValue(publishPacket, _ => new AdmissionContext(enqueueState, ++_nextAdmissionSequence));
         }
         _packetBus.EnqueueItem(packetBusItem, MqttPacketBusPartition.Data);
         return EnqueueDataPacketResult.Enqueued;
@@ -454,6 +480,7 @@ public sealed class MqttSession : IDisposable
         lock (_dataEnqueueLock)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
+            if (IsDataRecoveryPaused) throw new InvalidOperationException("Legacy recovery is unavailable during ordered recovery.");
             lock (_unacknowledgedPublishPackets)
             {
                 var packets = _unacknowledgedPublishPackets.ToList();
@@ -513,9 +540,10 @@ public sealed class MqttSession : IDisposable
         _admissionContexts.TryGetValue(packet, out var context) ? context.State : null;
 
     // Weak keys retain correlation for late notifications without retaining completed publish packets.
-    sealed class AdmissionContext(object state)
+    sealed class AdmissionContext(object state, long sequence)
     {
         public object State { get; } = state;
+        public long Sequence { get; } = sequence;
     }
 
     public void RemoveSubscribedTopic(string topic)

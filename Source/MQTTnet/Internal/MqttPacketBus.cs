@@ -150,6 +150,26 @@ public sealed class MqttPacketBus : IDisposable
         }
     }
 
+    public List<MqttPacketBusItem> ExportItems(MqttPacketBusPartition partition)
+    {
+        lock (_syncRoot) { return _partitions[(int)partition].ToList(); }
+    }
+
+    public void ReplaceItems(IEnumerable<(MqttPacketBusItem Item, MqttPacketBusPartition Partition)> items)
+    {
+        ArgumentNullException.ThrowIfNull(items);
+        var prepared = Enumerable.Range(0, _partitions.Length).Select(_ => new LinkedList<MqttPacketBusItem>()).ToArray();
+        foreach (var (item, partition) in items)
+        {
+            ArgumentNullException.ThrowIfNull(item);
+            prepared[(int)partition].AddLast(item);
+        }
+        lock (_syncRoot)
+        {
+            for (var index = 0; index < prepared.Length; index++) _partitions[index] = prepared[index];
+        }
+    }
+
     public int PartitionItemsCount(MqttPacketBusPartition partition)
     {
         lock (_syncRoot)

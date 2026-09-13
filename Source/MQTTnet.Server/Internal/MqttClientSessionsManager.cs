@@ -365,6 +365,10 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
             // Pass connAckPacket so that IsSessionPresent flag can be set if the client session already exists.
             connectedClient = await CreateClientConnection(connectPacket, connAckPacket, channelAdapter, validatingConnectionEventArgs).ConfigureAwait(false);
 
+            // The exclusive application owner must never run under either global connection/session gate.
+            if (_eventContainer.PreparingSessionRecoveryHandler != null)
+                await PrepareSessionRecoveryAsync(connectedClient, connAckPacket.IsSessionPresent, validatingConnectionEventArgs, cancellationToken).ConfigureAwait(false);
+
             await connectedClient.SendPacketAsync(connAckPacket, cancellationToken).ConfigureAwait(false);
 
             if (_eventContainer.ClientConnectedEvent.HasHandlers)
@@ -530,6 +534,52 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         return new MqttConnectedClient(connectPacket, channelAdapter, session, _options, _eventContainer, this, _rootLogger);
     }
 
+    async Task PrepareSessionRecoveryAsync(MqttConnectedClient client, bool sessionPresent, ValidatingConnectionEventArgs validation, CancellationToken cancellationToken)
+    {
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(_options.DefaultCommunicationTimeout);
+        await client.Session.WaitForRecoveryOwnerAsync(timeout.Token).ConfigureAwait(false);
+        var lease = client.Session.BeginRecovery(client.ConnectionGeneration, timeout.Token);
+        Task ownerTask;
+        try
+        {
+            ownerTask = _eventContainer.PreparingSessionRecoveryHandler(new PreparingSessionRecoveryEventArgs(
+                new MqttSessionStatus(client.Session), lease, sessionPresent, client.ConnectPacket.CleanSession, validation.SessionItems));
+            if (ownerTask == null) throw new InvalidOperationException("The session recovery owner returned no task.");
+        }
+        catch
+        {
+            lease.Cancel();
+            await client.Session.FinalizeRecoveryAsync(lease, false).ConfigureAwait(false);
+            throw;
+        }
+
+        try
+        {
+            await ownerTask.WaitAsync(lease.CancellationToken).ConfigureAwait(false);
+            lease.CancellationToken.ThrowIfCancellationRequested();
+            if (!lease.IsCommitted) throw new InvalidOperationException("The session recovery owner did not commit its preparation.");
+        }
+        catch
+        {
+            lease.Cancel();
+            if (ownerTask.IsCompleted) await client.Session.FinalizeRecoveryAsync(lease, false).ConfigureAwait(false);
+            else _ = FinalizeAbandonedRecoveryAsync(client.Session, lease, ownerTask);
+            throw;
+        }
+        await client.Session.FinalizeRecoveryAsync(lease, true).ConfigureAwait(false);
+        lease.CancellationToken.ThrowIfCancellationRequested();
+        if (!client.Session.IsCurrentConnection(lease.ConnectionGeneration)) throw new InvalidOperationException("Session recovery was superseded.");
+    }
+
+    async Task FinalizeAbandonedRecoveryAsync(MqttSession session, MqttSessionRecoveryLease lease, Task ownerTask)
+    {
+        try { await ownerTask.ConfigureAwait(false); }
+        catch (Exception exception) { _logger.Error(exception, "Abandoned session recovery owner failed."); }
+        try { await session.FinalizeRecoveryAsync(lease, false).ConfigureAwait(false); }
+        catch (Exception exception) { _logger.Error(exception, "Abandoned session recovery finalization failed."); }
+    }
+
     async Task<MqttConnectedClient> CreateClientConnection(
         MqttConnectPacket connectPacket,
         MqttConnAckPacket connAckPacket,
@@ -577,7 +627,7 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                         session.DisconnectedTimestamp = null;
                         // Fence old wire callbacks before rebuilding the persistent session's queue/state.
                         session.ActivateConnection();
-                        session.Recover();
+                        if (_eventContainer.PreparingSessionRecoveryHandler == null) session.Recover();
 
                         connAckPacket.IsSessionPresent = true;
                     }

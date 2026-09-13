@@ -72,6 +72,16 @@ public class MqttServer : Disposable
         remove => _eventContainer.SessionApplicationMessagesInvalidatedEvent.RemoveHandler(value);
     }
 
+    /// <summary>
+    /// Configures one exclusive recovery owner before server start. Runs after old writes are quiesced and before native recovery/CONNACK, outside global locks.
+    /// Commit is callback-free and irreversible. Publish successor bindings before returning; exact reclaim notifications follow handler exit before activation.
+    /// </summary>
+    public event Func<PreparingSessionRecoveryEventArgs, Task> PreparingSessionRecoveryAsync
+    {
+        add { ThrowIfStarted(); _eventContainer.AddSessionRecoveryHandler(value); }
+        remove { ThrowIfStarted(); _eventContainer.RemoveSessionRecoveryHandler(value); }
+    }
+
     public event Func<ClientAcknowledgedPublishPacketEventArgs, Task> ClientAcknowledgedPublishPacketAsync
     {
         add => _eventContainer.ClientAcknowledgedPublishPacketEvent.AddHandler(value);

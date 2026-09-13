@@ -8,6 +8,27 @@ namespace MQTTnet.Server.Internal;
 
 public class MqttServerEventContainer
 {
+    readonly object _recoveryHandlerGate = new();
+    Func<PreparingSessionRecoveryEventArgs, Task> _recoveryHandler;
+
+    public Func<PreparingSessionRecoveryEventArgs, Task> PreparingSessionRecoveryHandler => Volatile.Read(ref _recoveryHandler);
+
+    public void AddSessionRecoveryHandler(Func<PreparingSessionRecoveryEventArgs, Task> handler)
+    {
+        ArgumentNullException.ThrowIfNull(handler);
+        if (handler.GetInvocationList().Length != 1) throw new ArgumentException("Session recovery requires one exclusive owner.", nameof(handler));
+        lock (_recoveryHandlerGate)
+        {
+            if (_recoveryHandler != null) throw new InvalidOperationException("A session recovery owner is already registered.");
+            _recoveryHandler = handler;
+        }
+    }
+
+    public void RemoveSessionRecoveryHandler(Func<PreparingSessionRecoveryEventArgs, Task> handler)
+    {
+        lock (_recoveryHandlerGate) { if (_recoveryHandler == handler) _recoveryHandler = null; }
+    }
+
     public AsyncEvent<ApplicationMessageNotConsumedEventArgs> ApplicationMessageNotConsumedEvent { get; } = new();
 
     public AsyncEvent<ClientAcknowledgedPublishPacketEventArgs> ClientAcknowledgedPublishPacketEvent { get; } = new();
