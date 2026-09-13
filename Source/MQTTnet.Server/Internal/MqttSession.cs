@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections;
+using System.Runtime.CompilerServices;
 using MQTTnet.Internal;
 using MQTTnet.Packets;
 using MQTTnet.Protocol;
@@ -18,6 +19,7 @@ public sealed class MqttSession : IDisposable
     readonly MqttServerEventContainer _eventContainer;
     readonly MqttPacketBus _packetBus = new();
     readonly MqttPacketIdentifierProvider _packetIdentifierProvider = new();
+    readonly ConditionalWeakTable<MqttPublishPacket, AdmissionContext> _admissionContexts = new();
     readonly MqttServerOptions _serverOptions;
     readonly MqttClientSubscriptionsManager _subscriptionsManager;
 
@@ -166,9 +168,16 @@ public sealed class MqttSession : IDisposable
     internal async Task<bool> EnqueueApplicationMessageAsync(
         string senderId, MqttApplicationMessage applicationMessage, Func<MqttPublishPacket> createPublishPacket)
     {
+        if (!_eventContainer.InterceptingClientEnqueueEvent.HasHandlers && !_eventContainer.ApplicationMessageEnqueuedOrDroppedEvent.HasHandlers)
+        {
+            EnqueueDataPacket(new MqttPacketBusItem(createPublishPacket()));
+            return true;
+        }
+
         var context = new InterceptingClientApplicationMessageEnqueueEventArgs(senderId, Id, applicationMessage, Items);
         var isDropped = true;
         Exception failure = null;
+        MqttPublishPacket packet = null;
         try
         {
             await _eventContainer.InterceptingClientEnqueueEvent.InvokeAsync(context).ConfigureAwait(false);
@@ -177,8 +186,8 @@ public sealed class MqttSession : IDisposable
                 return false;
             }
 
-            var packet = createPublishPacket();
-            isDropped = EnqueueDataPacket(new MqttPacketBusItem(packet)) == EnqueueDataPacketResult.Dropped;
+            packet = createPublishPacket();
+            isDropped = EnqueueDataPacket(new MqttPacketBusItem(packet), true, out _, context.EnqueueState) == EnqueueDataPacketResult.Dropped;
             return true;
         }
         catch (Exception exception)
@@ -190,13 +199,18 @@ public sealed class MqttSession : IDisposable
         {
             if (_eventContainer.ApplicationMessageEnqueuedOrDroppedEvent.HasHandlers)
             {
-                var outcome = new ApplicationMessageEnqueuedEventArgs(senderId, Id, applicationMessage, isDropped, Items, context.EnqueueState, failure);
+                var outcome = new ApplicationMessageEnqueuedEventArgs(senderId, Id, applicationMessage, isDropped, Items, context.EnqueueState, failure, packet);
                 await _eventContainer.ApplicationMessageEnqueuedOrDroppedEvent.InvokeAsync(outcome).ConfigureAwait(false);
             }
         }
     }
 
     internal EnqueueDataPacketResult EnqueueDataPacket(MqttPacketBusItem packetBusItem, bool allowEviction, out ushort packetIdentifier)
+    {
+        return EnqueueDataPacket(packetBusItem, allowEviction, out packetIdentifier, null);
+    }
+
+    internal EnqueueDataPacketResult EnqueueDataPacket(MqttPacketBusItem packetBusItem, bool allowEviction, out ushort packetIdentifier, object enqueueState)
     {
         ArgumentNullException.ThrowIfNull(packetBusItem);
         var publishPacket = (MqttPublishPacket)packetBusItem.Packet;
@@ -205,7 +219,7 @@ public sealed class MqttSession : IDisposable
         lock (_dataEnqueueLock)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
-            result = EnqueueDataPacketCore(packetBusItem, publishPacket, allowEviction, out overwritten);
+            result = EnqueueDataPacketCore(packetBusItem, publishPacket, allowEviction, out overwritten, enqueueState);
             packetIdentifier = result == EnqueueDataPacketResult.Enqueued ? publishPacket.PacketIdentifier : (ushort)0;
         }
 
@@ -215,7 +229,7 @@ public sealed class MqttSession : IDisposable
 
     // All data producers and recovery share the admission gate. Dequeue may only free capacity.
     EnqueueDataPacketResult EnqueueDataPacketCore(
-        MqttPacketBusItem packetBusItem, MqttPublishPacket publishPacket, bool allowEviction, out MqttPacketBusItem overwritten)
+        MqttPacketBusItem packetBusItem, MqttPublishPacket publishPacket, bool allowEviction, out MqttPacketBusItem overwritten, object enqueueState = null)
     {
         overwritten = null;
         if (PendingDataPacketsCount >= _serverOptions.MaxPendingMessagesPerClient)
@@ -263,6 +277,11 @@ public sealed class MqttSession : IDisposable
             }
         }
 
+        if (enqueueState != null)
+        {
+            // Attach before the packet becomes visible to the sender. Recovery reuses the packet and its original context.
+            _admissionContexts.GetValue(publishPacket, _ => new AdmissionContext(enqueueState));
+        }
         _packetBus.EnqueueItem(packetBusItem, MqttPacketBusPartition.Data);
         return EnqueueDataPacketResult.Enqueued;
     }
@@ -271,7 +290,8 @@ public sealed class MqttSession : IDisposable
     {
         if (overwritten != null && _eventContainer.QueuedApplicationMessageOverwrittenEvent.HasHandlers)
         {
-            var eventArgs = new QueueMessageOverwrittenEventArgs(Id, overwritten.Packet, Items);
+            var eventArgs = new QueueMessageOverwrittenEventArgs(Id, overwritten.Packet, Items,
+                overwritten.Packet is MqttPublishPacket publish ? GetEnqueueState(publish) : null);
             _eventContainer.QueuedApplicationMessageOverwrittenEvent.InvokeAsync(eventArgs).ConfigureAwait(false);
         }
     }
@@ -356,8 +376,18 @@ public sealed class MqttSession : IDisposable
     void NotifyInvalidatedPackets(List<MqttPublishPacket> packets, MqttSessionApplicationMessagesInvalidationReason reason)
     {
         if (packets == null || (packets.Count == 0 && reason != MqttSessionApplicationMessagesInvalidationReason.SessionDisposed)) return;
-        var eventArgs = new SessionApplicationMessagesInvalidatedEventArgs(Id, Items, packets.AsReadOnly(), reason);
+        var messages = packets.Select(packet => new MqttSessionApplicationMessage(packet, GetEnqueueState(packet))).ToList().AsReadOnly();
+        var eventArgs = new SessionApplicationMessagesInvalidatedEventArgs(Id, Items, messages, reason);
         _ = _clientSessionsManager.NotifyApplicationMessagesInvalidatedAsync(eventArgs);
+    }
+
+    internal object GetEnqueueState(MqttPublishPacket packet) =>
+        _admissionContexts.TryGetValue(packet, out var context) ? context.State : null;
+
+    // Weak keys retain correlation for late notifications without retaining completed publish packets.
+    sealed class AdmissionContext(object state)
+    {
+        public object State { get; } = state;
     }
 
     public void RemoveSubscribedTopic(string topic)

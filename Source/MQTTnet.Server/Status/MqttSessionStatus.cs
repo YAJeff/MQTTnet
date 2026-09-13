@@ -100,10 +100,18 @@ public sealed class MqttSessionStatus
     public bool TryEnqueueApplicationMessage(
         MqttApplicationMessage applicationMessage, out InjectMqttApplicationMessageResult injectResult, bool allowEviction)
     {
+        return TryEnqueueApplicationMessage(applicationMessage, out injectResult, allowEviction, null);
+    }
+
+    /// <summary>Attempts admission with an opaque state value preserved on this publish's acknowledgement, overwrite and invalidation events.</summary>
+    /// <remarks>The state is attached only on acceptance. Recovery preserves it with the original publish object. Later admissions of the same message have independent contexts.</remarks>
+    public bool TryEnqueueApplicationMessage(
+        MqttApplicationMessage applicationMessage, out InjectMqttApplicationMessageResult injectResult, bool allowEviction, object enqueueState)
+    {
         ArgumentNullException.ThrowIfNull(applicationMessage);
 
         var publishPacket = MqttPublishPacketFactory.Create(applicationMessage);
-        var enqueueDataPacketResult = _session.EnqueueDataPacket(new MqttPacketBusItem(publishPacket), allowEviction, out var packetIdentifier);
+        var enqueueDataPacketResult = _session.EnqueueDataPacket(new MqttPacketBusItem(publishPacket), allowEviction, out var packetIdentifier, enqueueState);
 
         if (enqueueDataPacketResult != EnqueueDataPacketResult.Enqueued)
         {

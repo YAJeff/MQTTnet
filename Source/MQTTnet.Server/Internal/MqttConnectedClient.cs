@@ -200,7 +200,7 @@ public sealed class MqttConnectedClient : IDisposable
     {
         if (_eventContainer.ClientAcknowledgedPublishPacketEvent.HasHandlers)
         {
-            var eventArgs = new ClientAcknowledgedPublishPacketEventArgs(Id, UserName, Session.Items, publishPacket, acknowledgePacket);
+            var eventArgs = new ClientAcknowledgedPublishPacketEventArgs(Id, UserName, Session.Items, publishPacket, acknowledgePacket, Session.GetEnqueueState(publishPacket));
             return _eventContainer.ClientAcknowledgedPublishPacketEvent.TryInvokeAsync(eventArgs, _logger);
         }
 

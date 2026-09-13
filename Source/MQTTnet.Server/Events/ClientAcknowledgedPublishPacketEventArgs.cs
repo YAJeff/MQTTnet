@@ -10,12 +10,18 @@ namespace MQTTnet.Server;
 public sealed class ClientAcknowledgedPublishPacketEventArgs : EventArgs
 {
     public ClientAcknowledgedPublishPacketEventArgs(string clientId, string userName, IDictionary sessionItems, MqttPublishPacket publishPacket, MqttPacketWithIdentifier acknowledgePacket)
+        : this(clientId, userName, sessionItems, publishPacket, acknowledgePacket, null)
+    {
+    }
+
+    public ClientAcknowledgedPublishPacketEventArgs(string clientId, string userName, IDictionary sessionItems, MqttPublishPacket publishPacket, MqttPacketWithIdentifier acknowledgePacket, object enqueueState)
     {
         ClientId = clientId ?? throw new ArgumentNullException(nameof(clientId));
         UserName = userName;
         SessionItems = sessionItems ?? throw new ArgumentNullException(nameof(sessionItems));
         PublishPacket = publishPacket ?? throw new ArgumentNullException(nameof(publishPacket));
         AcknowledgePacket = acknowledgePacket ?? throw new ArgumentNullException(nameof(acknowledgePacket));
+        EnqueueState = enqueueState;
     }
 
     /// <summary>
@@ -47,4 +53,7 @@ public sealed class ClientAcknowledgedPublishPacketEventArgs : EventArgs
     ///     Gets the session items which contain custom user data per session.
     /// </summary>
     public IDictionary SessionItems { get; }
+
+    /// <summary>Gets the opaque context of the original publish admission, including after recovery.</summary>
+    public object EnqueueState { get; }
 }

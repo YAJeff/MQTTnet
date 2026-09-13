@@ -18,10 +18,19 @@ public sealed class SessionApplicationMessagesInvalidatedEventArgs : EventArgs
     public SessionApplicationMessagesInvalidatedEventArgs(
         string receiverClientId, IDictionary receiverSessionItems, IReadOnlyList<MqttPublishPacket> publishPackets,
         MqttSessionApplicationMessagesInvalidationReason reason)
+        : this(receiverClientId, receiverSessionItems,
+            (publishPackets ?? throw new ArgumentNullException(nameof(publishPackets))).Select(packet => new MqttSessionApplicationMessage(packet, null)).ToList().AsReadOnly(), reason)
+    {
+    }
+
+    public SessionApplicationMessagesInvalidatedEventArgs(
+        string receiverClientId, IDictionary receiverSessionItems, IReadOnlyList<MqttSessionApplicationMessage> messages,
+        MqttSessionApplicationMessagesInvalidationReason reason)
     {
         ReceiverClientId = receiverClientId ?? throw new ArgumentNullException(nameof(receiverClientId));
         ReceiverSessionItems = receiverSessionItems ?? throw new ArgumentNullException(nameof(receiverSessionItems));
-        PublishPackets = publishPackets ?? throw new ArgumentNullException(nameof(publishPackets));
+        Messages = messages ?? throw new ArgumentNullException(nameof(messages));
+        PublishPackets = messages.Select(message => message.PublishPacket).ToList().AsReadOnly();
         Reason = reason;
     }
 
@@ -31,6 +40,9 @@ public sealed class SessionApplicationMessagesInvalidatedEventArgs : EventArgs
 
     /// <summary>Gets the exact QoS1/2 publish objects whose native ownership was invalidated, not an identifier-only lookup.</summary>
     public IReadOnlyList<MqttPublishPacket> PublishPackets { get; }
+
+    /// <summary>Gets each original publish object together with its original admission state, even when the same receipt was admitted again.</summary>
+    public IReadOnlyList<MqttSessionApplicationMessage> Messages { get; }
 
     /// <summary>SessionDisposed invalidates the entire session, including an empty packet list. RecoveryOverflow invalidates only the listed packets.</summary>
     public MqttSessionApplicationMessagesInvalidationReason Reason { get; }

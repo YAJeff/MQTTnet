@@ -182,6 +182,7 @@ public sealed class EnqueueCorrelation_Tests : BaseTestClass
         server.ClientAcknowledgedPublishPacketAsync += args =>
         {
             Assert.AreSame(session.Items, args.SessionItems);
+            Assert.AreSame(state, args.EnqueueState);
             if (args.IsCompleted) acknowledged.TrySetResult();
             return Task.CompletedTask;
         };
@@ -219,6 +220,7 @@ public sealed class EnqueueCorrelation_Tests : BaseTestClass
         server.ClientAcknowledgedPublishPacketAsync += args =>
         {
             Assert.AreSame(session.Items, args.SessionItems);
+            Assert.AreSame(state, args.EnqueueState);
             acknowledged.TrySetResult();
             return Task.CompletedTask;
         };
@@ -331,6 +333,119 @@ public sealed class EnqueueCorrelation_Tests : BaseTestClass
             Assert.AreSame(first, invalidation.PublishPackets[0]);
             Assert.AreSame(second, invalidation.PublishPackets[1]);
         }
+    }
+
+    [TestMethod]
+    public async Task Recovery_Invalidation_Then_Late_Overwrite_Keep_Original_Admission_State()
+    {
+        using var context = new Context(2);
+        var status = new MqttSessionStatus(context.Session);
+        var message = new MqttApplicationMessageBuilder().WithTopic("same-receipt").WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce).Build();
+        var oldState = new object();
+        var newState = new object();
+        object current = oldState;
+        Assert.IsTrue(status.TryEnqueueApplicationMessage(message, out _, false, oldState));
+        var oldItem = await context.Session.DequeuePacketAsync(CancellationToken.None);
+        oldItem.Complete();
+        Assert.IsTrue(status.TryEnqueueApplicationMessage(message, out _, false, new object()));
+        Assert.IsTrue(status.TryEnqueueApplicationMessage(message, out _, false, new object()));
+        var reAdmitted = false;
+        var lateOverwriteObserved = false;
+        context.Events.SessionApplicationMessagesInvalidatedEvent.AddHandler(args =>
+        {
+            if (args.Reason != MqttSessionApplicationMessagesInvalidationReason.RecoveryOverflow) return;
+            Assert.HasCount(1, args.Messages);
+            Assert.AreSame(oldState, args.Messages[0].EnqueueState);
+            Assert.AreSame(oldItem.Packet, args.Messages[0].PublishPacket);
+            if (ReferenceEquals(current, args.Messages[0].EnqueueState)) current = null;
+            var completed = context.Session.DequeuePacketAsync(CancellationToken.None).GetAwaiter().GetResult();
+            completed.Complete();
+            context.Session.AcknowledgePublishPacket(((MqttPublishPacket)completed.Packet).PacketIdentifier);
+            Assert.IsTrue(status.TryEnqueueApplicationMessage(message, out _, false, newState));
+            current = newState;
+            reAdmitted = true;
+        });
+        context.Events.QueuedApplicationMessageOverwrittenEvent.AddHandler(args =>
+        {
+            Assert.IsTrue(reAdmitted);
+            Assert.AreSame(oldState, args.EnqueueState);
+            Assert.AreSame(oldItem.Packet, args.Packet);
+            if (ReferenceEquals(current, args.EnqueueState)) current = null;
+            lateOverwriteObserved = true;
+        });
+        context.Session.Recover();
+        Assert.IsTrue(reAdmitted);
+        Assert.IsTrue(lateOverwriteObserved);
+        Assert.AreSame(newState, current);
+    }
+
+    [TestMethod]
+    public async Task Late_Ack_Callback_For_Same_Receipt_Does_Not_Terminate_New_Admission()
+    {
+        using var environment = CreateTestEnvironment();
+        var server = await environment.StartServer();
+        var receiver = await environment.ConnectClient();
+        var session = (await server.GetSessionsAsync()).Single(s => s.Id == receiver.Options.ClientId);
+        var message = new MqttApplicationMessageBuilder().WithTopic("same-receipt").WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce).Build();
+        var oldState = new object();
+        var newState = new object();
+        object current = oldState;
+        var oldAckEntered = Signal();
+        var releaseOldAck = Signal();
+        var oldAckFinished = Signal();
+        var newAck = Signal();
+        server.ClientAcknowledgedPublishPacketAsync += async args =>
+        {
+            Assert.AreSame(session.Items, args.SessionItems);
+            if (ReferenceEquals(args.EnqueueState, oldState))
+            {
+                oldAckEntered.TrySetResult();
+                await releaseOldAck.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                if (ReferenceEquals(current, args.EnqueueState)) current = null;
+                Assert.AreSame(newState, current);
+                oldAckFinished.TrySetResult();
+            }
+            else
+            {
+                Assert.AreSame(newState, args.EnqueueState);
+                newAck.TrySetResult();
+            }
+        };
+        Assert.IsTrue(session.TryEnqueueApplicationMessage(message, out _, false, oldState));
+        await oldAckEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.IsTrue(session.TryEnqueueApplicationMessage(message, out _, false, newState));
+        current = newState;
+        releaseOldAck.SetResult();
+        await oldAckFinished.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        await newAck.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        await receiver.DisconnectAsync();
+    }
+
+    [TestMethod]
+    [DataRow(MqttQualityOfServiceLevel.AtLeastOnce)]
+    [DataRow(MqttQualityOfServiceLevel.ExactlyOnce)]
+    public async Task Direct_State_Survives_Recovery_And_Rejected_Retry_Does_Not_Replace_It(MqttQualityOfServiceLevel qos)
+    {
+        using var context = new Context(1);
+        var status = new MqttSessionStatus(context.Session);
+        var message = new MqttApplicationMessageBuilder().WithTopic("state").WithQualityOfServiceLevel(qos).Build();
+        var acceptedState = new object();
+        var rejectedState = new object();
+        Assert.IsTrue(status.TryEnqueueApplicationMessage(message, out var initial, false, acceptedState));
+        var original = context.Session.PeekAcknowledgePublishPacket(initial.PacketIdentifier);
+        Assert.IsFalse(status.TryEnqueueApplicationMessage(message, out var rejected, false, rejectedState));
+        Assert.IsNull(rejected);
+        context.Session.Recover();
+        var recovered = await context.Session.DequeuePacketAsync(CancellationToken.None);
+        Assert.AreSame(original, recovered.Packet);
+        recovered.Complete();
+        SessionApplicationMessagesInvalidatedEventArgs disposed = null;
+        context.Events.SessionApplicationMessagesInvalidatedEvent.AddHandler(args => disposed = args);
+        context.Session.Dispose();
+        Assert.IsNotNull(disposed);
+        Assert.HasCount(1, disposed.Messages);
+        Assert.AreSame(original, disposed.Messages[0].PublishPacket);
+        Assert.AreSame(acceptedState, disposed.Messages[0].EnqueueState);
     }
 
     static TaskCompletionSource Signal() => new(TaskCreationOptions.RunContinuationsAsynchronously);

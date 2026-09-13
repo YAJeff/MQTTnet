@@ -15,10 +15,16 @@ public sealed class QueueMessageOverwrittenEventArgs : EventArgs
     }
 
     public QueueMessageOverwrittenEventArgs(string receiverClientId, MqttPacket packet, IDictionary receiverSessionItems)
+        : this(receiverClientId, packet, receiverSessionItems, null)
+    {
+    }
+
+    public QueueMessageOverwrittenEventArgs(string receiverClientId, MqttPacket packet, IDictionary receiverSessionItems, object enqueueState)
     {
         ReceiverClientId = receiverClientId ?? throw new ArgumentNullException(nameof(receiverClientId));
         Packet = packet ?? throw new ArgumentNullException(nameof(packet));
         ReceiverSessionItems = receiverSessionItems;
+        EnqueueState = enqueueState;
     }
 
     public MqttPacket Packet { get; }
@@ -27,4 +33,6 @@ public sealed class QueueMessageOverwrittenEventArgs : EventArgs
 
     /// <summary>Gets the items of the session whose queue lost the packet. Null for legacy constructors.</summary>
     public IDictionary ReceiverSessionItems { get; }
+
+    public object EnqueueState { get; }
 }
