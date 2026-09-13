@@ -36,7 +36,7 @@ internal sealed class MqttWillMessagesManager : IAsyncDisposable
         await StopAsync(true).ConfigureAwait(false);
     }
 
-    public void Connected(MqttConnectedClient client)
+    public void Connected(MqttConnectedClient client, bool deferNewWill = false)
     {
         lock (_syncRoot)
         {
@@ -64,19 +64,35 @@ internal sealed class MqttWillMessagesManager : IAsyncDisposable
             }
 
             client.Session.WillMessageSent = false;
-            if (client.ConnectPacket.WillFlag)
+            if (!deferNewWill) RegisterWill(client);
+        }
+    }
+
+    public void CompletePreparation(MqttConnectedClient client, bool externallyOwned)
+    {
+        lock (_syncRoot)
+        {
+            if (!_acceptConnections || !client.Session.IsCurrentConnection(client.ConnectionGeneration))
+                throw new InvalidOperationException("Will preparation was stopped or superseded.");
+            client.IsWillExternallyOwned = externallyOwned;
+            if (!externallyOwned) RegisterWill(client);
+        }
+    }
+
+    void RegisterWill(MqttConnectedClient client)
+    {
+        if (client.ConnectPacket.WillFlag)
+        {
+            _pending[client.Session] = new PendingWill
             {
-                _pending[client.Session] = new PendingWill
-                {
-                    Session = client.Session,
-                    Owner = client,
-                    SenderId = client.Id,
-                    UserName = client.UserName,
-                    Items = client.Session.Items,
-                    Message = MqttApplicationMessageFactory.Create(MqttPublishPacketFactory.Create(client.ConnectPacket)),
-                    Delay = client.ChannelAdapter.PacketFormatterAdapter.ProtocolVersion == MqttProtocolVersion.V500 ? client.ConnectPacket.WillDelayInterval : 0
-                };
-            }
+                Session = client.Session,
+                Owner = client,
+                SenderId = client.Id,
+                UserName = client.UserName,
+                Items = client.Session.Items,
+                Message = MqttApplicationMessageFactory.Create(MqttPublishPacketFactory.Create(client.ConnectPacket)),
+                Delay = client.ChannelAdapter.PacketFormatterAdapter.ProtocolVersion == MqttProtocolVersion.V500 ? client.ConnectPacket.WillDelayInterval : 0
+            };
         }
     }
 

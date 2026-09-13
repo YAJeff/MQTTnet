@@ -616,16 +616,19 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
             connAck.IsSessionPresent = await client.Session.RestoreDurableStateAsync(new MqttSessionPersistenceRequest(client.Id, client.ConnectionAttemptId, validation.SessionItems,
                 client.ConnectPacket.CleanSession, client.ChannelAdapter.PacketFormatterAdapter.ProtocolVersion, client.ConnectPacket.SessionExpiryInterval), client.ConnectionGeneration, timeout.Token).ConfigureAwait(false);
         var lease = client.Session.BeginRecovery(client.ConnectionGeneration, timeout.Token);
+        var preparation = new PreparingSessionRecoveryEventArgs(
+            new MqttSessionStatus(client.Session), lease, connAck.IsSessionPresent, client.ConnectPacket.CleanSession, validation.SessionItems,
+            new MqttClientStatus(client) { Session = new MqttSessionStatus(client.Session) });
         Task ownerTask;
+        bool externalWill;
         try
         {
-            ownerTask = _eventContainer.PreparingSessionRecoveryHandler(new PreparingSessionRecoveryEventArgs(
-                new MqttSessionStatus(client.Session), lease, connAck.IsSessionPresent, client.ConnectPacket.CleanSession, validation.SessionItems,
-                new MqttClientStatus(client) { Session = new MqttSessionStatus(client.Session) }));
+            ownerTask = _eventContainer.PreparingSessionRecoveryHandler(preparation);
             if (ownerTask == null) throw new InvalidOperationException("The session recovery owner returned no task.");
         }
         catch
         {
+            preparation.CloseWillPreparation();
             lease.Cancel();
             await client.Session.FinalizeRecoveryAsync(lease, false).ConfigureAwait(false);
             throw;
@@ -636,9 +639,11 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
             await ownerTask.WaitAsync(lease.CancellationToken).ConfigureAwait(false);
             lease.CancellationToken.ThrowIfCancellationRequested();
             if (!lease.IsCommitted) throw new InvalidOperationException("The session recovery owner did not commit its preparation.");
+            externalWill = preparation.CloseWillPreparation();
         }
         catch
         {
+            preparation.CloseWillPreparation();
             lease.Cancel();
             if (ownerTask.IsCompleted) await client.Session.FinalizeRecoveryAsync(lease, false).ConfigureAwait(false);
             else _ = FinalizeAbandonedRecoveryAsync(client.Session, lease, ownerTask);
@@ -647,6 +652,7 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         await client.Session.FinalizeRecoveryAsync(lease, true).ConfigureAwait(false);
         lease.CancellationToken.ThrowIfCancellationRequested();
         if (!client.Session.IsCurrentConnection(lease.ConnectionGeneration)) throw new InvalidOperationException("Session recovery was superseded.");
+        _willMessages.CompletePreparation(client, externalWill);
     }
 
     async Task FinalizeAbandonedRecoveryAsync(MqttSession session, MqttSessionRecoveryLease lease, Task ownerTask)
@@ -724,8 +730,10 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                     }
 
                     connectedClient = CreateClient(connectPacket, channelAdapter, session);
+                    connectedClient.ConnectionAttemptId = validatingConnectionEventArgs.ConnectionAttemptId;
+                    connectedClient.WillMessage = validatingConnectionEventArgs.WillMessage;
                     _clients[connectPacket.ClientId] = connectedClient;
-                    _willMessages.Connected(connectedClient);
+                    _willMessages.Connected(connectedClient, _eventContainer.PreparingSessionRecoveryHandler != null);
                 }
             }
             finally

@@ -8,6 +8,9 @@ namespace MQTTnet.Server;
 
 public sealed class PreparingSessionRecoveryEventArgs : EventArgs
 {
+    readonly object _willOwnershipLock = new();
+    bool _preparationClosed;
+    bool _takeWillOwnership;
     public PreparingSessionRecoveryEventArgs(MqttSessionStatus session, MqttSessionRecoveryLease recovery, bool sessionPresent, bool cleanStart)
         : this(session, recovery, sessionPresent, cleanStart, session?.Items) { }
 
@@ -34,4 +37,29 @@ public sealed class PreparingSessionRecoveryEventArgs : EventArgs
     public MqttClientStatus Connection { get; }
     public Guid ConnectionAttemptId => Connection?.ConnectionAttemptId ?? Guid.Empty;
     public CancellationToken CancellationToken => Recovery.CancellationToken;
+    public bool HasWill => Connection?.HasWill ?? false;
+    public MqttWillMessageSnapshot WillMessage => Connection?.WillMessage;
+
+    /// <summary>Call only after the host has durably accepted this attempt's Will responsibility.
+    /// Native suppression activates only if this preparation commits and completes successfully.
+    /// The host owns publication, delay, expiry, disconnect suppression and fencing thereafter.</summary>
+    public void TakeWillOwnership()
+    {
+        lock (_willOwnershipLock)
+        {
+            CancellationToken.ThrowIfCancellationRequested();
+            if (_preparationClosed) throw new InvalidOperationException("Will preparation has already completed.");
+            if (!HasWill) throw new InvalidOperationException("This connection attempt has no Will.");
+            _takeWillOwnership = true;
+        }
+    }
+
+    internal bool CloseWillPreparation()
+    {
+        lock (_willOwnershipLock)
+        {
+            _preparationClosed = true;
+            return _takeWillOwnership;
+        }
+    }
 }

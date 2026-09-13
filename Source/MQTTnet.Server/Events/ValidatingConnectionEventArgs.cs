@@ -23,6 +23,7 @@ public sealed class ValidatingConnectionEventArgs : EventArgs
     public ValidatingConnectionEventArgs(MqttConnectPacket connectPacket, IMqttChannelAdapter clientAdapter, IDictionary sessionItems, CancellationToken cancellationToken)
     {
         _connectPacket = connectPacket ?? throw new ArgumentNullException(nameof(connectPacket));
+        WillMessage = connectPacket.WillFlag ? new MqttWillMessageSnapshot(connectPacket) : null;
         ChannelAdapter = clientAdapter ?? throw new ArgumentNullException(nameof(clientAdapter));
         SessionItems = sessionItems ?? throw new ArgumentNullException(nameof(sessionItems));
         CancellationToken = cancellationToken;
@@ -47,6 +48,11 @@ public sealed class ValidatingConnectionEventArgs : EventArgs
     public string AuthenticationMethod => _connectPacket.AuthenticationMethod;
 
     public CancellationToken CancellationToken { get; }
+
+    /// <summary>The exact connection attempt, preserved through preparation and lifecycle events.</summary>
+    public Guid ConnectionAttemptId { get; } = Guid.NewGuid();
+    public bool HasWill => WillMessage != null;
+    public MqttWillMessageSnapshot WillMessage { get; }
 
     /// <summary>
     ///     Gets the channel adapter. This can be a _MqttConnectionContext_ (used in ASP.NET), a _MqttChannelAdapter_ (used for

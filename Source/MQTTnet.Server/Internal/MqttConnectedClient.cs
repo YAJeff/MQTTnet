@@ -50,6 +50,7 @@ public sealed class MqttConnectedClient : IDisposable
         _eventContainer = eventContainer ?? throw new ArgumentNullException(nameof(eventContainer));
         _sessionsManager = sessionsManager ?? throw new ArgumentNullException(nameof(sessionsManager));
         ConnectPacket = connectPacket ?? throw new ArgumentNullException(nameof(connectPacket));
+        WillMessage = connectPacket.WillFlag ? new MqttWillMessageSnapshot(connectPacket) : null;
 
         ChannelAdapter = channelAdapter ?? throw new ArgumentNullException(nameof(channelAdapter));
         _initialSendQuota = ChannelAdapter.PacketFormatterAdapter.ProtocolVersion == MqttProtocolVersion.V500 && connectPacket.ReceiveMaximum > 0
@@ -80,7 +81,9 @@ public sealed class MqttConnectedClient : IDisposable
     public EndPoint RemoteEndPoint { get; }
 
     public MqttSession Session { get; }
-    public Guid ConnectionAttemptId { get; } = Guid.NewGuid();
+    public Guid ConnectionAttemptId { get; internal set; } = Guid.NewGuid();
+    internal MqttWillMessageSnapshot WillMessage { get; set; }
+    internal bool IsWillExternallyOwned { get; set; }
 
     public MqttClientStatistics Statistics { get; } = new();
 

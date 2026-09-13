@@ -34,6 +34,9 @@ public sealed class MqttClientStatus
     /// </summary>
     public string Id => _client.Id;
     public Guid ConnectionAttemptId => _client.ConnectionAttemptId;
+    public bool HasWill => _client.WillMessage != null;
+    public MqttWillMessageSnapshot WillMessage => _client.WillMessage;
+    public bool IsWillExternallyOwned => _client.IsWillExternallyOwned;
 
     public DateTime LastNonKeepAlivePacketReceivedTimestamp => _client.Statistics.LastNonKeepAlivePacketReceivedTimestamp;
 
