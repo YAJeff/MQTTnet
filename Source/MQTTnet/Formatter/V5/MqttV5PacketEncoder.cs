@@ -174,7 +174,7 @@ public sealed class MqttV5PacketEncoder(MqttBufferWriter bufferWriter)
         if (packet.WillFlag)
         {
             _propertiesWriter.WritePayloadFormatIndicator(packet.WillPayloadFormatIndicator);
-            _propertiesWriter.WriteMessageExpiryInterval(packet.WillMessageExpiryInterval);
+            _propertiesWriter.WriteMessageExpiryInterval(packet.WillMessageExpiryInterval, packet.HasWillMessageExpiryInterval);
             _propertiesWriter.WriteResponseTopic(packet.WillResponseTopic);
             _propertiesWriter.WriteCorrelationData(packet.WillCorrelationData);
             _propertiesWriter.WriteContentType(packet.WillContentType);

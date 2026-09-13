@@ -18,6 +18,24 @@ namespace MQTTnet.Tests.Server;
 public sealed class ExternalWillOwnership_Tests
 {
     [TestMethod]
+    [DataRow(false, 0U, false)]
+    [DataRow(true, 0U, true)]
+    [DataRow(false, 10U, true)]
+    public void Will_Expiry_Presence_Survives_Wire_And_Snapshot(bool explicitPresence, uint interval, bool expectedPresence)
+    {
+        var packet = MqttPacketSerializationHelper.EncodeAndDecodePacket(new MqttConnectPacket
+        {
+            ClientId = "expiry", WillFlag = true, WillTopic = "will/test", WillMessage = new byte[] { 1 },
+            WillMessageExpiryInterval = interval, HasWillMessageExpiryInterval = explicitPresence
+        }, MqttProtocolVersion.V500);
+        Assert.AreEqual(expectedPresence, packet.HasWillMessageExpiryInterval);
+        using var adapter = new MqttChannelAdapter(new MemoryMqttChannel(new MemoryStream()), new MqttPacketFormatterAdapter(MqttProtocolVersion.V500, new MqttBufferWriter(4096, 65535)), MqttNetNullLogger.Instance);
+        var snapshot = new ValidatingConnectionEventArgs(packet, adapter, new Hashtable(), CancellationToken.None).WillMessage;
+        Assert.AreEqual(expectedPresence, snapshot.HasMessageExpiryInterval);
+        Assert.AreEqual(interval, snapshot.MessageExpiryInterval);
+    }
+
+    [TestMethod]
     public void Snapshot_Owns_All_Will_Fields_And_Buffers()
     {
         var payload = new byte[] { 1, 2 };

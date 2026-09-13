@@ -652,7 +652,7 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         await client.Session.FinalizeRecoveryAsync(lease, true).ConfigureAwait(false);
         lease.CancellationToken.ThrowIfCancellationRequested();
         if (!client.Session.IsCurrentConnection(lease.ConnectionGeneration)) throw new InvalidOperationException("Session recovery was superseded.");
-        _willMessages.CompletePreparation(client, externalWill);
+        if (client.ConnectPacket.WillFlag) _willMessages.CompletePreparation(client, externalWill);
     }
 
     async Task FinalizeAbandonedRecoveryAsync(MqttSession session, MqttSessionRecoveryLease lease, Task ownerTask)

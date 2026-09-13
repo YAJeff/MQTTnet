@@ -73,9 +73,14 @@ public sealed class MqttV5PropertiesWriter
 
     public void WriteMessageExpiryInterval(uint value)
     {
+        WriteMessageExpiryInterval(value, false);
+    }
+
+    public void WriteMessageExpiryInterval(uint value, bool explicitlyPresent)
+    {
         // If absent, the Application Message does not expire.
         // This library uses 0 to indicate no expiration.
-        if (value == 0)
+        if (value == 0 && !explicitlyPresent)
         {
             return;
         }

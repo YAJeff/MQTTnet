@@ -22,6 +22,7 @@ public sealed class MqttWillMessageSnapshot
         Retain = packet.WillRetain;
         DelayInterval = packet.WillDelayInterval;
         MessageExpiryInterval = packet.WillMessageExpiryInterval;
+        HasMessageExpiryInterval = packet.HasWillMessageExpiryInterval || packet.WillMessageExpiryInterval != 0;
         PayloadFormatIndicator = packet.WillPayloadFormatIndicator;
         ContentType = packet.WillContentType;
         ResponseTopic = packet.WillResponseTopic;
@@ -35,6 +36,7 @@ public sealed class MqttWillMessageSnapshot
     public bool Retain { get; }
     public uint DelayInterval { get; }
     public uint MessageExpiryInterval { get; }
+    public bool HasMessageExpiryInterval { get; }
     public MqttPayloadFormatIndicator PayloadFormatIndicator { get; }
     public string ContentType { get; }
     public string ResponseTopic { get; }

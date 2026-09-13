@@ -52,6 +52,8 @@ public sealed class MqttConnectPacket : MqttPacket
     public byte[] WillMessage { get; set; }
 
     public uint WillMessageExpiryInterval { get; set; }
+    /// <summary>Distinguishes an explicit zero (immediate expiry) from an absent MQTT5 Will expiry property.</summary>
+    public bool HasWillMessageExpiryInterval { get; set; }
 
     public MqttPayloadFormatIndicator WillPayloadFormatIndicator { get; set; } = MqttPayloadFormatIndicator.Unspecified;
 

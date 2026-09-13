@@ -290,6 +290,7 @@ public sealed class MqttV5PacketDecoder
                 else if (willPropertiesReader.CurrentPropertyId == MqttPropertyId.MessageExpiryInterval)
                 {
                     packet.WillMessageExpiryInterval = willPropertiesReader.ReadMessageExpiryInterval();
+                    packet.HasWillMessageExpiryInterval = true;
                 }
                 else if (willPropertiesReader.CurrentPropertyId == MqttPropertyId.ResponseTopic)
                 {
