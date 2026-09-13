@@ -253,6 +253,7 @@ public sealed class EnqueueCorrelation_Tests : BaseTestClass
         context.Session.EnqueueDataPacket(new MqttPacketBusItem(packets[2]));
         var invalidations = new List<SessionApplicationMessagesInvalidatedEventArgs>();
         var overwrites = new List<QueueMessageOverwrittenEventArgs>();
+        var callbackAcquiredGate = false;
         context.Events.SessionApplicationMessagesInvalidatedEvent.AddHandler(args =>
         {
             invalidations.Add(args);
@@ -261,10 +262,12 @@ public sealed class EnqueueCorrelation_Tests : BaseTestClass
                 var admitted = Task.Run(() => new MqttSessionStatus(context.Session).TryEnqueueApplicationMessage(Message(), out _, false))
                     .WaitAsync(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
                 Assert.IsFalse(admitted);
+                callbackAcquiredGate = true;
             }
         });
         context.Events.QueuedApplicationMessageOverwrittenEvent.AddHandler(args => overwrites.Add(args));
         context.Session.Recover();
+        Assert.IsTrue(callbackAcquiredGate);
         Assert.HasCount(1, invalidations);
         var invalidation = invalidations[0];
         Assert.AreSame(context.Session.Items, invalidation.ReceiverSessionItems);
@@ -306,15 +309,18 @@ public sealed class EnqueueCorrelation_Tests : BaseTestClass
             context.Session.EnqueueDataPacket(new MqttPacketBusItem(second));
         }
         var invalidations = new List<SessionApplicationMessagesInvalidatedEventArgs>();
+        var callbackAcquiredGate = false;
         context.Events.SessionApplicationMessagesInvalidatedEvent.AddHandler(args =>
         {
             invalidations.Add(args);
             Task.Run(() => Assert.ThrowsExactly<ObjectDisposedException>(() =>
                     new MqttSessionStatus(context.Session).TryEnqueueApplicationMessage(Message(), out _, false)))
                 .WaitAsync(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
+            callbackAcquiredGate = true;
         });
         context.Session.Dispose();
         context.Session.Dispose();
+        Assert.IsTrue(callbackAcquiredGate);
         Assert.HasCount(1, invalidations);
         var invalidation = invalidations[0];
         Assert.AreSame(context.Session.Items, invalidation.ReceiverSessionItems);
