@@ -80,6 +80,7 @@ public sealed class MqttConnectedClient : IDisposable
     public EndPoint RemoteEndPoint { get; }
 
     public MqttSession Session { get; }
+    public Guid ConnectionAttemptId { get; } = Guid.NewGuid();
 
     public MqttClientStatistics Statistics { get; } = new();
 
@@ -162,6 +163,10 @@ public sealed class MqttConnectedClient : IDisposable
             return null;
         }
         if (isolatePublish && packet is MqttPublishPacket editedPublish) packet = MqttPublishPacketSnapshot.Clone(editedPublish);
+        if (packet is MqttPublishPacket durablePublish)
+            await Session.PrepareDurablePublishAsync(originalPublish ?? durablePublish, durablePublish, _connectionGeneration, cancellationToken).ConfigureAwait(false);
+        if (packet is MqttPubRelPacket durablePubRel)
+            await Session.PrepareDurablePubRelAsync(durablePubRel.PacketIdentifier, _connectionGeneration, cancellationToken).ConfigureAwait(false);
 
         // User callbacks are outside this gate. Takeover cancels and joins actual wire writes before session recovery.
         using (await _wireSendLock.EnterAsync(cancellationToken).ConfigureAwait(false))
@@ -228,6 +233,7 @@ public sealed class MqttConnectedClient : IDisposable
         if (_eventContainer.ClientAcknowledgedPublishPacketEvent.HasHandlers)
         {
             var eventArgs = new ClientAcknowledgedPublishPacketEventArgs(Id, UserName, Session.Items, publishPacket, acknowledgePacket, Session.GetEnqueueState(publishPacket));
+            eventArgs.DurableCommitStatus = Session.GetDurableCompletionStatus(publishPacket);
             return _eventContainer.ClientAcknowledgedPublishPacketEvent.TryInvokeAsync(eventArgs, _logger);
         }
 
@@ -240,24 +246,27 @@ public sealed class MqttConnectedClient : IDisposable
         Session.EnqueueHealthPacket(new MqttPacketBusItem(MqttPingRespPacket.Instance));
     }
 
-    Task HandleIncomingPubAckPacket(MqttPubAckPacket pubAckPacket)
+    async Task HandleIncomingPubAckPacket(MqttPubAckPacket pubAckPacket)
     {
-        var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubAckPacket.PacketIdentifier, MqttQualityOfServiceLevel.AtLeastOnce, _connectionGeneration);
+        var acknowledgedPublishPacket = Session.HasDurablePersistence
+            ? await Session.CompleteDurableAcknowledgementAsync(pubAckPacket.PacketIdentifier, MqttQualityOfServiceLevel.AtLeastOnce, (byte)pubAckPacket.ReasonCode, false, _connectionGeneration, _cancellationToken.Token).ConfigureAwait(false)
+            : Session.AcknowledgePublishPacket(pubAckPacket.PacketIdentifier, MqttQualityOfServiceLevel.AtLeastOnce, _connectionGeneration);
 
         if (acknowledgedPublishPacket != null)
         {
             ReplenishSendQuota();
-            return ClientAcknowledgedPublishPacket(acknowledgedPublishPacket, pubAckPacket);
+            await ClientAcknowledgedPublishPacket(acknowledgedPublishPacket, pubAckPacket).ConfigureAwait(false);
         }
 
-        return CompletedTask.Instance;
     }
 
     async Task HandleIncomingPubCompPacket(MqttPubCompPacket pubCompPacket)
     {
         using (await _qos2AcknowledgementLock.EnterAsync().ConfigureAwait(false))
         {
-            var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubCompPacket.PacketIdentifier, MqttQualityOfServiceLevel.ExactlyOnce, _connectionGeneration);
+            var acknowledgedPublishPacket = Session.HasDurablePersistence
+                ? await Session.CompleteDurableAcknowledgementAsync(pubCompPacket.PacketIdentifier, MqttQualityOfServiceLevel.ExactlyOnce, (byte)pubCompPacket.ReasonCode, false, _connectionGeneration, _cancellationToken.Token).ConfigureAwait(false)
+                : Session.AcknowledgePublishPacket(pubCompPacket.PacketIdentifier, MqttQualityOfServiceLevel.ExactlyOnce, _connectionGeneration);
 
             if (acknowledgedPublishPacket != null)
             {
@@ -312,6 +321,19 @@ public sealed class MqttConnectedClient : IDisposable
 
     async Task HandleIncomingPubRecPacket(MqttPubRecPacket pubRecPacket)
     {
+        if (Session.HasDurablePersistence)
+        {
+            var durablePacket = await Session.CompleteDurableAcknowledgementAsync(pubRecPacket.PacketIdentifier, MqttQualityOfServiceLevel.ExactlyOnce,
+                (byte)pubRecPacket.ReasonCode, true, _connectionGeneration, _cancellationToken.Token).ConfigureAwait(false);
+            if (durablePacket == null) return;
+            if ((byte)pubRecPacket.ReasonCode >= 0x80)
+            {
+                ReplenishSendQuota();
+                await ClientAcknowledgedPublishPacket(durablePacket, pubRecPacket).ConfigureAwait(false);
+            }
+            else Session.EnqueueControlPacket(new MqttPacketBusItem(MqttPubRelPacketFactory.Create(pubRecPacket, MqttApplicationMessageReceivedReasonCode.Success)));
+            return;
+        }
         using (await _qos2AcknowledgementLock.EnterAsync().ConfigureAwait(false))
         {
             var sendPubRel = Session.ProcessPubRec(pubRecPacket.PacketIdentifier, (int)pubRecPacket.ReasonCode >= 0x80,
@@ -333,9 +355,10 @@ public sealed class MqttConnectedClient : IDisposable
         Session.EnqueueControlPacket(new MqttPacketBusItem(pubCompPacket));
     }
 
-    async Task HandleIncomingSubscribePacket(MqttSubscribePacket subscribePacket, CancellationToken cancellationToken)
+    async Task HandleIncomingSubscribePacket(MqttSubscribePacket subscribePacket, MqttSubscriptionRequestSnapshot request, CancellationToken cancellationToken)
     {
-        var subscribeResult = await Session.Subscribe(subscribePacket, cancellationToken).ConfigureAwait(false);
+        var subscribeResult = await Session.SubscribeForConnectionAsync(subscribePacket, _connectionGeneration, request, cancellationToken).ConfigureAwait(false);
+        if (!Session.IsCurrentConnection(_connectionGeneration)) return;
 
         var subAckPacket = MqttSubAckPacketFactory.Create(subscribePacket, subscribeResult);
 
@@ -359,9 +382,10 @@ public sealed class MqttConnectedClient : IDisposable
         }
     }
 
-    async Task HandleIncomingUnsubscribePacket(MqttUnsubscribePacket unsubscribePacket, CancellationToken cancellationToken)
+    async Task HandleIncomingUnsubscribePacket(MqttUnsubscribePacket unsubscribePacket, MqttSubscriptionRequestSnapshot request, CancellationToken cancellationToken)
     {
-        var unsubscribeResult = await Session.Unsubscribe(unsubscribePacket, cancellationToken).ConfigureAwait(false);
+        var unsubscribeResult = await Session.UnsubscribeForConnectionAsync(unsubscribePacket, _connectionGeneration, request, cancellationToken).ConfigureAwait(false);
+        if (!Session.IsCurrentConnection(_connectionGeneration)) return;
 
         var unsubAckPacket = MqttUnsubAckPacketFactory.Create(unsubscribePacket, unsubscribeResult);
 
@@ -408,6 +432,7 @@ public sealed class MqttConnectedClient : IDisposable
         }
 
         var interceptingPacketEventArgs = new InterceptingPacketEventArgs(Id, UserName, RemoteEndPoint, packet, Session.Items, cancellationToken);
+        interceptingPacketEventArgs.ConnectionAttemptId = ConnectionAttemptId;
         await _eventContainer.InterceptingOutboundPacketEvent.InvokeAsync(interceptingPacketEventArgs).ConfigureAwait(false);
 
         if (!interceptingPacketEventArgs.ProcessPacket || packet == null)
@@ -450,11 +475,15 @@ public sealed class MqttConnectedClient : IDisposable
                 }
 
                 var processPacket = true;
+                var subscriptionRequest = currentPacket is MqttSubscribePacket or MqttUnsubscribePacket ? new MqttSubscriptionRequestSnapshot(ConnectionAttemptId, currentPacket) : null;
 
                 if (_eventContainer.InterceptingInboundPacketEvent.HasHandlers)
                 {
                     var interceptingPacketEventArgs = new InterceptingPacketEventArgs(Id, UserName, RemoteEndPoint, currentPacket, Session.Items, cancellationToken);
+                    interceptingPacketEventArgs.ConnectionAttemptId = ConnectionAttemptId;
+                    interceptingPacketEventArgs.RequestId = subscriptionRequest?.RequestId ?? Guid.Empty;
                     await _eventContainer.InterceptingInboundPacketEvent.InvokeAsync(interceptingPacketEventArgs).ConfigureAwait(false);
+                    if (subscriptionRequest != null) subscriptionRequest.RequestState = interceptingPacketEventArgs.RequestState;
                     currentPacket = interceptingPacketEventArgs.Packet;
                     processPacket = interceptingPacketEventArgs.ProcessPacket;
                 }
@@ -489,11 +518,11 @@ public sealed class MqttConnectedClient : IDisposable
                 }
                 else if (currentPacket is MqttSubscribePacket subscribePacket)
                 {
-                    await HandleIncomingSubscribePacket(subscribePacket, cancellationToken).ConfigureAwait(false);
+                    await HandleIncomingSubscribePacket(subscribePacket, subscriptionRequest, cancellationToken).ConfigureAwait(false);
                 }
                 else if (currentPacket is MqttUnsubscribePacket unsubscribePacket)
                 {
-                    await HandleIncomingUnsubscribePacket(unsubscribePacket, cancellationToken).ConfigureAwait(false);
+                    await HandleIncomingUnsubscribePacket(unsubscribePacket, subscriptionRequest, cancellationToken).ConfigureAwait(false);
                 }
                 else if (currentPacket is MqttPingReqPacket)
                 {

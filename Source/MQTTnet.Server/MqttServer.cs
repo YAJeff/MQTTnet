@@ -298,6 +298,10 @@ public class MqttServer : Disposable
     public async Task StartAsync()
     {
         ThrowIfStarted();
+        if (_options.SessionPersistence != null && _eventContainer.PreparingSessionRecoveryHandler == null)
+            throw new InvalidOperationException("Durable persistence requires an exclusive ordered session recovery owner.");
+        if (_options.SessionPersistence != null && _options.MaxDurableSessionSnapshotBytes <= 0)
+            throw new ArgumentOutOfRangeException(nameof(_options.MaxDurableSessionSnapshotBytes));
 
         _isStopping = false;
 

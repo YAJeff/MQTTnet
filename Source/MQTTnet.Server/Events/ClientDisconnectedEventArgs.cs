@@ -12,6 +12,7 @@ namespace MQTTnet.Server;
 
 public sealed class ClientDisconnectedEventArgs : EventArgs
 {
+    public Guid ConnectionAttemptId { get; internal set; }
     readonly MqttConnectPacket _connectPacket;
     readonly MqttDisconnectPacket _disconnectPacket;
 

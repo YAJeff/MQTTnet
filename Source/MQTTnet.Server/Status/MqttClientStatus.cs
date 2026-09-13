@@ -33,6 +33,7 @@ public sealed class MqttClientStatus
     ///     Hint: This identifier needs to be unique over all used clients / devices on the broker to avoid connection issues.
     /// </summary>
     public string Id => _client.Id;
+    public Guid ConnectionAttemptId => _client.ConnectionAttemptId;
 
     public DateTime LastNonKeepAlivePacketReceivedTimestamp => _client.Statistics.LastNonKeepAlivePacketReceivedTimestamp;
 

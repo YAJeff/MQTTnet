@@ -12,7 +12,7 @@ public sealed class MqttClientSubscriptionsManager : IDisposable
     static readonly List<uint> EmptySubscriptionIdentifiers = new List<uint>();
 
     readonly MqttServerEventContainer _eventContainer;
-    readonly Dictionary<ulong, HashSet<MqttSubscription>> _noWildcardSubscriptionsByTopicHash = new Dictionary<ulong, HashSet<MqttSubscription>>();
+    Dictionary<ulong, HashSet<MqttSubscription>> _noWildcardSubscriptionsByTopicHash = new Dictionary<ulong, HashSet<MqttSubscription>>();
     readonly MqttRetainedMessagesManager _retainedMessagesManager;
 
     readonly MqttSession _session;
@@ -22,11 +22,36 @@ public sealed class MqttClientSubscriptionsManager : IDisposable
 
     // Subscriptions are stored in various dictionaries and use a "topic hash"; see the MqttSubscription object for a detailed explanation.
     // The additional lock is important to coordinate complex update logic with multiple steps, checks and interceptors.
-    readonly Dictionary<string, MqttSubscription> _subscriptions = new Dictionary<string, MqttSubscription>();
+    Dictionary<string, MqttSubscription> _subscriptions = new Dictionary<string, MqttSubscription>();
 
     // Use subscription lock to maintain consistency across subscriptions and topic hash dictionaries
     readonly ReaderWriterLockSlim _subscriptionsLock = new ReaderWriterLockSlim();
-    readonly Dictionary<ulong, TopicHashMaskSubscriptions> _wildcardSubscriptionsByTopicHash = new Dictionary<ulong, TopicHashMaskSubscriptions>();
+    Dictionary<ulong, TopicHashMaskSubscriptions> _wildcardSubscriptionsByTopicHash = new Dictionary<ulong, TopicHashMaskSubscriptions>();
+
+    internal void RestoreSubscriptions(IReadOnlyList<MqttPersistedSubscription> records)
+    {
+        var subscriptions = new Dictionary<string, MqttSubscription>(StringComparer.Ordinal);
+        var exact = new Dictionary<ulong, HashSet<MqttSubscription>>();
+        var wildcard = new Dictionary<ulong, TopicHashMaskSubscriptions>();
+        foreach (var record in records)
+        {
+            var subscription = new MqttSubscription(record.Topic, record.NoLocal, record.RetainHandling, record.RetainAsPublished, record.QualityOfServiceLevel, record.SubscriptionIdentifier);
+            subscriptions.Add(record.Topic, subscription);
+            if (subscription.TopicHasWildcard)
+            {
+                if (!wildcard.TryGetValue(subscription.TopicHash, out var group)) wildcard.Add(subscription.TopicHash, group = new TopicHashMaskSubscriptions());
+                group.AddSubscription(subscription);
+            }
+            else
+            {
+                if (!exact.TryGetValue(subscription.TopicHash, out var group)) exact.Add(subscription.TopicHash, group = new HashSet<MqttSubscription>());
+                group.Add(subscription);
+            }
+        }
+        _subscriptionsLock.EnterWriteLock();
+        try { _subscriptions = subscriptions; _noWildcardSubscriptionsByTopicHash = exact; _wildcardSubscriptionsByTopicHash = wildcard; }
+        finally { _subscriptionsLock.ExitWriteLock(); }
+    }
 
     public MqttClientSubscriptionsManager(
         MqttSession session,
@@ -159,7 +184,10 @@ public sealed class MqttClientSubscriptionsManager : IDisposable
         _subscriptionsLock?.Dispose();
     }
 
-    public async Task<SubscribeResult> Subscribe(MqttSubscribePacket subscribePacket, CancellationToken cancellationToken)
+    public Task<SubscribeResult> Subscribe(MqttSubscribePacket subscribePacket, CancellationToken cancellationToken)
+        => Subscribe(subscribePacket, null, cancellationToken);
+
+    internal async Task<SubscribeResult> Subscribe(MqttSubscribePacket subscribePacket, MqttSubscriptionRequestSnapshot request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(subscribePacket);
 
@@ -173,7 +201,7 @@ public sealed class MqttClientSubscriptionsManager : IDisposable
         // lower one.
         foreach (var topicFilterItem in subscribePacket.TopicFilters.OrderByDescending(f => f.QualityOfServiceLevel))
         {
-            var interceptorEventArgs = await InterceptSubscribe(topicFilterItem, subscribePacket.UserProperties, cancellationToken).ConfigureAwait(false);
+            var interceptorEventArgs = await InterceptSubscribe(topicFilterItem, subscribePacket.UserProperties, request, subscribePacket.TopicFilters.IndexOf(topicFilterItem), cancellationToken).ConfigureAwait(false);
             var topicFilter = interceptorEventArgs.TopicFilter;
             var processSubscription = interceptorEventArgs.ProcessSubscription && interceptorEventArgs.Response.ReasonCode <= MqttSubscribeReasonCode.GrantedQoS2;
 
@@ -217,7 +245,10 @@ public sealed class MqttClientSubscriptionsManager : IDisposable
         return result;
     }
 
-    public async Task<UnsubscribeResult> Unsubscribe(MqttUnsubscribePacket unsubscribePacket, CancellationToken cancellationToken)
+    public Task<UnsubscribeResult> Unsubscribe(MqttUnsubscribePacket unsubscribePacket, CancellationToken cancellationToken)
+        => Unsubscribe(unsubscribePacket, null, cancellationToken);
+
+    internal async Task<UnsubscribeResult> Unsubscribe(MqttUnsubscribePacket unsubscribePacket, MqttSubscriptionRequestSnapshot request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(unsubscribePacket);
 
@@ -228,11 +259,12 @@ public sealed class MqttClientSubscriptionsManager : IDisposable
         _subscriptionsLock.EnterWriteLock();
         try
         {
+            var inputIndex = 0;
             foreach (var topicFilter in unsubscribePacket.TopicFilters)
             {
                 _subscriptions.TryGetValue(topicFilter, out var existingSubscription);
 
-                var interceptorEventArgs = await InterceptUnsubscribe(topicFilter, existingSubscription, unsubscribePacket.UserProperties, cancellationToken).ConfigureAwait(false);
+                var interceptorEventArgs = await InterceptUnsubscribe(topicFilter, existingSubscription, unsubscribePacket.UserProperties, request, inputIndex++, cancellationToken).ConfigureAwait(false);
                 var acceptUnsubscription = interceptorEventArgs.Response.ReasonCode == MqttUnsubscribeReasonCode.Success;
 
                 result.UserProperties = interceptorEventArgs.UserProperties;
@@ -458,9 +490,13 @@ public sealed class MqttClientSubscriptionsManager : IDisposable
     async Task<InterceptingSubscriptionEventArgs> InterceptSubscribe(
         MqttTopicFilter topicFilter,
         List<MqttUserProperty> userProperties,
+        MqttSubscriptionRequestSnapshot request,
+        int inputIndex,
         CancellationToken cancellationToken)
     {
         var eventArgs = new InterceptingSubscriptionEventArgs(_session.Id, _session.UserName, new MqttSessionStatus(_session), topicFilter, userProperties, cancellationToken);
+        eventArgs.Request = request;
+        eventArgs.RequestFilterIndex = inputIndex;
 
         if (topicFilter.QualityOfServiceLevel == MqttQualityOfServiceLevel.AtMostOnce)
         {
@@ -491,6 +527,8 @@ public sealed class MqttClientSubscriptionsManager : IDisposable
         string topicFilter,
         MqttSubscription mqttSubscription,
         List<MqttUserProperty> userProperties,
+        MqttSubscriptionRequestSnapshot request,
+        int inputIndex,
         CancellationToken cancellationToken)
     {
         var clientUnsubscribingTopicEventArgs = new InterceptingUnsubscriptionEventArgs(_session.Id, _session.UserName, _session.Items, topicFilter, userProperties, cancellationToken)
@@ -500,6 +538,8 @@ public sealed class MqttClientSubscriptionsManager : IDisposable
                 ReasonCode = mqttSubscription == null ? MqttUnsubscribeReasonCode.NoSubscriptionExisted : MqttUnsubscribeReasonCode.Success
             }
         };
+        clientUnsubscribingTopicEventArgs.Request = request;
+        clientUnsubscribingTopicEventArgs.RequestFilterIndex = inputIndex;
 
         await _eventContainer.InterceptingUnsubscriptionEvent.InvokeAsync(clientUnsubscribingTopicEventArgs).ConfigureAwait(false);
 

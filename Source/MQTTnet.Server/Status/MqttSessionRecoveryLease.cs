@@ -18,6 +18,7 @@ public sealed class MqttSessionRecoveryLease : IDisposable
     readonly object _cancellationGate = new();
     bool _cancellationDisposed;
     internal readonly List<MqttSessionApplicationMessage> StagedMessages = new();
+    internal readonly Dictionary<MqttPublishPacket, string> DurableHandles = new();
     internal readonly IReadOnlyList<MqttPublishPacket> OriginalNeverSent;
     internal bool Committed;
     internal bool Finished;
@@ -44,6 +45,7 @@ public sealed class MqttSessionRecoveryLease : IDisposable
     public IReadOnlyList<MqttOutgoingTransactionSnapshot> StartedTransactions { get; }
     public CancellationToken CancellationToken => _token;
     public bool IsCommitted => Committed;
+    public bool UsesDurablePersistence => _session.HasDurablePersistence;
 
     /// <summary>Copies and stages one first-transmission message without assigning an identifier or exposing data to the wire.</summary>
     public bool TryStageApplicationMessage(MqttApplicationMessage message, object enqueueState) => _session.TryStageRecovery(this, message, enqueueState);

@@ -66,10 +66,15 @@ public sealed partial class MqttSession
     internal bool TryStageRecovery(MqttSessionRecoveryLease lease, MqttApplicationMessage message, object enqueueState)
     {
         ArgumentNullException.ThrowIfNull(message);
+        var durableHandle = HasDurablePersistence && message.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce
+            ? (enqueueState as IMqttDurableDeliveryContext)?.DeliveryHandle : null;
         lock (_dataEnqueueLock)
         lock (_unacknowledgedPublishPackets)
         {
             ValidateRecovery(lease);
+            if (HasDurablePersistence && message.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce &&
+                (string.IsNullOrEmpty(durableHandle) || lease.DurableHandles.ContainsValue(durableHandle) ||
+                    (_durableHandlePackets.TryGetValue(durableHandle, out var existing) && _outgoingPublishStates[existing] != OutgoingPublishState.Queued))) return false;
             if (lease.StagedMessages.Count >= _serverOptions.MaxPendingMessagesPerClient) return false;
             if (message.QualityOfServiceLevel < MqttQualityOfServiceLevel.AtMostOnce || message.QualityOfServiceLevel > MqttQualityOfServiceLevel.ExactlyOnce)
                 throw new ArgumentOutOfRangeException(nameof(message));
@@ -84,6 +89,7 @@ public sealed partial class MqttSession
             packet.Dup = false;
             packet.TopicAlias = 0;
             lease.StagedMessages.Add(new MqttSessionApplicationMessage(packet, enqueueState));
+            if (durableHandle != null) lease.DurableHandles.Add(packet, durableHandle);
             return true;
         }
     }
@@ -118,10 +124,13 @@ public sealed partial class MqttSession
             var accepted = lease.StagedMessages.Select(item => new MqttSessionApplicationMessage(MqttPublishPacketSnapshot.Clone(item.PublishPacket), item.EnqueueState)).ToList().AsReadOnly();
             var oldItems = _packetBus.ExportItems(MqttPacketBusPartition.Data);
             var reclaimed = lease.OriginalNeverSent.ToHashSet();
-            lease.ReclaimedItems = oldItems.Where(item => item.Packet is MqttPublishPacket publish && reclaimed.Contains(publish)).ToArray();
+            lease.ReclaimedItems = oldItems.Where(item => item.Packet is MqttPublishPacket publish && reclaimed.Contains(publish))
+                .Concat(lease.OriginalNeverSent.Select(packet => _admissionBusItems.TryGetValue(packet, out var item) ? item : null).Where(item => item != null)).Distinct().ToArray();
             _unacknowledgedPublishPackets.EnsureCapacity(survivors.Length + lease.StagedMessages.Count);
             _outgoingPublishStates.EnsureCapacity(survivors.Length + lease.StagedMessages.Count);
             _reservedPacketIdentifiers.EnsureCapacity(reserved.Count);
+            _durableAdmissionHandles.EnsureCapacity(survivors.Length + lease.StagedMessages.Count);
+            _durableHandlePackets.EnsureCapacity(survivors.Length + lease.StagedMessages.Count);
 
             var replacementItems = new List<(MqttPacketBusItem Item, MqttPacketBusPartition Partition)>();
             foreach (var packet in survivors.OrderBy(packet => _sendSequences.GetValueOrDefault(packet)))
@@ -133,7 +142,12 @@ public sealed partial class MqttSession
                     replacementItems.Add((new MqttPacketBusItem(packet), MqttPacketBusPartition.Retransmission));
                 }
             }
-            foreach (var item in lease.StagedMessages) replacementItems.Add((new MqttPacketBusItem(item.PublishPacket), MqttPacketBusPartition.Data));
+            foreach (var item in lease.StagedMessages)
+            {
+                var busItem = new MqttPacketBusItem(item.PublishPacket);
+                _admissionBusItems.GetValue(item.PublishPacket, _ => busItem);
+                replacementItems.Add((busItem, MqttPacketBusPartition.Data));
+            }
             // Allocate every queue node before replacing any visible queue or tracking entry.
             _packetBus.ReplaceItems(replacementItems);
             foreach (var packet in survivors) if (states[packet] < OutgoingPublishState.PubRelPending) packet.Dup = true;
@@ -147,6 +161,11 @@ public sealed partial class MqttSession
                     _reservedPacketIdentifiers.Add(packet.PacketIdentifier);
                 }
                 _outgoingPublishStates.Add(packet, OutgoingPublishState.Queued);
+                if (lease.DurableHandles.TryGetValue(packet, out var handle))
+                {
+                    _durableAdmissionHandles.Add(packet, handle);
+                    _durableHandlePackets.Add(handle, packet);
+                }
             }
             lease.Committed = true;
             return accepted;

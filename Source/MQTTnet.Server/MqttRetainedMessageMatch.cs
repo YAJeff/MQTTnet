@@ -17,4 +17,5 @@ public sealed class MqttRetainedMessageMatch
     public MqttApplicationMessage ApplicationMessage { get; }
 
     public MqttQualityOfServiceLevel SubscriptionQualityOfServiceLevel { get; set; }
+    public List<uint> SubscriptionIdentifiers { get; set; }
 }

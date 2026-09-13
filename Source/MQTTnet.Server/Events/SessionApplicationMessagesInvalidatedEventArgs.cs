@@ -11,7 +11,9 @@ public enum MqttSessionApplicationMessagesInvalidationReason
 {
     RecoveryOverflow,
     SessionDisposed,
-    ApplicationMessageReclaimed
+    ApplicationMessageReclaimed,
+    DurableTransactionRetired,
+    DurableGenerationReplaced
 }
 
 public sealed class SessionApplicationMessagesInvalidatedEventArgs : EventArgs

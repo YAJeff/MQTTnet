@@ -42,7 +42,7 @@ public sealed class MqttSessionsStorage
         }
 
         // If the Session Expiry Interval is 0xFFFFFFFF (UINT_MAX), the Session does not expire.
-        if (session.ExpiryInterval > 0 && session.ExpiryInterval != uint.MaxValue)
+        if (!session.HasDurablePersistence && session.ExpiryInterval > 0 && session.ExpiryInterval != uint.MaxValue)
         {
             if (session.DisconnectedTimestamp.HasValue)
             {

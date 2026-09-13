@@ -42,7 +42,8 @@ public sealed class ClientAcknowledgedPublishPacketEventArgs : EventArgs
     /// <summary>
     ///     Gets whether the PUBLISH packet is fully acknowledged. This is the case for PUBACK (QoS 1) and PUBCOMP (QoS 2.
     /// </summary>
-    public bool IsCompleted => AcknowledgePacket is MqttPubAckPacket || AcknowledgePacket is MqttPubCompPacket;
+    public bool IsCompleted => AcknowledgePacket is MqttPubAckPacket || AcknowledgePacket is MqttPubCompPacket ||
+        (AcknowledgePacket is MqttPubRecPacket pubRec && (byte)pubRec.ReasonCode >= 0x80);
 
     /// <summary>
     ///     Gets the PUBLISH packet which was acknowledged.
@@ -56,4 +57,7 @@ public sealed class ClientAcknowledgedPublishPacketEventArgs : EventArgs
 
     /// <summary>Gets the opaque context of the original publish admission, including after recovery.</summary>
     public object EnqueueState { get; }
+
+    /// <summary>AlreadyRetired proves retirement of this exact durable delivery, but does not prove its historical terminal reason or transition.</summary>
+    public MqttPersistenceCommitStatus? DurableCommitStatus { get; internal set; }
 }

@@ -153,6 +153,7 @@ public sealed class OrderedSessionRecovery_Tests
         accepted[0].PublishPacket.Topic = "mutated-result";
         Assert.IsFalse(new MqttSessionStatus(context.Session).TryEnqueueApplicationMessage(Message("bypass", qos), out _, false));
         await context.Finish(lease, true);
+        Assert.IsTrue(originalItem.WaitAsync().IsCanceled);
         Assert.HasCount(1, outcomes);
         Assert.AreEqual(MqttSessionApplicationMessagesInvalidationReason.ApplicationMessageReclaimed, outcomes[0].Reason);
         Assert.AreSame(originalItem.Packet, outcomes[0].Messages[0].PublishPacket);

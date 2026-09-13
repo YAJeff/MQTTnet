@@ -73,6 +73,7 @@ public static class MqttPublishPacketFactory
 
         var publishPacket = Create(retainedMessage.ApplicationMessage);
         publishPacket.QualityOfServiceLevel = retainedMessage.SubscriptionQualityOfServiceLevel;
+        if (retainedMessage.SubscriptionIdentifiers != null) publishPacket.SubscriptionIdentifiers = retainedMessage.SubscriptionIdentifiers.ToList();
         return publishPacket;
     }
 }

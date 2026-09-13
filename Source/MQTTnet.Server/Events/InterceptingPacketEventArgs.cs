@@ -10,6 +10,10 @@ namespace MQTTnet.Server;
 
 public sealed class InterceptingPacketEventArgs : EventArgs
 {
+    public Guid ConnectionAttemptId { get; internal set; }
+    public Guid RequestId { get; internal set; }
+    /// <summary>Opaque context carried from this exact inbound subscription request to durable subscription persistence.</summary>
+    public object RequestState { get; set; }
     public InterceptingPacketEventArgs(string clientId, string userName, EndPoint remoteEndPoint, MqttPacket packet, IDictionary sessionItems, CancellationToken cancellationToken)
     {
         CancellationToken = cancellationToken;

@@ -9,6 +9,8 @@ namespace MQTTnet.Server;
 
 public sealed class InterceptingSubscriptionEventArgs : EventArgs
 {
+    public MqttSubscriptionRequestSnapshot Request { get; internal set; }
+    public int RequestFilterIndex { get; internal set; } = -1;
     public InterceptingSubscriptionEventArgs(
         string clientId,
         string userName,

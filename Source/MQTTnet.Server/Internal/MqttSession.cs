@@ -20,8 +20,10 @@ public sealed partial class MqttSession : IDisposable
     readonly MqttPacketBus _packetBus = new();
     readonly MqttPacketIdentifierProvider _packetIdentifierProvider = new();
     readonly ConditionalWeakTable<MqttPublishPacket, AdmissionContext> _admissionContexts = new();
+    readonly ConditionalWeakTable<MqttPublishPacket, MqttPacketBusItem> _admissionBusItems = new();
     readonly MqttServerOptions _serverOptions;
     readonly MqttClientSubscriptionsManager _subscriptionsManager;
+    readonly MqttRetainedMessagesManager _retainedMessagesManagerForPersistence;
 
     // Do not use a dictionary in order to keep the ordering of the messages.
     readonly List<MqttPublishPacket> _unacknowledgedPublishPackets = new();
@@ -50,6 +52,7 @@ public sealed partial class MqttSession : IDisposable
         _eventContainer = eventContainer ?? throw new ArgumentNullException(nameof(eventContainer));
 
         _subscriptionsManager = new MqttClientSubscriptionsManager(this, eventContainer, retainedMessagesManager, clientSessionsManager);
+        _retainedMessagesManagerForPersistence = retainedMessagesManager;
     }
 
     public DateTime CreatedTimestamp { get; } = DateTime.UtcNow;
@@ -81,7 +84,7 @@ public sealed partial class MqttSession : IDisposable
         lock (_dataEnqueueLock)
         lock (_unacknowledgedPublishPackets)
         {
-            if (IsDataRecoveryPaused) throw new InvalidOperationException("Acknowledgement is unavailable during ordered recovery.");
+            if (IsDataRecoveryPaused || HasDurablePersistence) throw new InvalidOperationException("Synchronous acknowledgement is unavailable during ordered recovery or durable persistence.");
             var publishPacket = _unacknowledgedPublishPackets.FirstOrDefault(p => p.PacketIdentifier.Equals(packetIdentifier));
             RemoveTrackedPublish(publishPacket);
             return publishPacket;
@@ -95,7 +98,7 @@ public sealed partial class MqttSession : IDisposable
         lock (_dataEnqueueLock)
         lock (_unacknowledgedPublishPackets)
         {
-            if (IsDataRecoveryPaused) throw new InvalidOperationException("Acknowledgement is unavailable during ordered recovery.");
+            if (IsDataRecoveryPaused || HasDurablePersistence) throw new InvalidOperationException("Synchronous acknowledgement is unavailable during ordered recovery or durable persistence.");
             publishPacket = _unacknowledgedPublishPackets.FirstOrDefault(
                 p => p.PacketIdentifier.Equals(packetIdentifier) && p.QualityOfServiceLevel == qualityOfServiceLevel);
             RemoveTrackedPublish(publishPacket);
@@ -114,6 +117,7 @@ public sealed partial class MqttSession : IDisposable
             previous = _recoveryLease;
             _recoveryLease = null;
             _recoveryPending = _eventContainer.PreparingSessionRecoveryHandler != null ? 1 : 0;
+            _durableOptOut = false;
             generation = Interlocked.Increment(ref _connectionGeneration);
         }
         previous?.Cancel();
@@ -204,10 +208,11 @@ public sealed partial class MqttSession : IDisposable
         _unacknowledgedPublishPackets.Remove(packet);
         _outgoingPublishStates.Remove(packet);
         _sendSequences.Remove(packet);
+        if (_durableAdmissionHandles.Remove(packet, out var handle)) _durableHandlePackets.Remove(handle);
         _reservedPacketIdentifiers.Remove(packet.PacketIdentifier);
     }
 
-    enum OutgoingPublishState { Queued, PublishSent, PubRelPending, PubRelSent }
+    enum OutgoingPublishState { Queued, PreparingPublish, PublishSent, PubRelPending, PubRelSent }
 
     public void AddSubscribedTopic(string topic)
     {
@@ -327,6 +332,16 @@ public sealed partial class MqttSession : IDisposable
     {
         ArgumentNullException.ThrowIfNull(packetBusItem);
         var publishPacket = (MqttPublishPacket)packetBusItem.Packet;
+        string durableHandle = null;
+        if (HasDurablePersistence && publishPacket.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce)
+        {
+            if (enqueueState is not IMqttDurableDeliveryContext context || string.IsNullOrEmpty(durableHandle = context.DeliveryHandle))
+            {
+                packetIdentifier = 0;
+                if (allowEviction) packetBusItem.Fail(new InvalidOperationException("Durable admission requires a stable delivery context."));
+                return EnqueueDataPacketResult.Dropped;
+            }
+        }
         MqttPacketBusItem overwritten;
         EnqueueDataPacketResult result;
         lock (_dataEnqueueLock)
@@ -338,7 +353,21 @@ public sealed partial class MqttSession : IDisposable
                 if (allowEviction) packetBusItem.Fail(new InvalidOperationException("Session admission is paused for ordered recovery."));
                 return EnqueueDataPacketResult.Dropped;
             }
-            result = EnqueueDataPacketCore(packetBusItem, publishPacket, allowEviction, out overwritten, enqueueState);
+            lock (_unacknowledgedPublishPackets)
+            {
+                if (durableHandle != null && (_durableBlocked || _durableHandlePackets.ContainsKey(durableHandle)))
+                {
+                    packetIdentifier = 0;
+                    if (allowEviction) packetBusItem.Fail(new InvalidOperationException("Durable admission is blocked or this delivery is already pending."));
+                    return EnqueueDataPacketResult.Dropped;
+                }
+                result = EnqueueDataPacketCore(packetBusItem, publishPacket, allowEviction, out overwritten, enqueueState);
+                if (result == EnqueueDataPacketResult.Enqueued && durableHandle != null)
+                {
+                    _durableAdmissionHandles.Add(publishPacket, durableHandle);
+                    _durableHandlePackets.Add(durableHandle, publishPacket);
+                }
+            }
             packetIdentifier = result == EnqueueDataPacketResult.Enqueued ? publishPacket.PacketIdentifier : (ushort)0;
         }
 
@@ -426,6 +455,7 @@ public sealed partial class MqttSession : IDisposable
             // Attach before the packet becomes visible to the sender. Recovery reuses the packet and its original context.
             _admissionContexts.GetValue(publishPacket, _ => new AdmissionContext(enqueueState, ++_nextAdmissionSequence));
         }
+        _admissionBusItems.GetValue(publishPacket, _ => packetBusItem);
         _packetBus.EnqueueItem(packetBusItem, MqttPacketBusPartition.Data);
         return EnqueueDataPacketResult.Enqueued;
     }
@@ -480,7 +510,7 @@ public sealed partial class MqttSession : IDisposable
         lock (_dataEnqueueLock)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
-            if (IsDataRecoveryPaused) throw new InvalidOperationException("Legacy recovery is unavailable during ordered recovery.");
+            if (IsDataRecoveryPaused || HasDurablePersistence) throw new InvalidOperationException("Legacy recovery is unavailable during ordered recovery or durable persistence.");
             lock (_unacknowledgedPublishPackets)
             {
                 var packets = _unacknowledgedPublishPackets.ToList();
@@ -553,6 +583,7 @@ public sealed partial class MqttSession : IDisposable
 
     public Task<SubscribeResult> Subscribe(MqttSubscribePacket subscribePacket, CancellationToken cancellationToken)
     {
+        if (HasDurablePersistence) throw new InvalidOperationException("Durable subscriptions must be changed through the authoritative store and restored by the recovery owner.");
         return _subscriptionsManager.Subscribe(subscribePacket, cancellationToken);
     }
 
@@ -573,6 +604,7 @@ public sealed partial class MqttSession : IDisposable
 
     public Task<UnsubscribeResult> Unsubscribe(MqttUnsubscribePacket unsubscribePacket, CancellationToken cancellationToken)
     {
+        if (HasDurablePersistence) throw new InvalidOperationException("Durable subscriptions must be changed through the authoritative store and restored by the recovery owner.");
         return _subscriptionsManager.Unsubscribe(unsubscribePacket, cancellationToken);
     }
 }

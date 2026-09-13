@@ -12,6 +12,7 @@ namespace MQTTnet.Server;
 
 public sealed class ClientConnectedEventArgs : EventArgs
 {
+    public Guid ConnectionAttemptId { get; internal set; }
     readonly MqttConnectPacket _connectPacket;
 
     public ClientConnectedEventArgs(MqttConnectPacket connectPacket, MqttProtocolVersion protocolVersion, EndPoint remoteEndPoint, IDictionary sessionItems)

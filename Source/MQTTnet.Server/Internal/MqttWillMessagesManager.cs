@@ -84,7 +84,7 @@ internal sealed class MqttWillMessagesManager : IAsyncDisposable
     {
         lock (_syncRoot)
         {
-            if (!_pending.TryGetValue(client.Session, out var pending) || pending.Owner != client)
+            if (!client.Session.IsCurrentConnection(client.ConnectionGeneration) || !_pending.TryGetValue(client.Session, out var pending) || pending.Owner != client)
             {
                 return;
             }

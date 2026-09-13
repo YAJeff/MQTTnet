@@ -6,6 +6,9 @@ namespace MQTTnet.Server;
 
 public sealed class MqttServerOptions
 {
+    public IMqttServerSessionPersistence SessionPersistence { get; set; }
+    public long MaxDurableSessionSnapshotBytes { get; set; } = 64 * 1024 * 1024;
+
     public TimeSpan DefaultCommunicationTimeout { get; set; } = TimeSpan.FromSeconds(100);
 
     public MqttServerTcpEndpointOptions DefaultEndpointOptions { get; } = new();

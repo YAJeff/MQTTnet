@@ -71,6 +71,11 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
 
     public async Task DeleteSessionAsync(string clientId)
     {
+        if (_options.SessionPersistence != null)
+        {
+            await DeleteDurableSessionCoreAsync(clientId).ConfigureAwait(false);
+            return;
+        }
         _logger.Verbose("Deleting session for client '{0}'.", clientId);
 
         MqttConnectedClient connection;
@@ -121,6 +126,36 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         session?.Dispose();
 
         _logger.Verbose("Session of client '{0}' deleted", clientId);
+    }
+
+    async Task DeleteDurableSessionCoreAsync(string clientId, MqttSession capturedSession = null, long? expectedGeneration = null)
+    {
+        MqttSession session = capturedSession;
+        _sessionsManagementLock.EnterReadLock();
+        try { if (session == null && !_sessionsStorage.TryGetSession(clientId, out session)) return; }
+        finally { _sessionsManagementLock.ExitReadLock(); }
+        var persist = session.HasDurablePersistence;
+        var generation = session.BeginDurableDeletion(expectedGeneration);
+        if (generation < 0) return;
+        MqttConnectedClient connection;
+        lock (_clients) { _clients.TryGetValue(clientId, out connection); }
+        using var timeout = new CancellationTokenSource(_options.DefaultCommunicationTimeout);
+        if (connection != null && ReferenceEquals(connection.Session, session))
+            await connection.QuiesceForRecoveryAsync(timeout.Token).ConfigureAwait(false);
+        if (persist) await session.DeleteDurableSessionAsync(timeout.Token).ConfigureAwait(false);
+        _sessionsManagementLock.EnterWriteLock();
+        try
+        {
+            if (!session.IsCurrentConnection(generation) || !_sessionsStorage.TryGetSession(clientId, out var current) || !ReferenceEquals(current, session)) return;
+            _sessionsStorage.TryRemoveSession(clientId, out _);
+            _subscriberSessions.Remove(session);
+        }
+        finally { _sessionsManagementLock.ExitWriteLock(); }
+        lock (_clients)
+            if (_clients.TryGetValue(clientId, out var registered) && ReferenceEquals(registered, connection)) _clients.Remove(clientId);
+        if (_eventContainer.SessionDeletedEvent.HasHandlers)
+            await _eventContainer.SessionDeletedEvent.TryInvokeAsync(new SessionDeletedEventArgs(clientId, session.UserName, session.Items), _logger).ConfigureAwait(false);
+        session.Dispose();
     }
 
     public async Task<DispatchApplicationMessageResult> DispatchApplicationMessage(
@@ -367,7 +402,7 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
 
             // The exclusive application owner must never run under either global connection/session gate.
             if (_eventContainer.PreparingSessionRecoveryHandler != null)
-                await PrepareSessionRecoveryAsync(connectedClient, connAckPacket.IsSessionPresent, validatingConnectionEventArgs, cancellationToken).ConfigureAwait(false);
+                await PrepareSessionRecoveryAsync(connectedClient, connAckPacket, validatingConnectionEventArgs, cancellationToken).ConfigureAwait(false);
 
             await connectedClient.SendPacketAsync(connAckPacket, cancellationToken).ConfigureAwait(false);
 
@@ -377,7 +412,7 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                     connectPacket,
                     channelAdapter.PacketFormatterAdapter.ProtocolVersion,
                     channelAdapter.RemoteEndPoint,
-                    connectedClient.Session.Items);
+                    connectedClient.Session.Items) { ConnectionAttemptId = connectedClient.ConnectionAttemptId };
 
                 await _eventContainer.ClientConnectedEvent.TryInvokeAsync(eventArgs, _logger).ConfigureAwait(false);
             }
@@ -398,22 +433,27 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         {
             if (connectedClient != null)
             {
+                if (connectedClient.Session.HasDurablePersistence)
+                {
+                    using var persistenceTimeout = new CancellationTokenSource(_options.DefaultCommunicationTimeout);
+                    try { await connectedClient.Session.PersistDisconnectedAsync(connectedClient.ConnectionGeneration, persistenceTimeout.Token).ConfigureAwait(false); }
+                    catch (Exception exception) { _logger.Error(exception, "Durable disconnection failed; the native session remains blocked pending authoritative restoration."); }
+                }
                 _willMessages.Disconnected(connectedClient);
                 if (connectedClient.Id != null)
                 {
                     // in case it is a takeover _clientConnections already contains the new connection
-                    if (!connectedClient.IsTakenOver)
+                    var removed = false;
+                    lock (_clients)
                     {
-                        lock (_clients)
+                        if (!connectedClient.IsTakenOver && _clients.TryGetValue(connectedClient.Id, out var registered) && ReferenceEquals(registered, connectedClient))
                         {
                             _clients.Remove(connectedClient.Id);
-                        }
-
-                        if (!_options.EnablePersistentSessions || !ShouldPersistSession(connectedClient))
-                        {
-                            await DeleteSessionAsync(connectedClient.Id).ConfigureAwait(false);
+                            removed = true;
                         }
                     }
+                    if (removed && (!_options.EnablePersistentSessions || !ShouldPersistSession(connectedClient)))
+                        await DeleteDisconnectedSessionAsync(connectedClient).ConfigureAwait(false);
                 }
 
                 var endpoint = connectedClient.RemoteEndPoint;
@@ -426,7 +466,7 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                         connectedClient.DisconnectPacket,
                         disconnectType,
                         endpoint,
-                        connectedClient.Session.Items);
+                        connectedClient.Session.Items) { ConnectionAttemptId = connectedClient.ConnectionAttemptId };
 
                     await _eventContainer.ClientDisconnectedEvent.InvokeAsync(eventArgs).ConfigureAwait(false);
                 }
@@ -457,6 +497,39 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         {
             _sessionsManagementLock.ExitWriteLock();
         }
+    }
+
+    async Task DeleteDisconnectedSessionAsync(MqttConnectedClient client)
+    {
+        if (_options.SessionPersistence != null)
+        {
+            await DeleteDurableSessionCoreAsync(client.Id, client.Session, client.ConnectionGeneration).ConfigureAwait(false);
+            return;
+        }
+        var session = client.Session;
+        _sessionsManagementLock.EnterWriteLock();
+        try
+        {
+            if (!session.IsCurrentConnection(client.ConnectionGeneration) || !_sessionsStorage.TryGetSession(client.Id, out var current) || !ReferenceEquals(current, session)) return;
+            _sessionsStorage.TryRemoveSession(client.Id, out _);
+            _subscriberSessions.Remove(session);
+        }
+        finally { _sessionsManagementLock.ExitWriteLock(); }
+        if (_eventContainer.SessionDeletedEvent.HasHandlers)
+            await _eventContainer.SessionDeletedEvent.TryInvokeAsync(new SessionDeletedEventArgs(client.Id, session.UserName, session.Items), _logger).ConfigureAwait(false);
+        session.Dispose();
+    }
+
+    internal void RefreshRestoredSubscriptions(MqttSession session, long generation)
+    {
+        _sessionsManagementLock.EnterWriteLock();
+        try
+        {
+            if (!session.IsCurrentConnection(generation)) return;
+            if (session.HasSubscribedTopics) _subscriberSessions.Add(session);
+            else _subscriberSessions.Remove(session);
+        }
+        finally { _sessionsManagementLock.ExitWriteLock(); }
     }
 
     public void OnSubscriptionsRemoved(MqttSession clientSession, List<string> subscriptionTopics)
@@ -534,17 +607,21 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         return new MqttConnectedClient(connectPacket, channelAdapter, session, _options, _eventContainer, this, _rootLogger);
     }
 
-    async Task PrepareSessionRecoveryAsync(MqttConnectedClient client, bool sessionPresent, ValidatingConnectionEventArgs validation, CancellationToken cancellationToken)
+    async Task PrepareSessionRecoveryAsync(MqttConnectedClient client, MqttConnAckPacket connAck, ValidatingConnectionEventArgs validation, CancellationToken cancellationToken)
     {
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeout.CancelAfter(_options.DefaultCommunicationTimeout);
         await client.Session.WaitForRecoveryOwnerAsync(timeout.Token).ConfigureAwait(false);
+        if (client.Session.HasDurablePersistence)
+            connAck.IsSessionPresent = await client.Session.RestoreDurableStateAsync(new MqttSessionPersistenceRequest(client.Id, client.ConnectionAttemptId, validation.SessionItems,
+                client.ConnectPacket.CleanSession, client.ChannelAdapter.PacketFormatterAdapter.ProtocolVersion, client.ConnectPacket.SessionExpiryInterval), client.ConnectionGeneration, timeout.Token).ConfigureAwait(false);
         var lease = client.Session.BeginRecovery(client.ConnectionGeneration, timeout.Token);
         Task ownerTask;
         try
         {
             ownerTask = _eventContainer.PreparingSessionRecoveryHandler(new PreparingSessionRecoveryEventArgs(
-                new MqttSessionStatus(client.Session), lease, sessionPresent, client.ConnectPacket.CleanSession, validation.SessionItems));
+                new MqttSessionStatus(client.Session), lease, connAck.IsSessionPresent, client.ConnectPacket.CleanSession, validation.SessionItems,
+                new MqttClientStatus(client) { Session = new MqttSessionStatus(client.Session) }));
             if (ownerTask == null) throw new InvalidOperationException("The session recovery owner returned no task.");
         }
         catch
@@ -675,7 +752,7 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                         null,
                         MqttClientDisconnectType.Takeover,
                         oldConnectedClient.RemoteEndPoint,
-                        oldConnectedClient.Session.Items);
+                        oldConnectedClient.Session.Items) { ConnectionAttemptId = oldConnectedClient.ConnectionAttemptId };
 
                     await _eventContainer.ClientDisconnectedEvent.TryInvokeAsync(eventArgs, _logger).ConfigureAwait(false);
                 }
