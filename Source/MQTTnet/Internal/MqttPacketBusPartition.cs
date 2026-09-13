@@ -10,5 +10,7 @@ public enum MqttPacketBusPartition
 
     Control,
 
-    Health
+    Health,
+
+    Retransmission
 }

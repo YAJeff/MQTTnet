@@ -74,7 +74,7 @@ public sealed class MqttSessionStatus
     /// <returns><c>true</c> if the message was successfully enqueued; otherwise, <c>false</c>.</returns>
     /// <remarks>
     /// When <see cref="MqttServerOptions.PendingMessagesOverflowStrategy"/> is set to <see cref="MqttPendingMessagesOverflowStrategy.DropOldestQueuedMessage"/>,
-    /// this method always returns <c>true</c>.
+    /// this method can evict a queued message to make room, provided a packet identifier is available when required.
     /// However, an existing message in the queue may be <b>dropped later</b> to make room for the newly enqueued message.
     /// Such dropped messages can be tracked by subscribing to <see cref="MqttServer.QueuedApplicationMessageOverwrittenAsync"/> event.
     /// </remarks>
@@ -91,7 +91,7 @@ public sealed class MqttSessionStatus
     /// <param name="allowEviction">
     /// If <c>true</c>, use the configured overflow strategy. If <c>false</c>, reject a full queue without changing its contents.
     /// </param>
-    /// <returns><c>true</c> if queued; <c>false</c> if rejected because the queue is full.</returns>
+    /// <returns><c>true</c> if queued; <c>false</c> if the queue is full or no packet identifier is available.</returns>
     /// <remarks>
     /// Rejection with eviction disabled does not assign a packet identifier or fail a delivery task.
     /// Acceptance does not mean delivery or acknowledgement. Later enqueues using the configured overflow strategy may still evict this message.

@@ -25,16 +25,17 @@ public sealed class MqttConnectedClient : IDisposable
     readonly MqttServerEventContainer _eventContainer;
     readonly MqttNetSourceLogger _logger;
     readonly AsyncLock _qos2AcknowledgementLock = new();
-    readonly HashSet<ushort> _qos2PublishPacketIdentifiersAwaitingPubRel = new();
+    readonly AsyncLock _wireSendLock = new();
     readonly MqttServerOptions _serverOptions;
     readonly MqttClientSessionsManager _sessionsManager;
-    readonly HashSet<ushort> _qos2PublishPacketIdentifiersAwaitingPubComp = new();
+    readonly long _connectionGeneration;
     readonly Dictionary<ushort, string> _topicAlias = new();
     readonly int _initialSendQuota;
 
     CancellationTokenSource _cancellationToken = new();
     bool _disconnectPacketSent;
     int _sendQuota;
+    Task _sendPacketsTask = Task.CompletedTask;
 
     public MqttConnectedClient(
         MqttConnectPacket connectPacket,
@@ -57,6 +58,7 @@ public sealed class MqttConnectedClient : IDisposable
         _sendQuota = _initialSendQuota;
         RemoteEndPoint = channelAdapter.RemoteEndPoint;
         Session = session ?? throw new ArgumentNullException(nameof(session));
+        _connectionGeneration = Session.ActivateConnection();
 
         ArgumentNullException.ThrowIfNull(logger);
 
@@ -97,6 +99,7 @@ public sealed class MqttConnectedClient : IDisposable
 
     public async Task RunAsync()
     {
+        if (IsTakenOver || !Session.IsCurrentConnection(_connectionGeneration)) return;
         _logger.Info("Client '{0}': Session started", Id);
 
         Session.LatestConnectPacket = ConnectPacket;
@@ -108,7 +111,7 @@ public sealed class MqttConnectedClient : IDisposable
             var cancellationToken = _cancellationToken.Token;
             IsRunning = true;
 
-            _ = Task.Factory.StartNew(() => SendPacketsLoop(cancellationToken), cancellationToken, TaskCreationOptions.PreferFairness, TaskScheduler.Default).ConfigureAwait(false);
+            _sendPacketsTask = Task.Factory.StartNew(() => SendPacketsLoop(cancellationToken), cancellationToken, TaskCreationOptions.PreferFairness, TaskScheduler.Default).Unwrap();
 
             await ReceivePackagesLoop(cancellationToken).ConfigureAwait(false);
         }
@@ -116,9 +119,11 @@ public sealed class MqttConnectedClient : IDisposable
         {
             IsRunning = false;
 
-            Session.DisconnectedTimestamp = DateTime.UtcNow;
+            if (Session.IsCurrentConnection(_connectionGeneration)) Session.DisconnectedTimestamp = DateTime.UtcNow;
 
             _cancellationToken?.TryCancel();
+            try { await _sendPacketsTask.ConfigureAwait(false); }
+            catch (OperationCanceledException) { }
             _cancellationToken?.Dispose();
             _cancellationToken = null;
         }
@@ -132,11 +137,7 @@ public sealed class MqttConnectedClient : IDisposable
         {
             using (await _qos2AcknowledgementLock.EnterAsync(cancellationToken).ConfigureAwait(false))
             {
-                var sentPacket = await SendPacketCoreAsync(packet, cancellationToken).ConfigureAwait(false);
-                if (sentPacket is MqttPubRelPacket && _qos2PublishPacketIdentifiersAwaitingPubRel.Remove(pubRelPacket.PacketIdentifier))
-                {
-                    _qos2PublishPacketIdentifiersAwaitingPubComp.Add(pubRelPacket.PacketIdentifier);
-                }
+                await SendPacketCoreAsync(packet, cancellationToken).ConfigureAwait(false);
             }
 
             return;
@@ -147,6 +148,9 @@ public sealed class MqttConnectedClient : IDisposable
 
     async Task<MqttPacket> SendPacketCoreAsync(MqttPacket packet, CancellationToken cancellationToken)
     {
+        var originalPublish = packet as MqttPublishPacket;
+        var isolatePublish = originalPublish != null && _eventContainer.InterceptingOutboundPacketEvent.HasHandlers;
+        if (isolatePublish) packet = MqttPublishPacketSnapshot.Clone(originalPublish);
         packet = await InterceptPacketAsync(packet, cancellationToken).ConfigureAwait(false);
         if (packet == null)
         {
@@ -154,16 +158,35 @@ public sealed class MqttConnectedClient : IDisposable
             // This might break the protocol but the user wants that.
             return null;
         }
+        if (isolatePublish && packet is MqttPublishPacket editedPublish) packet = MqttPublishPacketSnapshot.Clone(editedPublish);
 
-        if (packet is MqttPublishPacket publishPacket && publishPacket.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce &&
-            ChannelAdapter.PacketFormatterAdapter.ProtocolVersion == MqttProtocolVersion.V500)
+        // User callbacks are outside this gate. Takeover cancels and joins actual wire writes before session recovery.
+        using (await _wireSendLock.EnterAsync(cancellationToken).ConfigureAwait(false))
         {
-            Interlocked.Decrement(ref _sendQuota);
-        }
+            if (packet is not MqttDisconnectPacket && (IsTakenOver || !Session.IsCurrentConnection(_connectionGeneration))) return null;
+            if (packet is MqttPubRelPacket pubRel && !Session.CanSendPubRel(pubRel.PacketIdentifier, _connectionGeneration)) return null;
+            if (packet is MqttPublishPacket trackedPublish && trackedPublish.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce &&
+                !Session.MarkPublishSent(originalPublish ?? trackedPublish, _connectionGeneration, isolatePublish ? trackedPublish : null)) return null;
 
-        await ChannelAdapter.SendPacketAsync(packet, cancellationToken).ConfigureAwait(false);
-        Statistics.HandleSentPacket(packet);
-        return packet;
+            if (packet is MqttPublishPacket publishPacket && publishPacket.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce &&
+                ChannelAdapter.PacketFormatterAdapter.ProtocolVersion == MqttProtocolVersion.V500)
+            {
+                Interlocked.Decrement(ref _sendQuota);
+            }
+
+            await ChannelAdapter.SendPacketAsync(packet, cancellationToken).ConfigureAwait(false);
+            if (packet is MqttPubRelPacket sentPubRel) Session.MarkPubRelSent(sentPubRel.PacketIdentifier, _connectionGeneration);
+            Statistics.HandleSentPacket(packet);
+            return packet;
+        }
+    }
+
+    internal async Task QuiesceForRecoveryAsync(CancellationToken cancellationToken)
+    {
+        IsTakenOver = true;
+        StopInternal();
+        using (await _wireSendLock.EnterAsync(cancellationToken).ConfigureAwait(false)) { }
+        // Keep this managed gate alive with the connection object: callers can still join after RunAsync completed.
     }
 
     public async Task StopAsync(MqttServerClientDisconnectOptions disconnectOptions)
@@ -215,7 +238,7 @@ public sealed class MqttConnectedClient : IDisposable
 
     Task HandleIncomingPubAckPacket(MqttPubAckPacket pubAckPacket)
     {
-        var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubAckPacket.PacketIdentifier, MqttQualityOfServiceLevel.AtLeastOnce);
+        var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubAckPacket.PacketIdentifier, MqttQualityOfServiceLevel.AtLeastOnce, _connectionGeneration);
 
         if (acknowledgedPublishPacket != null)
         {
@@ -230,12 +253,7 @@ public sealed class MqttConnectedClient : IDisposable
     {
         using (await _qos2AcknowledgementLock.EnterAsync().ConfigureAwait(false))
         {
-            if (!_qos2PublishPacketIdentifiersAwaitingPubComp.Remove(pubCompPacket.PacketIdentifier))
-            {
-                return;
-            }
-
-            var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubCompPacket.PacketIdentifier, MqttQualityOfServiceLevel.ExactlyOnce);
+            var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubCompPacket.PacketIdentifier, MqttQualityOfServiceLevel.ExactlyOnce, _connectionGeneration);
 
             if (acknowledgedPublishPacket != null)
             {
@@ -292,35 +310,15 @@ public sealed class MqttConnectedClient : IDisposable
     {
         using (await _qos2AcknowledgementLock.EnterAsync().ConfigureAwait(false))
         {
-            if ((int)pubRecPacket.ReasonCode >= 0x80)
+            var sendPubRel = Session.ProcessPubRec(pubRecPacket.PacketIdentifier, (int)pubRecPacket.ReasonCode >= 0x80,
+                _connectionGeneration, out var completed);
+            if (completed != null)
             {
-                if (_qos2PublishPacketIdentifiersAwaitingPubRel.Contains(pubRecPacket.PacketIdentifier) ||
-                    _qos2PublishPacketIdentifiersAwaitingPubComp.Contains(pubRecPacket.PacketIdentifier))
-                {
-                    return;
-                }
-
-                var acknowledgedPublishPacket = Session.AcknowledgePublishPacket(pubRecPacket.PacketIdentifier, MqttQualityOfServiceLevel.ExactlyOnce);
-                if (acknowledgedPublishPacket != null)
-                {
-                    ReplenishSendQuota();
-                    await ClientAcknowledgedPublishPacket(acknowledgedPublishPacket, pubRecPacket).ConfigureAwait(false);
-                }
-
-                return;
+                ReplenishSendQuota();
+                await ClientAcknowledgedPublishPacket(completed, pubRecPacket).ConfigureAwait(false);
             }
-
-            // Do not fire the event _ClientAcknowledgedPublishPacket_ here because the QoS 2 process is only finished
-            // properly when the client has sent the PUBCOMP packet.
-            var publishPacket = Session.PeekAcknowledgePublishPacket(pubRecPacket.PacketIdentifier);
-            if (publishPacket?.QualityOfServiceLevel != MqttQualityOfServiceLevel.ExactlyOnce)
-            {
-                return;
-            }
-
-            _qos2PublishPacketIdentifiersAwaitingPubRel.Add(pubRecPacket.PacketIdentifier);
+            if (!sendPubRel) return;
         }
-
         var pubRelPacket = MqttPubRelPacketFactory.Create(pubRecPacket, MqttApplicationMessageReceivedReasonCode.Success);
         Session.EnqueueControlPacket(new MqttPacketBusItem(pubRelPacket));
     }
@@ -618,15 +616,7 @@ public sealed class MqttConnectedClient : IDisposable
                 _logger.Error(exception, "Client '{0}': Sending PUBLISH packet failed", Id);
             }
 
-            if (packetBusItem?.Packet is MqttPublishPacket publishPacket)
-            {
-                if (publishPacket.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce)
-                {
-                    publishPacket.Dup = true;
-                    Session.EnqueueDataPacket(new MqttPacketBusItem(publishPacket));
-                }
-            }
-
+            // Tracked publishes remain session-owned and are retried by Recover with their original IDs/phases.
             StopInternal();
         }
     }
@@ -638,6 +628,7 @@ public sealed class MqttConnectedClient : IDisposable
 
     bool CanDequeuePacket(MqttPacketBusItem item)
     {
+        if (IsTakenOver || !Session.IsCurrentConnection(_connectionGeneration)) return false;
         // MQTT 5.0 section 4.9 permits suspending all PUBLISH packets at zero quota.
         // Control and health traffic must still progress, including QoS 2 PUBREL.
         return item.Packet is not MqttPublishPacket || ChannelAdapter.PacketFormatterAdapter.ProtocolVersion != MqttProtocolVersion.V500 ||

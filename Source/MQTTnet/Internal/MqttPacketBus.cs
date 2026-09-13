@@ -12,6 +12,7 @@ public sealed class MqttPacketBus : IDisposable
     [
         [],
         [],
+        [],
         []
     ];
 
@@ -53,7 +54,7 @@ public sealed class MqttPacketBus : IDisposable
         {
             lock (_syncRoot)
             {
-                for (var i = 0; i < 3; i++)
+                for (var i = 0; i < _partitions.Length; i++)
                 {
                     // Iterate through the partitions in order to ensure processing of health packets
                     // even if lots of data packets are enqueued.
@@ -67,6 +68,9 @@ public sealed class MqttPacketBus : IDisposable
                     // Then the next 3 from all 3 partitions.
 
                     MoveActivePartition();
+
+                    // Retry already-started transactions before first transmissions. Control and health remain independent.
+                    if (_activePartition == (int)MqttPacketBusPartition.Data && _partitions[(int)MqttPacketBusPartition.Retransmission].Count > 0) continue;
 
                     var activePartition = _partitions[_activePartition];
 

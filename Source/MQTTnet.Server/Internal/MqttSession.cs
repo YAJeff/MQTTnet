@@ -25,6 +25,9 @@ public sealed class MqttSession : IDisposable
 
     // Do not use a dictionary in order to keep the ordering of the messages.
     readonly List<MqttPublishPacket> _unacknowledgedPublishPackets = new();
+    readonly Dictionary<MqttPublishPacket, OutgoingPublishState> _outgoingPublishStates = new();
+    readonly HashSet<ushort> _reservedPacketIdentifiers = new();
+    long _connectionGeneration;
 
     // Bookkeeping to know if this is a subscribing client; lazy initialize later.
     HashSet<string> _subscribedTopics;
@@ -78,7 +81,7 @@ public sealed class MqttSession : IDisposable
         lock (_unacknowledgedPublishPackets)
         {
             var publishPacket = _unacknowledgedPublishPackets.FirstOrDefault(p => p.PacketIdentifier.Equals(packetIdentifier));
-            _unacknowledgedPublishPackets.Remove(publishPacket);
+            RemoveTrackedPublish(publishPacket);
             return publishPacket;
         }
     }
@@ -91,11 +94,106 @@ public sealed class MqttSession : IDisposable
         {
             publishPacket = _unacknowledgedPublishPackets.FirstOrDefault(
                 p => p.PacketIdentifier.Equals(packetIdentifier) && p.QualityOfServiceLevel == qualityOfServiceLevel);
-            _unacknowledgedPublishPackets.Remove(publishPacket);
+            RemoveTrackedPublish(publishPacket);
         }
 
         return publishPacket;
     }
+
+    internal long ActivateConnection()
+    {
+        lock (_unacknowledgedPublishPackets)
+        {
+            return Interlocked.Increment(ref _connectionGeneration);
+        }
+    }
+
+    internal bool IsCurrentConnection(long generation) =>
+        !Volatile.Read(ref _disposed) && Volatile.Read(ref _connectionGeneration) == generation;
+
+    internal bool MarkPublishSent(MqttPublishPacket packet, long generation)
+    {
+        return MarkPublishSent(packet, generation, null);
+    }
+
+    internal bool MarkPublishSent(MqttPublishPacket packet, long generation, MqttPublishPacket wireSnapshot)
+    {
+        lock (_unacknowledgedPublishPackets)
+        {
+            if (!IsCurrentConnection(generation) || !_outgoingPublishStates.TryGetValue(packet, out var state) || state >= OutgoingPublishState.PubRelPending) return false;
+            if (wireSnapshot != null)
+            {
+                if (wireSnapshot.PacketIdentifier != packet.PacketIdentifier || wireSnapshot.QualityOfServiceLevel != packet.QualityOfServiceLevel)
+                    throw new InvalidOperationException("An outbound interceptor cannot change the identifier or QoS of a session-owned transaction.");
+                MqttPublishPacketSnapshot.CopyFields(wireSnapshot, packet);
+            }
+            // A failed write may have been partially visible; recovery must use DUP in that case too.
+            _outgoingPublishStates[packet] = OutgoingPublishState.PublishSent;
+            return true;
+        }
+    }
+
+    internal bool CanSendPubRel(ushort identifier, long generation)
+    {
+        lock (_unacknowledgedPublishPackets)
+        {
+            var packet = _unacknowledgedPublishPackets.FirstOrDefault(p => p.PacketIdentifier == identifier);
+            return IsCurrentConnection(generation) && packet != null && _outgoingPublishStates.TryGetValue(packet, out var state) && state >= OutgoingPublishState.PubRelPending;
+        }
+    }
+
+    internal void MarkPubRelSent(ushort identifier, long generation)
+    {
+        lock (_unacknowledgedPublishPackets)
+        {
+            var packet = _unacknowledgedPublishPackets.FirstOrDefault(p => p.PacketIdentifier == identifier);
+            if (IsCurrentConnection(generation) && packet != null && _outgoingPublishStates.TryGetValue(packet, out var state) && state >= OutgoingPublishState.PubRelPending)
+                _outgoingPublishStates[packet] = OutgoingPublishState.PubRelSent;
+        }
+    }
+
+    internal bool ProcessPubRec(ushort identifier, bool isError, long generation, out MqttPublishPacket completed)
+    {
+        completed = null;
+        lock (_unacknowledgedPublishPackets)
+        {
+            var packet = _unacknowledgedPublishPackets.FirstOrDefault(p => p.PacketIdentifier == identifier && p.QualityOfServiceLevel == MqttQualityOfServiceLevel.ExactlyOnce);
+            if (!IsCurrentConnection(generation) || packet == null || !_outgoingPublishStates.TryGetValue(packet, out var state) || state == OutgoingPublishState.Queued) return false;
+            if (isError)
+            {
+                if (state >= OutgoingPublishState.PubRelPending) return false;
+                completed = packet;
+                RemoveTrackedPublish(packet);
+                return false;
+            }
+
+            // Duplicate PUBREC must not regress an exchange whose PUBREL was already sent.
+            if (state == OutgoingPublishState.PublishSent) _outgoingPublishStates[packet] = OutgoingPublishState.PubRelPending;
+            return true;
+        }
+    }
+
+    internal MqttPublishPacket AcknowledgePublishPacket(ushort identifier, MqttQualityOfServiceLevel qos, long generation)
+    {
+        lock (_unacknowledgedPublishPackets)
+        {
+            var packet = _unacknowledgedPublishPackets.FirstOrDefault(p => p.PacketIdentifier == identifier && p.QualityOfServiceLevel == qos);
+            var expected = qos == MqttQualityOfServiceLevel.ExactlyOnce ? OutgoingPublishState.PubRelSent : OutgoingPublishState.PublishSent;
+            if (!IsCurrentConnection(generation) || packet == null || !_outgoingPublishStates.TryGetValue(packet, out var state) || state != expected) return null;
+            RemoveTrackedPublish(packet);
+            return packet;
+        }
+    }
+
+    void RemoveTrackedPublish(MqttPublishPacket packet)
+    {
+        if (packet == null) return;
+        _unacknowledgedPublishPackets.Remove(packet);
+        _outgoingPublishStates.Remove(packet);
+        _reservedPacketIdentifiers.Remove(packet.PacketIdentifier);
+    }
+
+    enum OutgoingPublishState { Queued, PublishSent, PubRelPending, PubRelSent }
 
     public void AddSubscribedTopic(string topic)
     {
@@ -229,10 +327,11 @@ public sealed class MqttSession : IDisposable
 
     // All data producers and recovery share the admission gate. Dequeue may only free capacity.
     EnqueueDataPacketResult EnqueueDataPacketCore(
-        MqttPacketBusItem packetBusItem, MqttPublishPacket publishPacket, bool allowEviction, out MqttPacketBusItem overwritten, object enqueueState = null)
+        MqttPacketBusItem packetBusItem, MqttPublishPacket publishPacket, bool allowEviction, out MqttPacketBusItem overwritten, object enqueueState = null, bool isRecovery = false)
     {
         overwritten = null;
-        if (PendingDataPacketsCount >= _serverOptions.MaxPendingMessagesPerClient)
+        var full = PendingDataPacketsCount >= _serverOptions.MaxPendingMessagesPerClient;
+        if (full)
         {
             if (!allowEviction)
             {
@@ -245,35 +344,54 @@ public sealed class MqttSession : IDisposable
                 packetBusItem.Fail(new MqttPendingMessagesOverflowException(Id, _serverOptions.PendingMessagesOverflowStrategy));
                 return EnqueueDataPacketResult.Dropped;
             }
+        }
 
-            if (_serverOptions.PendingMessagesOverflowStrategy == MqttPendingMessagesOverflowStrategy.DropOldestQueuedMessage)
+        ushort newIdentifier = 0;
+        if (!isRecovery && publishPacket.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce)
+        {
+            lock (_unacknowledgedPublishPackets)
             {
-                // Only drop from the data partition. Dropping from control partition might break the connection
-                // because the client does not receive PINGREQ packets etc. any longer.
-                overwritten = _packetBus.DropFirstItem(MqttPacketBusPartition.Data);
-                if (overwritten != null)
+                if (_reservedPacketIdentifiers.Count == ushort.MaxValue)
                 {
-                    if (overwritten.Packet is MqttPublishPacket evictedPublishPacket)
-                    {
-                        lock (_unacknowledgedPublishPackets)
-                        {
-                            // Remove only the queued packet that was evicted, not an in-flight exchange.
-                            _unacknowledgedPublishPackets.Remove(evictedPublishPacket);
-                        }
-                    }
-
-                    overwritten.Fail(new MqttPendingMessagesOverflowException(Id, _serverOptions.PendingMessagesOverflowStrategy));
+                    if (allowEviction) packetBusItem.Fail(new InvalidOperationException("No packet identifier is available in this session."));
+                    return EnqueueDataPacketResult.Dropped;
                 }
+                do { newIdentifier = _packetIdentifierProvider.GetNextPacketIdentifier(); }
+                while (_reservedPacketIdentifiers.Contains(newIdentifier));
+            }
+        }
+
+        if (full && _serverOptions.PendingMessagesOverflowStrategy == MqttPendingMessagesOverflowStrategy.DropOldestQueuedMessage)
+        {
+            // Only drop from the data partition. Dropping from control partition might break the connection
+            // because the client does not receive PINGREQ packets etc. any longer.
+            overwritten = _packetBus.DropFirstItem(MqttPacketBusPartition.Data);
+            if (overwritten != null)
+            {
+                if (overwritten.Packet is MqttPublishPacket evictedPublishPacket)
+                {
+                    lock (_unacknowledgedPublishPackets)
+                    {
+                        // Remove only the queued packet that was evicted, not an in-flight exchange.
+                        RemoveTrackedPublish(evictedPublishPacket);
+                    }
+                }
+
+                overwritten.Fail(new MqttPendingMessagesOverflowException(Id, _serverOptions.PendingMessagesOverflowStrategy));
             }
         }
 
         if (publishPacket.QualityOfServiceLevel > MqttQualityOfServiceLevel.AtMostOnce)
         {
-            publishPacket.PacketIdentifier = _packetIdentifierProvider.GetNextPacketIdentifier();
-
             lock (_unacknowledgedPublishPackets)
             {
+                if (!isRecovery)
+                {
+                    publishPacket.PacketIdentifier = newIdentifier;
+                    _reservedPacketIdentifiers.Add(newIdentifier);
+                }
                 _unacknowledgedPublishPackets.Add(publishPacket);
+                if (!isRecovery) _outgoingPublishStates[publishPacket] = OutgoingPublishState.Queued;
             }
         }
 
@@ -314,8 +432,6 @@ public sealed class MqttSession : IDisposable
     public void Recover()
     {
         // TODO: Keep the bus and only insert pending items again.
-        // TODO: Check if packet identifier must be restarted or not.
-        // TODO: Recover package identifier.
 
         /*
             The Session state in the Client consists of:
@@ -338,27 +454,39 @@ public sealed class MqttSession : IDisposable
         lock (_dataEnqueueLock)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
-            List<MqttPublishPacket> unacknowledgedPublishPackets;
             lock (_unacknowledgedPublishPackets)
             {
-                unacknowledgedPublishPackets = _unacknowledgedPublishPackets.ToList();
+                var packets = _unacknowledgedPublishPackets.ToList();
                 _unacknowledgedPublishPackets.Clear();
-            }
-
-            _packetBus.Clear();
-
-            foreach (var publishPacket in unacknowledgedPublishPackets)
-            {
-                var result = EnqueueDataPacketCore(new MqttPacketBusItem(publishPacket), publishPacket, true, out var overwritten);
-                if (overwritten != null)
+                _packetBus.Clear();
+                foreach (var publishPacket in packets)
                 {
-                    (overwrittenPackets ??= new List<MqttPacketBusItem>()).Add(overwritten);
-                }
-                if (_eventContainer.SessionApplicationMessagesInvalidatedEvent.HasHandlers)
-                {
-                    // Record actual overflow decisions, not a tracking difference that could misclassify a concurrent ACK.
-                    if (result == EnqueueDataPacketResult.Dropped) (invalidated ??= new List<MqttPublishPacket>()).Add(publishPacket);
-                    if (overwritten != null) (invalidated ??= new List<MqttPublishPacket>()).Add((MqttPublishPacket)overwritten.Packet);
+                    var state = _outgoingPublishStates[publishPacket];
+                    if (state >= OutgoingPublishState.PubRelPending)
+                    {
+                        _unacknowledgedPublishPackets.Add(publishPacket);
+                        _packetBus.EnqueueItem(new MqttPacketBusItem(new MqttPubRelPacket { PacketIdentifier = publishPacket.PacketIdentifier }), MqttPacketBusPartition.Control);
+                        continue;
+                    }
+
+                    if (state == OutgoingPublishState.PublishSent)
+                    {
+                        // A possibly-sent transaction is not a new queued message and cannot be evicted by backlog capacity.
+                        publishPacket.Dup = true;
+                        _unacknowledgedPublishPackets.Add(publishPacket);
+                        _packetBus.EnqueueItem(new MqttPacketBusItem(publishPacket), MqttPacketBusPartition.Retransmission);
+                        continue;
+                    }
+
+                    publishPacket.Dup = state == OutgoingPublishState.PublishSent;
+                    var result = EnqueueDataPacketCore(new MqttPacketBusItem(publishPacket), publishPacket, true, out var overwritten, isRecovery: true);
+                    if (result == EnqueueDataPacketResult.Dropped) RemoveTrackedPublish(publishPacket);
+                    if (overwritten != null) (overwrittenPackets ??= new List<MqttPacketBusItem>()).Add(overwritten);
+                    if (_eventContainer.SessionApplicationMessagesInvalidatedEvent.HasHandlers)
+                    {
+                        if (result == EnqueueDataPacketResult.Dropped) (invalidated ??= new List<MqttPublishPacket>()).Add(publishPacket);
+                        if (overwritten != null) (invalidated ??= new List<MqttPublishPacket>()).Add((MqttPublishPacket)overwritten.Packet);
+                    }
                 }
             }
         }

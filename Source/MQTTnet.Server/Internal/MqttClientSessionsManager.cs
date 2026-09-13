@@ -543,6 +543,13 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
             MqttSession oldSession;
             MqttConnectedClient oldConnectedClient;
 
+            lock (_clients) { _clients.TryGetValue(connectPacket.ClientId, out oldConnectedClient); }
+            if (oldConnectedClient != null)
+            {
+                using var quiesceTimeout = new CancellationTokenSource(_options.DefaultCommunicationTimeout);
+                await oldConnectedClient.QuiesceForRecoveryAsync(quiesceTimeout.Token).ConfigureAwait(false);
+            }
+
             _sessionsManagementLock.EnterWriteLock();
             try
             {
@@ -568,6 +575,8 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                         oldSession = null;
 
                         session.DisconnectedTimestamp = null;
+                        // Fence old wire callbacks before rebuilding the persistent session's queue/state.
+                        session.ActivateConnection();
                         session.Recover();
 
                         connAckPacket.IsSessionPresent = true;
