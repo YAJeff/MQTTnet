@@ -256,6 +256,7 @@ public sealed partial class MqttSession : IDisposable
             }
 
             _disposed = true;
+            lock (_incomingQos2) { _incomingQos2.Clear(); _incomingQos2Bytes = 0; }
             if (_eventContainer.SessionApplicationMessagesInvalidatedEvent.HasHandlers)
             {
                 lock (_unacknowledgedPublishPackets)

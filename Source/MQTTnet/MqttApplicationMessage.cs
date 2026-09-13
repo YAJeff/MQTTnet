@@ -47,6 +47,7 @@ public sealed class MqttApplicationMessage
     ///     Hint: MQTT 5 feature only.
     /// </summary>
     public uint MessageExpiryInterval { get; set; }
+    public bool HasMessageExpiryInterval { get; set; }
 
     /// <summary>
     ///     Set an ArraySegment as Payload.

@@ -16,6 +16,8 @@ public sealed class MqttPublishPacket : MqttPacketWithIdentifier
     public bool Dup { get; set; }
 
     public uint MessageExpiryInterval { get; set; }
+    /// <summary>Preserves explicit MQTT5 zero expiry. Nonzero legacy intervals are also encoded.</summary>
+    public bool HasMessageExpiryInterval { get; set; }
 
     public MqttPayloadFormatIndicator PayloadFormatIndicator { get; set; } = MqttPayloadFormatIndicator.Unspecified;
 

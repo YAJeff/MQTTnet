@@ -23,6 +23,7 @@ public static class MqttApplicationMessageFactory
             ContentType = publishPacket.ContentType,
             CorrelationData = publishPacket.CorrelationData,
             MessageExpiryInterval = publishPacket.MessageExpiryInterval,
+            HasMessageExpiryInterval = publishPacket.HasMessageExpiryInterval,
             SubscriptionIdentifiers = publishPacket.SubscriptionIdentifiers,
             TopicAlias = publishPacket.TopicAlias,
             PayloadFormatIndicator = publishPacket.PayloadFormatIndicator,

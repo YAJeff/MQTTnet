@@ -19,6 +19,7 @@ namespace MQTTnet.Server;
 public sealed class ValidatingConnectionEventArgs : EventArgs
 {
     readonly MqttConnectPacket _connectPacket;
+    readonly TaskCompletionSource _transportClosed = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     public ValidatingConnectionEventArgs(MqttConnectPacket connectPacket, IMqttChannelAdapter clientAdapter, IDictionary sessionItems, CancellationToken cancellationToken)
     {
@@ -51,6 +52,15 @@ public sealed class ValidatingConnectionEventArgs : EventArgs
 
     /// <summary>The exact connection attempt, preserved through preparation and lifecycle events.</summary>
     public Guid ConnectionAttemptId { get; } = Guid.NewGuid();
+    /// <summary>Completes after this exact attempt's adapter disconnect and native wire-write join.
+    /// Faults if closure cannot be confirmed. Await outside validation/recovery/lifecycle callbacks,
+    /// whose completion is required for teardown. Cancellation alone is not closure proof.</summary>
+    public Task TransportClosed => _transportClosed.Task;
+    internal void CompleteTransportClose(Exception exception = null)
+    {
+        if (exception == null) _transportClosed.TrySetResult();
+        else { _transportClosed.TrySetException(exception); _ = _transportClosed.Task.Exception; }
+    }
     public bool HasWill => WillMessage != null;
     public MqttWillMessageSnapshot WillMessage { get; }
 

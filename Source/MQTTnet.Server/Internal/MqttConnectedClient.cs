@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Net;
+using System.Collections;
 using MQTTnet.Adapter;
 using MQTTnet.Diagnostics.Logger;
 using MQTTnet.Exceptions;
@@ -35,6 +36,7 @@ public sealed class MqttConnectedClient : IDisposable
     CancellationTokenSource _cancellationToken = new();
     bool _disconnectPacketSent;
     int _sendQuota;
+    int _transportClosing;
     Task _sendPacketsTask = Task.CompletedTask;
 
     public MqttConnectedClient(
@@ -84,6 +86,9 @@ public sealed class MqttConnectedClient : IDisposable
     public Guid ConnectionAttemptId { get; internal set; } = Guid.NewGuid();
     internal MqttWillMessageSnapshot WillMessage { get; set; }
     internal bool IsWillExternallyOwned { get; set; }
+    internal IDictionary ConnectionAttemptItems { get; set; }
+    internal long IncomingResolveSequence { get; set; }
+    internal MqttIncomingQos2ResolveRequest IncomingResolveRequest { get; set; }
 
     public MqttClientStatistics Statistics { get; } = new();
 
@@ -154,6 +159,8 @@ public sealed class MqttConnectedClient : IDisposable
 
     async Task<MqttPacket> SendPacketCoreAsync(MqttPacket packet, CancellationToken cancellationToken)
     {
+        var originalPacket = packet;
+        if (!Session.CanSendIncomingAcknowledgement(originalPacket, _connectionGeneration)) return null;
         var originalPublish = packet as MqttPublishPacket;
         var isolatePublish = originalPublish != null && _eventContainer.InterceptingOutboundPacketEvent.HasHandlers;
         if (isolatePublish) packet = MqttPublishPacketSnapshot.Clone(originalPublish);
@@ -174,6 +181,8 @@ public sealed class MqttConnectedClient : IDisposable
         // User callbacks are outside this gate. Takeover cancels and joins actual wire writes before session recovery.
         using (await _wireSendLock.EnterAsync(cancellationToken).ConfigureAwait(false))
         {
+            if (Volatile.Read(ref _transportClosing) != 0) return null;
+            if (!Session.CanSendIncomingAcknowledgement(originalPacket, _connectionGeneration)) return null;
             if (packet is not MqttDisconnectPacket && (IsTakenOver || !Session.IsCurrentConnection(_connectionGeneration))) return null;
             if (packet is MqttPubRelPacket pubRel && !Session.CanSendPubRel(pubRel.PacketIdentifier, _connectionGeneration)) return null;
             if (packet is MqttPublishPacket) Session.CompleteUntrackedPublish(originalPublish, _connectionGeneration);
@@ -199,6 +208,16 @@ public sealed class MqttConnectedClient : IDisposable
         StopInternal();
         using (await _wireSendLock.EnterAsync(cancellationToken).ConfigureAwait(false)) { }
         // Keep this managed gate alive with the connection object: callers can still join after RunAsync completed.
+    }
+
+    internal void BeginTransportClose()
+    {
+        Volatile.Write(ref _transportClosing, 1);
+        StopInternal();
+    }
+    internal async Task JoinTransportWritesAsync(CancellationToken cancellationToken)
+    {
+        using (await _wireSendLock.EnterAsync(cancellationToken).ConfigureAwait(false)) { }
     }
 
     public async Task StopAsync(MqttServerClientDisconnectOptions disconnectOptions)
@@ -283,6 +302,19 @@ public sealed class MqttConnectedClient : IDisposable
     {
         HandleTopicAlias(publishPacket);
 
+        if (publishPacket.QualityOfServiceLevel == MqttQualityOfServiceLevel.ExactlyOnce)
+        {
+            var result = await Session.ProcessIncomingQos2PublishAsync(this, publishPacket, packet =>
+            {
+                var message = MqttApplicationMessageFactory.Create(packet);
+                return _sessionsManager.DispatchApplicationMessage(Id, UserName, Session.Items, message, cancellationToken);
+            }, cancellationToken).ConfigureAwait(false);
+            if (!Session.IsCurrentConnection(_connectionGeneration)) return;
+            if (result.CloseConnection) { await StopAsync(new MqttServerClientDisconnectOptions { ReasonCode = MqttDisconnectReasonCode.UnspecifiedError }); return; }
+            Session.EnqueueIncomingQos2Acknowledgement(MqttPubRecPacketFactory.Create(publishPacket, result), _connectionGeneration);
+            return;
+        }
+
         var applicationMessage = MqttApplicationMessageFactory.Create(publishPacket);
         // Topic aliases are scoped to this network connection and must not be forwarded to other clients.
         applicationMessage.TopicAlias = 0;
@@ -352,10 +384,13 @@ public sealed class MqttConnectedClient : IDisposable
         Session.EnqueueControlPacket(new MqttPacketBusItem(pubRelPacket));
     }
 
-    void HandleIncomingPubRelPacket(MqttPubRelPacket pubRelPacket)
+    async Task HandleIncomingPubRelPacket(MqttPubRelPacket pubRelPacket)
     {
-        var pubCompPacket = MqttPubCompPacketFactory.Create(pubRelPacket, MqttApplicationMessageReceivedReasonCode.Success);
-        Session.EnqueueControlPacket(new MqttPacketBusItem(pubCompPacket));
+        var known = await Session.ProcessIncomingQos2PubRelAsync(this, pubRelPacket.PacketIdentifier, _cancellationToken.Token).ConfigureAwait(false);
+        if (!Session.IsCurrentConnection(_connectionGeneration)) return;
+        var pubCompPacket = new MqttPubCompPacket { PacketIdentifier = pubRelPacket.PacketIdentifier,
+            ReasonCode = !known && ChannelAdapter.PacketFormatterAdapter.ProtocolVersion == MqttProtocolVersion.V500 ? MqttPubCompReasonCode.PacketIdentifierNotFound : MqttPubCompReasonCode.Success };
+        Session.EnqueueIncomingQos2Acknowledgement(pubCompPacket, _connectionGeneration);
     }
 
     async Task HandleIncomingSubscribePacket(MqttSubscribePacket subscribePacket, MqttSubscriptionRequestSnapshot request, CancellationToken cancellationToken)
@@ -517,7 +552,7 @@ public sealed class MqttConnectedClient : IDisposable
                 }
                 else if (currentPacket is MqttPubRelPacket pubRelPacket)
                 {
-                    HandleIncomingPubRelPacket(pubRelPacket);
+                    await HandleIncomingPubRelPacket(pubRelPacket).ConfigureAwait(false);
                 }
                 else if (currentPacket is MqttSubscribePacket subscribePacket)
                 {

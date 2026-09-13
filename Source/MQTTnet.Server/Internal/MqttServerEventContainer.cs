@@ -10,6 +10,22 @@ public class MqttServerEventContainer
 {
     readonly object _recoveryHandlerGate = new();
     Func<PreparingSessionRecoveryEventArgs, Task> _recoveryHandler;
+    Func<AcceptingIncomingQos2MessageEventArgs, Task> _incomingQos2Handler;
+    public Func<AcceptingIncomingQos2MessageEventArgs, Task> IncomingQos2Handler => Volatile.Read(ref _incomingQos2Handler);
+    public void AddIncomingQos2Handler(Func<AcceptingIncomingQos2MessageEventArgs, Task> handler)
+    {
+        ArgumentNullException.ThrowIfNull(handler);
+        if (handler.GetInvocationList().Length != 1) throw new ArgumentException("Incoming QoS2 requires one exclusive owner.", nameof(handler));
+        lock (_recoveryHandlerGate)
+        {
+            if (_incomingQos2Handler != null) throw new InvalidOperationException("An incoming QoS2 owner is already registered.");
+            _incomingQos2Handler = handler;
+        }
+    }
+    public void RemoveIncomingQos2Handler(Func<AcceptingIncomingQos2MessageEventArgs, Task> handler)
+    {
+        lock (_recoveryHandlerGate) { if (_incomingQos2Handler == handler) _incomingQos2Handler = null; }
+    }
 
     public Func<PreparingSessionRecoveryEventArgs, Task> PreparingSessionRecoveryHandler => Volatile.Read(ref _recoveryHandler);
 

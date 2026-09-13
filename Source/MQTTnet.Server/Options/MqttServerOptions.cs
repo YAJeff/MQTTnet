@@ -7,6 +7,9 @@ namespace MQTTnet.Server;
 public sealed class MqttServerOptions
 {
     public IMqttServerSessionPersistence SessionPersistence { get; set; }
+    public IMqttServerIncomingQos2Persistence IncomingQos2Persistence { get; set; }
+    public int MaxIncomingQos2Transactions { get; set; } = ushort.MaxValue;
+    public long MaxIncomingQos2StateBytes { get; set; } = 64 * 1024 * 1024;
     public long MaxDurableSessionSnapshotBytes { get; set; } = 64 * 1024 * 1024;
 
     public TimeSpan DefaultCommunicationTimeout { get; set; } = TimeSpan.FromSeconds(100);

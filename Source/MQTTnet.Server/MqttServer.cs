@@ -82,6 +82,12 @@ public class MqttServer : Disposable
         remove { ThrowIfStarted(); _eventContainer.RemoveSessionRecoveryHandler(value); }
     }
 
+    public event Func<AcceptingIncomingQos2MessageEventArgs, Task> AcceptingIncomingQos2MessageAsync
+    {
+        add { ThrowIfStarted(); _eventContainer.AddIncomingQos2Handler(value); }
+        remove { ThrowIfStarted(); _eventContainer.RemoveIncomingQos2Handler(value); }
+    }
+
     public event Func<ClientAcknowledgedPublishPacketEventArgs, Task> ClientAcknowledgedPublishPacketAsync
     {
         add => _eventContainer.ClientAcknowledgedPublishPacketEvent.AddHandler(value);
@@ -298,6 +304,11 @@ public class MqttServer : Disposable
     public async Task StartAsync()
     {
         ThrowIfStarted();
+        if (_options.MaxIncomingQos2Transactions <= 0 || _options.MaxIncomingQos2Transactions > ushort.MaxValue || _options.MaxIncomingQos2StateBytes <= 0)
+            throw new ArgumentOutOfRangeException(nameof(_options.MaxIncomingQos2Transactions));
+        if ((_options.IncomingQos2Persistence != null) != (_eventContainer.IncomingQos2Handler != null) ||
+            (_options.IncomingQos2Persistence != null && _options.SessionPersistence == null))
+            throw new InvalidOperationException("Durable incoming QoS2 requires session persistence and one exclusive acceptance owner.");
         if (_options.SessionPersistence != null && _eventContainer.PreparingSessionRecoveryHandler == null)
             throw new InvalidOperationException("Durable persistence requires an exclusive ordered session recovery owner.");
         if (_options.SessionPersistence != null && _options.MaxDurableSessionSnapshotBytes <= 0)

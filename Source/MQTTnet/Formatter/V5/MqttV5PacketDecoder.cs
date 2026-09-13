@@ -511,6 +511,7 @@ public sealed class MqttV5PacketDecoder
             else if (propertiesReader.CurrentPropertyId == MqttPropertyId.MessageExpiryInterval)
             {
                 packet.MessageExpiryInterval = propertiesReader.ReadMessageExpiryInterval();
+                packet.HasMessageExpiryInterval = true;
             }
             else if (propertiesReader.CurrentPropertyId == MqttPropertyId.TopicAlias)
             {

@@ -377,6 +377,8 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
     public async Task HandleClientConnectionAsync(IMqttChannelAdapter channelAdapter, CancellationToken cancellationToken)
     {
         MqttConnectedClient connectedClient = null;
+        ValidatingConnectionEventArgs validatingConnectionEventArgs = null;
+        bool? durableDisconnectionConfirmed = null;
 
         try
         {
@@ -387,7 +389,7 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                 return;
             }
 
-            var validatingConnectionEventArgs = await ValidateConnection(connectPacket, channelAdapter, cancellationToken).ConfigureAwait(false);
+            await ValidateConnection(connectPacket, channelAdapter, args => validatingConnectionEventArgs = args, cancellationToken).ConfigureAwait(false);
             var connAckPacket = MqttConnAckPacketFactory.Create(validatingConnectionEventArgs);
 
             if (validatingConnectionEventArgs.ReasonCode != MqttConnectReasonCode.Success)
@@ -431,13 +433,15 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         }
         finally
         {
+            try
+            {
             if (connectedClient != null)
             {
-                if (connectedClient.Session.HasDurablePersistence)
+                if (connectedClient.Session.HasDurablePersistence || (_options.SessionPersistence != null && connectedClient.IsWillExternallyOwned))
                 {
                     using var persistenceTimeout = new CancellationTokenSource(_options.DefaultCommunicationTimeout);
-                    try { await connectedClient.Session.PersistDisconnectedAsync(connectedClient.ConnectionGeneration, persistenceTimeout.Token).ConfigureAwait(false); }
-                    catch (Exception exception) { _logger.Error(exception, "Durable disconnection failed; the native session remains blocked pending authoritative restoration."); }
+                    try { durableDisconnectionConfirmed = await connectedClient.Session.PersistDisconnectedAsync(connectedClient, persistenceTimeout.Token).ConfigureAwait(false); }
+                    catch (Exception exception) { durableDisconnectionConfirmed = false; _logger.Error(exception, "Durable disconnection failed; the native session remains blocked pending authoritative restoration."); }
                 }
                 _willMessages.Disconnected(connectedClient);
                 if (connectedClient.Id != null)
@@ -466,14 +470,29 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                         connectedClient.DisconnectPacket,
                         disconnectType,
                         endpoint,
-                        connectedClient.Session.Items) { ConnectionAttemptId = connectedClient.ConnectionAttemptId };
+                        connectedClient.Session.Items) { ConnectionAttemptId = connectedClient.ConnectionAttemptId, DurableDisconnectionConfirmed = durableDisconnectionConfirmed };
 
                     await _eventContainer.ClientDisconnectedEvent.InvokeAsync(eventArgs).ConfigureAwait(false);
                 }
             }
 
-            using var timeout = new CancellationTokenSource(_options.DefaultCommunicationTimeout);
-            await channelAdapter.DisconnectAsync(timeout.Token).ConfigureAwait(false);
+            }
+            finally
+            {
+                using var timeout = new CancellationTokenSource(_options.DefaultCommunicationTimeout);
+                try
+                {
+                    connectedClient?.BeginTransportClose();
+                    await channelAdapter.DisconnectAsync(timeout.Token).WaitAsync(timeout.Token).ConfigureAwait(false);
+                    if (connectedClient != null) await connectedClient.JoinTransportWritesAsync(timeout.Token).ConfigureAwait(false);
+                    validatingConnectionEventArgs?.CompleteTransportClose();
+                }
+                catch (Exception exception)
+                {
+                    validatingConnectionEventArgs?.CompleteTransportClose(exception);
+                    _logger.Error(exception, "Exact connection transport closure could not be confirmed.");
+                }
+            }
         }
     }
 
@@ -732,6 +751,7 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
                     connectedClient = CreateClient(connectPacket, channelAdapter, session);
                     connectedClient.ConnectionAttemptId = validatingConnectionEventArgs.ConnectionAttemptId;
                     connectedClient.WillMessage = validatingConnectionEventArgs.WillMessage;
+                    connectedClient.ConnectionAttemptItems = validatingConnectionEventArgs.SessionItems;
                     _clients[connectPacket.ClientId] = connectedClient;
                     _willMessages.Connected(connectedClient, _eventContainer.PreparingSessionRecoveryHandler != null);
                 }
@@ -883,11 +903,12 @@ public sealed class MqttClientSessionsManager : ISubscriptionChangedNotification
         return !eventArgs.AcceptEnqueue;
     }
 
-    async Task<ValidatingConnectionEventArgs> ValidateConnection(MqttConnectPacket connectPacket, IMqttChannelAdapter channelAdapter, CancellationToken cancellationToken)
+    async Task<ValidatingConnectionEventArgs> ValidateConnection(MqttConnectPacket connectPacket, IMqttChannelAdapter channelAdapter, Action<ValidatingConnectionEventArgs> capture, CancellationToken cancellationToken)
     {
         // TODO: Load session items from persisted sessions in the future.
         var sessionItems = new ConcurrentDictionary<object, object>();
         var eventArgs = new ValidatingConnectionEventArgs(connectPacket, channelAdapter, sessionItems, cancellationToken);
+        capture(eventArgs);
         await _eventContainer.ValidatingConnectionEvent.InvokeAsync(eventArgs).ConfigureAwait(false);
 
         // Check the client ID and set a random one if supported.

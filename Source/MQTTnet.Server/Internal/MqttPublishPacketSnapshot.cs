@@ -28,6 +28,7 @@ static class MqttPublishPacketSnapshot
         destination.CorrelationData = source.CorrelationData;
         destination.Dup = source.Dup;
         destination.MessageExpiryInterval = source.MessageExpiryInterval;
+        destination.HasMessageExpiryInterval = source.HasMessageExpiryInterval;
         destination.PayloadFormatIndicator = source.PayloadFormatIndicator;
         destination.Payload = source.Payload;
         destination.QualityOfServiceLevel = source.QualityOfServiceLevel;

@@ -45,7 +45,18 @@ public sealed record MqttPersistenceCommitResult(Guid TransitionId, Guid Session
 public sealed record MqttSessionPersistenceDeletion(string ClientId, Guid SessionGeneration, long OwnerFence, Guid TransitionId);
 
 public sealed record MqttSessionDisconnectedTransition(string ClientId, Guid SessionGeneration, long OwnerFence, Guid TransitionId,
-    long ExpectedRevision, DateTime DisconnectedAtUtc, uint SessionExpiryInterval);
+    long ExpectedRevision, DateTime DisconnectedAtUtc, uint SessionExpiryInterval)
+{
+    public Guid ConnectionAttemptId { get; init; }
+    public bool HasWill { get; init; }
+    public bool IsWillExternallyOwned { get; init; }
+    public MqttWillMessageSnapshot WillMessage { get; init; }
+    public MqttWillDisposition WillDisposition { get; init; }
+    public MqttDisconnectReasonCode? DisconnectReasonCode { get; init; }
+}
+
+/// <summary>Schedule respects Will delay or session end, including DISCONNECT 0x04.</summary>
+public enum MqttWillDisposition { None, Suppress, Schedule }
 
 public sealed record MqttPersistedSubscription(string Topic, MqttQualityOfServiceLevel QualityOfServiceLevel,
     bool NoLocal, bool RetainAsPublished, MqttRetainHandling RetainHandling, uint SubscriptionIdentifier);

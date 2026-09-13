@@ -13,6 +13,9 @@ namespace MQTTnet.Server;
 public sealed class ClientDisconnectedEventArgs : EventArgs
 {
     public Guid ConnectionAttemptId { get; internal set; }
+    /// <summary>True only after exact durable disconnect confirmation; false if confirmation failed;
+    /// null when not attempted or no current durable owner was available. This is not transport-close proof.</summary>
+    public bool? DurableDisconnectionConfirmed { get; internal set; }
     readonly MqttConnectPacket _connectPacket;
     readonly MqttDisconnectPacket _disconnectPacket;
 

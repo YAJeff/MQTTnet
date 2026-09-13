@@ -321,7 +321,7 @@ public sealed class MqttV5PacketEncoder(MqttBufferWriter bufferWriter)
 
         _propertiesWriter.WriteContentType(packet.ContentType);
         _propertiesWriter.WriteCorrelationData(packet.CorrelationData);
-        _propertiesWriter.WriteMessageExpiryInterval(packet.MessageExpiryInterval);
+        _propertiesWriter.WriteMessageExpiryInterval(packet.MessageExpiryInterval, packet.HasMessageExpiryInterval);
         _propertiesWriter.WritePayloadFormatIndicator(packet.PayloadFormatIndicator);
         _propertiesWriter.WriteResponseTopic(packet.ResponseTopic);
         _propertiesWriter.WriteSubscriptionIdentifiers(packet.SubscriptionIdentifiers);

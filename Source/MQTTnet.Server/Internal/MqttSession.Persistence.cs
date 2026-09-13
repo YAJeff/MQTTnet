@@ -24,6 +24,7 @@ public sealed partial class MqttSession
     bool _durableOptOut;
     Guid? _durableDeletionId;
     MqttSessionDisconnectedTransition _durableDisconnection;
+    volatile bool _durableDisconnectionUnconfirmed;
 
     internal bool HasDurablePersistence => _serverOptions.SessionPersistence != null && !_durableOptOut;
 
@@ -109,6 +110,7 @@ public sealed partial class MqttSession
                     (!_durableAdmissionHandles.TryGetValue(existingPacket, out var originalHandle) || originalHandle != record.DeliveryHandle))
                     throw new InvalidOperationException("The preserved native context does not identify its durable transaction.");
             generationChanged = _durableGeneration != Guid.Empty && snapshot.SessionGeneration != _durableGeneration;
+            if (generationChanged) lock (_incomingQos2) { _incomingQos2.Clear(); _incomingQos2Bytes = 0; }
             if (snapshot.SessionGeneration == _durableGeneration && _durableTransactions.Any(pair => pair.Value.Revision > 0 && !handles.Contains(pair.Value.Handle) && !retired.Contains(pair.Value.Handle)))
                 throw new InvalidOperationException("The durable snapshot omitted a locally confirmed transaction.");
             invalidated = _outgoingPublishStates.Keys.Where(packet => generationChanged ||
@@ -159,6 +161,7 @@ public sealed partial class MqttSession
             _durableGeneration = snapshot.SessionGeneration;
             _durableOwnerFence = snapshot.OwnerFence;
             _durableDisconnection = null;
+            _durableDisconnectionUnconfirmed = false;
             _durableDeletionId = null;
             _durableBlocked = false;
             _durableOptOut = !snapshot.UsePersistence;
@@ -330,34 +333,52 @@ public sealed partial class MqttSession
     {
         lock (_dataEnqueueLock)
         {
+            if (_durableDisconnectionUnconfirmed)
+            {
+                if (expectedGeneration.HasValue) return -1;
+                throw new InvalidOperationException("Session retirement cannot bypass unconfirmed disconnection metadata.");
+            }
             if (expectedGeneration.HasValue && (!IsCurrentConnection(expectedGeneration.Value) || IsDataRecoveryPaused)) return -1;
             if (IsDataRecoveryPaused) throw new InvalidOperationException("Session deletion cannot bypass an active restore or recovery owner.");
             return ActivateConnection();
         }
     }
 
-    internal async Task PersistDisconnectedAsync(long generation, CancellationToken cancellationToken)
+    internal async Task<bool?> PersistDisconnectedAsync(MqttConnectedClient client, CancellationToken cancellationToken)
     {
-        if (!HasDurablePersistence) return;
+        var generation = client.ConnectionGeneration;
+        if (!HasDurablePersistence && !(_serverOptions.SessionPersistence != null && client.IsWillExternallyOwned)) return null;
         using (await _persistenceGate.EnterAsync(cancellationToken).ConfigureAwait(false))
         {
             MqttSessionDisconnectedTransition transition;
             lock (_unacknowledgedPublishPackets)
             {
-                if (!IsCurrentConnection(generation) || _durableGeneration == Guid.Empty) return;
+                if (!IsCurrentConnection(generation) || _durableGeneration == Guid.Empty) return null;
                 transition = _durableDisconnection ??= new MqttSessionDisconnectedTransition(Id, _durableGeneration, _durableOwnerFence,
-                    Guid.NewGuid(), _durableSubscriptionRevision, DisconnectedTimestamp ?? DateTime.UtcNow, ExpiryInterval);
+                    Guid.NewGuid(), _durableSubscriptionRevision, DisconnectedTimestamp ?? DateTime.UtcNow, ExpiryInterval)
+                {
+                    ConnectionAttemptId = client.ConnectionAttemptId,
+                    HasWill = client.WillMessage != null,
+                    IsWillExternallyOwned = client.IsWillExternallyOwned,
+                    WillMessage = client.WillMessage,
+                    DisconnectReasonCode = client.DisconnectPacket?.ReasonCode,
+                    WillDisposition = client.WillMessage == null ? MqttWillDisposition.None :
+                        client.DisconnectPacket?.ReasonCode == MqttDisconnectReasonCode.NormalDisconnection ? MqttWillDisposition.Suppress : MqttWillDisposition.Schedule
+                };
+                _durableDisconnectionUnconfirmed = true;
             }
             try
             {
                 var result = await _serverOptions.SessionPersistence.CommitDisconnectedAsync(transition, cancellationToken).WaitAsync(cancellationToken).ConfigureAwait(false);
                 lock (_unacknowledgedPublishPackets)
                 {
-                    if (!IsCurrentConnection(generation)) return;
+                    if (!IsCurrentConnection(generation)) return null;
                     if (result == null || result.TransitionId != transition.TransitionId || result.SessionGeneration != transition.SessionGeneration || result.OwnerFence != transition.OwnerFence ||
                         result.Revision != transition.ExpectedRevision + 1 || result.Status is not (MqttPersistenceCommitStatus.Applied or MqttPersistenceCommitStatus.AlreadyApplied))
                         throw new InvalidOperationException("Durable disconnection metadata was not confirmed.");
                     _durableSubscriptionRevision = result.Revision;
+                    _durableDisconnectionUnconfirmed = false;
+                    return true;
                 }
             }
             catch
