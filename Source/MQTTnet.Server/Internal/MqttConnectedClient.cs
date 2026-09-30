@@ -172,11 +172,22 @@ public sealed class MqttConnectedClient : IDisposable
             // This might break the protocol but the user wants that.
             return null;
         }
+        // Freeze the interceptor's final PUBREC outcome before any persistence await.
+        if (originalPacket is MqttPubRecPacket && packet is MqttPubRecPacket interceptedPubRec && _eventContainer.InterceptingOutboundPacketEvent.HasHandlers)
+            packet = new MqttPubRecPacket
+            {
+                PacketIdentifier = interceptedPubRec.PacketIdentifier,
+                ReasonCode = interceptedPubRec.ReasonCode,
+                ReasonString = interceptedPubRec.ReasonString,
+                UserProperties = interceptedPubRec.UserProperties?.Select(p => new MqttUserProperty(p.Name, new ReadOnlyMemory<byte>(p.ValueBuffer.ToArray()))).ToList()
+            };
         if (isolatePublish && packet is MqttPublishPacket editedPublish) packet = MqttPublishPacketSnapshot.Clone(editedPublish);
         if (packet is MqttPublishPacket durablePublish)
             await Session.PrepareDurablePublishAsync(originalPublish ?? durablePublish, durablePublish, _connectionGeneration, cancellationToken).ConfigureAwait(false);
         if (packet is MqttPubRelPacket durablePubRel)
             await Session.PrepareDurablePubRelAsync(durablePubRel.PacketIdentifier, _connectionGeneration, cancellationToken).ConfigureAwait(false);
+
+        if (!await Session.PrepareIncomingQos2AcknowledgementAsync(this, originalPacket, packet, cancellationToken).ConfigureAwait(false)) return null;
 
         // User callbacks are outside this gate. Takeover cancels and joins actual wire writes before session recovery.
         using (await _wireSendLock.EnterAsync(cancellationToken).ConfigureAwait(false))
@@ -310,8 +321,8 @@ public sealed class MqttConnectedClient : IDisposable
                 return _sessionsManager.DispatchApplicationMessage(Id, UserName, Session.Items, message, cancellationToken);
             }, cancellationToken).ConfigureAwait(false);
             if (!Session.IsCurrentConnection(_connectionGeneration)) return;
-            if (result.CloseConnection) { await StopAsync(new MqttServerClientDisconnectOptions { ReasonCode = MqttDisconnectReasonCode.UnspecifiedError }); return; }
-            Session.EnqueueIncomingQos2Acknowledgement(MqttPubRecPacketFactory.Create(publishPacket, result), _connectionGeneration);
+            if (result.Dispatch.CloseConnection) { await StopAsync(new MqttServerClientDisconnectOptions { ReasonCode = MqttDisconnectReasonCode.UnspecifiedError }); return; }
+            Session.EnqueueIncomingQos2Acknowledgement(MqttPubRecPacketFactory.Create(publishPacket, result.Dispatch), _connectionGeneration, result);
             return;
         }
 

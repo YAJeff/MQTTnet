@@ -410,6 +410,169 @@ public sealed class IncomingQos2Persistence_Tests
         Assert.AreEqual(0, pubRec);
     }
 
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(false, true)]
+    [DataRow(true, false)]
+    [DataRow(true, true)]
+    public async Task Intercepted_Negative_PubRec_Retires_Exact_Publication_Before_Immediate_Reuse(bool durable, bool replacePacket)
+    {
+        var store = durable ? new Store() : null;
+        using var context = await Context.Start(store, liveLimit: 1);
+        var receipts = 0;
+        context.Server.InterceptingOutboundPacketAsync += e =>
+        {
+            if (e.Packet is MqttPubRecPacket pubRec && Interlocked.Increment(ref receipts) == 1)
+            {
+                if (replacePacket) e.Packet = new MqttPubRecPacket { PacketIdentifier = pubRec.PacketIdentifier, ReasonCode = MqttPubRecReasonCode.ImplementationSpecificError };
+                else pubRec.ReasonCode = MqttPubRecReasonCode.ImplementationSpecificError;
+            }
+            return Task.CompletedTask;
+        };
+        using var client = await context.Connect(false);
+        await client.SendAsync(Packet());
+        Assert.AreEqual(MqttPubRecReasonCode.ImplementationSpecificError, (await Receive<MqttPubRecPacket>(client)).ReasonCode);
+        var original = store?.LastResolved.Identity;
+        var fresh = Packet(); fresh.Payload = new ReadOnlySequence<byte>(new byte[] { 43 });
+        await client.SendAsync(fresh);
+        Assert.AreEqual(durable ? MqttPubRecReasonCode.Success : MqttPubRecReasonCode.NoMatchingSubscribers, (await Receive<MqttPubRecPacket>(client)).ReasonCode);
+        if (durable) { Assert.AreNotEqual(original, store.LastResolved.Identity); Assert.AreEqual(2, store.AcceptanceCalls); }
+        else Assert.AreEqual(2, context.NativeDispatches);
+        await Complete(client);
+        if (durable) Assert.IsEmpty(store.Live);
+    }
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Suppressed_Negative_PubRec_Preserves_Acceptance_For_Reconnect(bool durable)
+    {
+        var store = durable ? new Store() : null;
+        using var context = await Context.Start(store);
+        var suppressed = Signal();
+        context.Server.InterceptingOutboundPacketAsync += e =>
+        {
+            if (e.Packet is MqttPubRecPacket pubRec && !suppressed.Task.IsCompleted)
+            { pubRec.ReasonCode = MqttPubRecReasonCode.ImplementationSpecificError; e.ProcessPacket = false; suppressed.TrySetResult(); }
+            return Task.CompletedTask;
+        };
+        using var first = await context.Connect(false);
+        await first.SendAsync(Packet());
+        await suppressed.Task.WaitAsync(TimeSpan.FromSeconds(3));
+        var original = store?.LastResolved.Identity;
+        await context.Close(first);
+        using var second = await context.Connect(true);
+        await second.SendAsync(Packet(dup: true));
+        Assert.AreEqual(durable ? MqttPubRecReasonCode.Success : MqttPubRecReasonCode.NoMatchingSubscribers, (await Receive<MqttPubRecPacket>(second)).ReasonCode);
+        if (durable) { Assert.AreEqual(original, store.LastResolved.Identity); Assert.AreEqual(1, store.AcceptanceCalls); }
+        else Assert.AreEqual(1, context.NativeDispatches);
+        await Complete(second);
+    }
+
+    [TestMethod]
+    public async Task Negative_PubRec_Is_Frozen_And_Waits_For_Durable_Retirement()
+    {
+        var store = new Store(); var retiring = Signal(); var release = Signal();
+        store.BeforeCommit = async t => { if (t.NextPhase == MqttIncomingQos2Phase.Completed) { retiring.TrySetResult(); await release.Task; } };
+        using var context = await Context.Start(store);
+        MqttPubRecPacket escaped = null;
+        context.Server.InterceptingOutboundPacketAsync += e =>
+        {
+            if (e.Packet is MqttPubRecPacket pubRec)
+            { escaped = pubRec; pubRec.ReasonCode = MqttPubRecReasonCode.ImplementationSpecificError; pubRec.ReasonString = "fixed"; }
+            return Task.CompletedTask;
+        };
+        using var client = await context.Connect(false);
+        await client.SendAsync(Packet());
+        var receive = Receive<MqttPubRecPacket>(client);
+        try
+        {
+            await retiring.Task.WaitAsync(TimeSpan.FromSeconds(3));
+            Assert.IsFalse(receive.IsCompleted);
+            escaped.ReasonCode = MqttPubRecReasonCode.Success; escaped.PacketIdentifier = 999; escaped.ReasonString = "late";
+        }
+        finally { release.TrySetResult(); }
+        var pubRec = await receive;
+        Assert.AreEqual((ushort)17, pubRec.PacketIdentifier);
+        Assert.AreEqual(MqttPubRecReasonCode.ImplementationSpecificError, pubRec.ReasonCode);
+        Assert.AreEqual("fixed", pubRec.ReasonString);
+        Assert.IsEmpty(store.Live);
+    }
+
+    [TestMethod]
+    public async Task Unconfirmed_Negative_PubRec_Retirement_Closes_Without_Acknowledgement()
+    {
+        var store = new Store { OverrideCommit = r => r.Transaction.Phase == MqttIncomingQos2Phase.Completed ? r with { Status = MqttIncomingQos2PersistenceStatus.Uncertain } : r };
+        using var context = await Context.Start(store, ignoreErrors: true);
+        context.Server.InterceptingOutboundPacketAsync += e => { if (e.Packet is MqttPubRecPacket p) p.ReasonCode = MqttPubRecReasonCode.ImplementationSpecificError; return Task.CompletedTask; };
+        using var client = await context.Connect(false);
+        await client.SendAsync(Packet());
+        await context.Validation.TransportClosed.WaitAsync(TimeSpan.FromSeconds(3));
+        await Assert.ThrowsExactlyAsync<MQTTnet.Exceptions.MqttCommunicationException>(() => client.ReceiveAsync(CancellationToken.None));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Delayed_Negative_PubRec_Cannot_Retire_Reused_Identifier(bool durable)
+    {
+        var store = durable ? new Store() : null;
+        using var context = await Context.Start(store);
+        var held = Signal(); var release = Signal(); var freshAccepted = Signal(); var receipts = 0;
+        if (durable) store.Accept = _ => { if (store.AcceptanceCalls == 2) freshAccepted.TrySetResult(); return Task.CompletedTask; };
+        else context.Server.InterceptingPublishAsync += _ => { if (context.NativeDispatches == 2) freshAccepted.TrySetResult(); return Task.CompletedTask; };
+        context.Server.InterceptingOutboundPacketAsync += async e =>
+        {
+            if (e.Packet is MqttPubRecPacket p && Interlocked.Increment(ref receipts) == 1)
+            { p.ReasonCode = MqttPubRecReasonCode.ImplementationSpecificError; held.TrySetResult(); await release.Task; }
+        };
+        using var client = await context.Connect(false);
+        await client.SendAsync(Packet());
+        try
+        {
+            await held.Task.WaitAsync(TimeSpan.FromSeconds(3));
+            // Deliberately advance the receive side while the old ACK callback is held.
+            await client.SendAsync(new MqttPubRelPacket { PacketIdentifier = 17 });
+            var fresh = Packet(); fresh.Payload = new ReadOnlySequence<byte>(new byte[] { 43 });
+            await client.SendAsync(fresh);
+            await freshAccepted.Task.WaitAsync(TimeSpan.FromSeconds(3));
+        }
+        finally { release.TrySetResult(); }
+        await Receive<MqttPubCompPacket>(client);
+        Assert.AreEqual(durable ? MqttPubRecReasonCode.Success : MqttPubRecReasonCode.NoMatchingSubscribers, (await Receive<MqttPubRecPacket>(client)).ReasonCode);
+        await Complete(client);
+        if (durable) { Assert.IsEmpty(store.Live); Assert.AreEqual(2, store.AcceptanceCalls); }
+        else Assert.AreEqual(2, context.NativeDispatches);
+    }
+
+    [TestMethod]
+    public async Task Mqtt311_PubRec_Without_A_Wire_Reason_Does_Not_Retire_Early()
+    {
+        using var context = await Context.Start();
+        context.Server.InterceptingOutboundPacketAsync += e => { if (e.Packet is MqttPubRecPacket p) p.ReasonCode = MqttPubRecReasonCode.ImplementationSpecificError; return Task.CompletedTask; };
+        using var client = await context.Connect(false, MqttProtocolVersion.V311);
+        await client.SendAsync(Packet()); await Receive<MqttPubRecPacket>(client);
+        await client.SendAsync(Packet(dup: true)); await Receive<MqttPubRecPacket>(client);
+        Assert.AreEqual(1, context.NativeDispatches);
+        await Complete(client);
+    }
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Negative_PubRec_With_Changed_Identifier_Cannot_Retire_Publication(bool durable)
+    {
+        var store = durable ? new Store() : null;
+        using var context = await Context.Start(store, ignoreErrors: true);
+        context.Server.InterceptingOutboundPacketAsync += e =>
+        {
+            if (e.Packet is MqttPubRecPacket p) { p.PacketIdentifier = 99; p.ReasonCode = MqttPubRecReasonCode.ImplementationSpecificError; }
+            return Task.CompletedTask;
+        };
+        using var client = await context.Connect(false);
+        await client.SendAsync(Packet());
+        await context.Validation.TransportClosed.WaitAsync(TimeSpan.FromSeconds(3));
+        await Assert.ThrowsExactlyAsync<MQTTnet.Exceptions.MqttCommunicationException>(() => client.ReceiveAsync(CancellationToken.None));
+        if (durable) Assert.HasCount(1, store.Live);
+    }
     static TaskCompletionSource Signal() => new(TaskCreationOptions.RunContinuationsAsynchronously);
     static MqttPublishPacket Packet(ushort id = 17, bool dup = false) => new() { PacketIdentifier = id, Topic = "incoming/test", QualityOfServiceLevel = MqttQualityOfServiceLevel.ExactlyOnce, Payload = new ReadOnlySequence<byte>(new byte[] { 42 }), Dup = dup };
     static async Task<T> Receive<T>(ILowLevelMqttClient client) where T : MqttPacket

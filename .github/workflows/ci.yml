@@ -1,6 +1,9 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore: [fix/incoming-negative-pubrec]
+  pull_request:
 
 env:
   VERSION: "5.2.0.${{github.run_number}}"

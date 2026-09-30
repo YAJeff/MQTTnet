@@ -1,0 +1,91 @@
+name: Native incoming qualification
+on:
+  push:
+    branches: [fix/incoming-negative-pubrec]
+permissions:
+  contents: read
+concurrency:
+  group: native-incoming-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  TESTINGPLATFORM_TELEMETRY_OPTOUT: '1'
+jobs:
+  linux-package-and-suite:
+    if: github.repository == 'YAJeff/MQTTnet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Build exact source and package both frameworks
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="5.2.0-local.incoming.${GITHUB_SHA:0:8}"
+          echo "NATIVE_VERSION=$version" >> "$GITHUB_ENV"
+          dotnet build Source/MQTTnet.Tests/MQTTnet.Tests.csproj -c Release -m:2 -p:BuildInParallel=false -p:Version="$version" -p:AssemblyVersion=1.0.0.0
+          mkdir -p qualification/packages qualification/tests qualification/test-binaries/net8.0 qualification/test-binaries/net10.0
+          for project in Source/MQTTnet/MQTTnet.csproj Source/MQTTnet.Server/MQTTnet.Server.csproj Source/MQTTnet.AspnetCore/MQTTnet.AspNetCore.csproj; do
+            dotnet pack "$project" -c Release --no-build --no-restore -p:Version="$version" -p:AssemblyVersion=1.0.0.0 -o qualification/packages
+          done
+          cp -a Source/MQTTnet.Tests/bin/Release/net8.0/. qualification/test-binaries/net8.0/
+          cp -a Source/MQTTnet.Tests/bin/Release/net10.0/. qualification/test-binaries/net10.0/
+          dotnet --info > qualification/linux-dotnet-info.txt
+      - name: Verify all six packaged DLLs equal suite DLLs
+        shell: pwsh
+        run: ./.github/scripts/verify-native-qualification.ps1 -PackageRoot qualification/packages -TestRoot qualification/test-binaries -Output qualification -Version $env:NATIVE_VERSION -Commit $env:GITHUB_SHA
+      - name: Full Linux NET10 suite
+        shell: bash
+        run: dotnet qualification/test-binaries/net10.0/MQTTnet.Tests.dll --report-trx --report-trx-filename full-linux-net10.trx --results-directory qualification/tests
+      - name: Preserve sealed packages, both suite binaries, and receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-incoming-linux
+          path: qualification
+          retention-days: 7
+          if-no-files-found: error
+  windows-exact-dll-suite:
+    if: github.repository == 'YAJeff/MQTTnet'
+    needs: linux-package-and-suite
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - uses: actions/download-artifact@v4
+        with:
+          name: native-incoming-linux
+          path: qualification
+      - name: Verify unchanged downloaded DLLs against package receipt
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $manifest = Get-Content qualification/PACKAGE-MANIFEST.json -Raw | ConvertFrom-Json
+          if ($manifest.commit -ne $env:GITHUB_SHA) { throw 'Wrong source receipt' }
+          foreach ($library in $manifest.libraries) {
+            $path = "qualification/test-binaries/$($library.framework)/$($library.package).dll"
+            if ((Get-FileHash $path).Hash -ne $library.dllSha256) { throw "Downloaded DLL changed: $path" }
+          }
+          dotnet --info | Set-Content qualification/windows-dotnet-info.txt
+      - name: Full Windows NET8 suite against Linux packaged DLLs
+        shell: pwsh
+        run: |
+          dotnet qualification/test-binaries/net8.0/MQTTnet.Tests.dll --report-trx --report-trx-filename full-windows-net8.trx --results-directory qualification/tests
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Preserve Windows full-suite receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-incoming-windows-receipts
+          path: |
+            qualification/tests/full-windows-net8.trx
+            qualification/windows-dotnet-info.txt
+          retention-days: 7
+          if-no-files-found: error

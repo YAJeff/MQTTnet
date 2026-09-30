@@ -33,69 +33,31 @@ public class MqttTcpChannel_Tests
     [TestMethod]
     public async Task Dispose_Channel_While_Used()
     {
-        using var ct = new CancellationTokenSource();
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
         using var serverSocket = new CrossPlatformSocket(AddressFamily.InterNetwork, ProtocolType.Tcp);
+        serverSocket.Bind(new IPEndPoint(IPAddress.Loopback, 0));
+        var serverPort = ((IPEndPoint)serverSocket.LocalEndPoint).Port;
+        serverSocket.Listen(1);
 
-        try
-        {
-            serverSocket.Bind(new IPEndPoint(IPAddress.Loopback, 0));
-            var serverPort = ((IPEndPoint)serverSocket.LocalEndPoint).Port;
-            serverSocket.Listen(0);
+        var accepted = serverSocket.AcceptAsync(timeout.Token);
+        var remoteEndPoint = new DnsEndPoint("localhost", serverPort);
+        using var clientSocket = new CrossPlatformSocket(AddressFamily.InterNetwork, ProtocolType.Tcp);
+        await clientSocket.ConnectAsync(remoteEndPoint, timeout.Token);
+        // Keep the peer owned and alive until the pending read has completed.
+        using var peer = await accepted;
+        using var tcpChannel = new MqttTcpChannel(clientSocket.GetStream(), new DnsEndPoint("localhost", 50000), remoteEndPoint, null);
+        await peer.SendAsync(new ArraySegment<byte>(new byte[] { 128 }), SocketFlags.None);
+        var buffer = new byte[1];
+        Assert.AreEqual(1, await tcpChannel.ReadAsync(buffer, 0, 1, timeout.Token));
+        Assert.AreEqual(128, buffer[0]);
 
-#pragma warning disable 4014
-            Task.Run(
-                async () =>
-#pragma warning restore 4014
-                {
-                    while (!ct.IsCancellationRequested)
-                    {
-                        var client = await serverSocket.AcceptAsync(CancellationToken.None);
-                        var data = new byte[] { 128 };
-                        await client.SendAsync(new ArraySegment<byte>(data), SocketFlags.None);
-                    }
-                },
-                ct.Token);
-
-            var remoteEndPoint = new DnsEndPoint("localhost", serverPort);
-            using var clientSocket = new CrossPlatformSocket(AddressFamily.InterNetwork, ProtocolType.Tcp);
-            await clientSocket.ConnectAsync(remoteEndPoint, CancellationToken.None);
-
-            var tcpChannel = new MqttTcpChannel(clientSocket.GetStream(), new DnsEndPoint("localhost", 50000), remoteEndPoint, null);
-
-            await Task.Delay(100, ct.Token);
-
-            var buffer = new byte[1];
-            await tcpChannel.ReadAsync(buffer, 0, 1, ct.Token);
-
-            Assert.AreEqual(128, buffer[0]);
-
-            // This block should fail after dispose.
-#pragma warning disable 4014
-            Task.Run(
-                () =>
-#pragma warning restore 4014
-                {
-                    Task.Delay(200, ct.Token);
-                    tcpChannel.Dispose();
-                },
-                ct.Token);
-
-            try
-            {
-                await tcpChannel.ReadAsync(buffer, 0, 1, CancellationToken.None);
-            }
-            catch (Exception exception)
-            {
-                Assert.IsInstanceOfType<SocketException>(exception);
-                Assert.AreEqual(SocketError.OperationAborted, ((SocketException)exception).SocketErrorCode);
-            }
-        }
-        finally
-        {
-            ct.Cancel(false);
-        }
+        // Start the read before disposal, without racing a detached task or delay.
+        var read = tcpChannel.ReadAsync(buffer, 0, 1, CancellationToken.None);
+        Assert.IsFalse(read.IsCompleted);
+        tcpChannel.Dispose();
+        var exception = await Assert.ThrowsExactlyAsync<SocketException>(async () => await read.WaitAsync(timeout.Token));
+        Assert.AreEqual(SocketError.OperationAborted, exception.SocketErrorCode);
     }
-
     static bool InvokeCertificateValidationCallback(MqttTcpChannel tcpChannel, X509Chain chain, SslPolicyErrors sslPolicyErrors)
     {
         var method = typeof(MqttTcpChannel).GetMethod("InternalUserCertificateValidationCallback", BindingFlags.Instance | BindingFlags.NonPublic);
