@@ -4,6 +4,7 @@ on:
     branches: [fix/incoming-negative-pubrec]
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: native-incoming-${{ github.ref }}
   cancel-in-progress: true
@@ -11,6 +12,70 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: '1'
   TESTINGPLATFORM_TELEMETRY_OPTOUT: '1'
 jobs:
+  public-client-repro:
+    if: github.repository == 'YAJeff/MQTTnet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: 14bfa28cbf0db07d8753203f767a21c7024408ec
+          path: public-client
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Prove public master counterexample and fixed client on both targets
+        shell: pwsh
+        run: ./.github/scripts/qualify-public-client.ps1 -SourceRoot public-client -Output public-qualification
+      - name: Preserve public-only exact binaries and counterexample receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-client-linux
+          path: public-qualification
+          retention-days: 7
+          if-no-files-found: error
+  public-client-windows:
+    if: github.repository == 'YAJeff/MQTTnet'
+    needs: public-client-repro
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - uses: actions/download-artifact@v4
+        with:
+          name: public-client-linux
+          path: public-qualification
+      - name: Verify identical public binaries and run both Windows targets
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $receipt = Get-Content public-qualification/PUBLIC-CLIENT-RECEIPT.json -Raw | ConvertFrom-Json
+          if ($receipt.fixedSource -ne '14bfa28cbf0db07d8753203f767a21c7024408ec') { throw 'Wrong public source' }
+          foreach ($entry in $receipt.identities) {
+            if ((Get-FileHash "public-qualification/test-binaries/$($entry.framework)/$($entry.library).dll").Hash -ne $entry.sha256) { throw 'Public DLL changed' }
+          }
+          foreach ($tfm in @('net8.0','net10.0')) {
+            dotnet "public-qualification/test-binaries/$tfm/MQTTnet.Tests.dll" --filter 'FullyQualifiedName~ClientNegativePubRec_Tests' --report-trx --report-trx-filename "public-windows-$tfm.trx" --results-directory public-windows-receipts
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+          dotnet --info | Set-Content public-windows-receipts/windows-dotnet-info.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-client-windows-receipts
+          path: public-windows-receipts
+          retention-days: 7
+          if-no-files-found: error
   linux-package-and-suite:
     if: github.repository == 'YAJeff/MQTTnet'
     runs-on: ubuntu-latest
@@ -39,6 +104,11 @@ jobs:
       - name: Verify all six packaged DLLs equal suite DLLs
         shell: pwsh
         run: ./.github/scripts/verify-native-qualification.ps1 -PackageRoot qualification/packages -TestRoot qualification/test-binaries -Output qualification -Version $env:NATIVE_VERSION -Commit $env:GITHUB_SHA
+      - name: Preserve exact sealed c13 client counterexample
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./.github/scripts/verify-client-negative-control.ps1 -CandidateRoot qualification
       - name: Full Linux NET10 suite
         shell: bash
         run: dotnet qualification/test-binaries/net10.0/MQTTnet.Tests.dll --report-trx --report-trx-filename full-linux-net10.trx --results-directory qualification/tests
