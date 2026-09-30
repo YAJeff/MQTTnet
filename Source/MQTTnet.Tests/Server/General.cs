@@ -783,25 +783,27 @@ public class General_Tests : BaseTestClass
             }
         }
 
-        byte[] receivedBody = null;
+        var receivedBody = new TaskCompletionSource<byte[]>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         await testEnvironment.StartServer();
 
-        var client1 = await testEnvironment.ConnectClient();
+        // A 30 MiB transfer can exceed the default keep-alive window on constrained CI workers.
+        var client1 = await testEnvironment.ConnectClient(o => o.WithKeepAlivePeriod(TimeSpan.FromMinutes(2)));
         client1.ApplicationMessageReceivedAsync += e =>
         {
-            receivedBody = e.ApplicationMessage.Payload.ToArray();
+            receivedBody.TrySetResult(e.ApplicationMessage.Payload.ToArray());
             return CompletedTask.Instance;
         };
 
         await client1.SubscribeAsync("string");
 
-        var client2 = await testEnvironment.ConnectClient();
-        await client2.PublishBinaryAsync("string", longBody);
+        var client2 = await testEnvironment.ConnectClient(o => o.WithKeepAlivePeriod(TimeSpan.FromMinutes(2)));
+        using var timeout = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+        await client2.PublishBinaryAsync("string", longBody, cancellationToken: timeout.Token);
 
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        var payload = await receivedBody.Task.WaitAsync(timeout.Token);
 
-        Assert.IsTrue(longBody.SequenceEqual(receivedBody ?? []));
+        Assert.IsTrue(longBody.SequenceEqual(payload));
     }
 
     [TestMethod]
