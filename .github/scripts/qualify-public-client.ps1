@@ -25,10 +25,8 @@ try {
     }
     $harness = (Get-FileHash "$Output/test-binaries/net10.0/MQTTnet.Tests.dll").Hash
     # Compile only the original public client, then swap that DLL into an unchanged test harness.
-    foreach ($file in @('Source/MQTTnet/MqttClient.cs', 'Source/MQTTnet/Publishing/MqttClientPublishResultFactory.cs')) {
-        $original = git show "${baseline}:$file"
-        [IO.File]::WriteAllText((Join-Path $SourceRoot $file), ($original -join "`n") + "`n", [Text.UTF8Encoding]::new($false))
-    }
+    git restore --source $baseline -- Source/MQTTnet/MqttClient.cs Source/MQTTnet/Publishing/MqttClientPublishResultFactory.cs
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot restore exact upstream baseline bytes' }
     if (git diff $baseline -- Source/MQTTnet) { throw 'Baseline core client source is not exactly upstream master' }
     dotnet build Source/MQTTnet/MQTTnet.csproj -c Release -f net10.0 --no-restore -m:2 -p:BuildInParallel=false -p:GeneratePackageOnBuild=false -p:AssemblyVersion=1.0.0.0 -p:SourceRevisionId=$baseline -p:Version=5.2.0-local.client.base798a0e22
     if ($LASTEXITCODE -ne 0) { throw 'Public baseline client build failed' }
@@ -55,4 +53,5 @@ try {
     if (!$resolvedControl.StartsWith($resolvedRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::Ordinal)) { throw 'Control cleanup escaped owned output' }
     Remove-Item -LiteralPath $resolvedControl -Recurse -Force
     dotnet --info | Set-Content "$Output/linux-dotnet-info.txt"
+    $global:LASTEXITCODE = 0
 } finally { Pop-Location }

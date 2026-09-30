@@ -39,3 +39,4 @@ foreach ($owned in @($baseline, $control)) {
 }
 Remove-Item -LiteralPath $artifact
 Write-Output 'Expected c13 client counterexample: nine failures, four positive passes, unchanged test DLL'
+$global:LASTEXITCODE = 0
