@@ -74,7 +74,7 @@ public sealed partial class MqttSession
                 try { result = await entry.Dispatch.WaitAsync(token).ConfigureAwait(false); }
                 catch { _ = ObserveAbandonedIncomingTask(entry.Dispatch); throw; }
                 CheckIncomingConnection(client);
-                return new IncomingQos2PublishResult(result, entry);
+                return new IncomingQos2PublishResult(result, packet.PacketIdentifier, entry.Incarnation);
             }
             catch
             {
@@ -124,7 +124,7 @@ public sealed partial class MqttSession
             CheckIncomingConnection(client);
             transaction = await CommitIncomingAsync(client, owner, transaction, MqttIncomingQos2Phase.AwaitPubRel, token).ConfigureAwait(false);
         }
-        return new IncomingQos2PublishResult(IncomingSuccess(), null, transaction);
+        return new IncomingQos2PublishResult(IncomingSuccess(), packet.PacketIdentifier, Guid.Empty, transaction.Identity, transaction.Revision);
     }
 
     internal async Task<bool> ProcessIncomingQos2PubRelAsync(MqttConnectedClient client, ushort packetIdentifier, CancellationToken cancellationToken)
@@ -198,7 +198,7 @@ public sealed partial class MqttSession
             !_incomingAcknowledgementOwners.TryGetValue(originalPacket, out var acknowledgement) || acknowledgement.Publication == null)
             return true;
         var publication = acknowledgement.Publication;
-        var packetIdentifier = publication.MemoryTransaction?.Packet.PacketIdentifier ?? publication.DurableTransaction.Identity.PacketIdentifier;
+        var packetIdentifier = publication.PacketIdentifier;
         if (pubRec.PacketIdentifier != packetIdentifier)
             throw new InvalidOperationException("Incoming PUBREC interception changed the packet identifier.");
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -209,19 +209,18 @@ public sealed partial class MqttSession
             CheckIncomingConnection(client);
             try
             {
-                if (publication.MemoryTransaction != null)
+                if (publication.MemoryIncarnation != Guid.Empty)
                 {
                     lock (_incomingQos2)
                     {
                         if (!_incomingQos2.TryGetValue(packetIdentifier, out var current) ||
-                            !ReferenceEquals(current, publication.MemoryTransaction)) return false;
+                            current.Incarnation != publication.MemoryIncarnation) return false;
                         _incomingQos2.Remove(packetIdentifier);
                         _incomingQos2Bytes -= current.Bytes;
                     }
                     return true;
                 }
                 var owner = GetIncomingOwner(client);
-                var captured = publication.DurableTransaction;
                 var request = new MqttIncomingQos2ReadRequest(owner, Guid.NewGuid(), packetIdentifier);
                 var result = await _serverOptions.IncomingQos2Persistence.ReadAsync(request, token).WaitAsync(token).ConfigureAwait(false);
                 CheckIncomingResult(client, result, owner, request.OperationId, 0, true);
@@ -231,11 +230,11 @@ public sealed partial class MqttSession
                     return false;
                 }
                 ValidateIncomingTransaction(result.Transaction, owner, packetIdentifier, true);
-                if (result.Transaction.Identity != captured.Identity || result.Transaction.Phase != MqttIncomingQos2Phase.AwaitPubRel)
+                if (result.Transaction.Identity != publication.DurableIdentity || result.Transaction.Phase != MqttIncomingQos2Phase.AwaitPubRel)
                     return false;
-                if (result.Transaction.Revision != captured.Revision)
+                if (result.Transaction.Revision != publication.DurableRevision)
                     throw new InvalidOperationException("Incoming PUBREC retirement revision changed.");
-                await CommitIncomingAsync(client, owner, captured, MqttIncomingQos2Phase.Completed, token).ConfigureAwait(false);
+                await CommitIncomingAsync(client, owner, result.Transaction, MqttIncomingQos2Phase.Completed, token).ConfigureAwait(false);
                 return true;
             }
             catch { BlockIncomingOwner(client); throw; }
@@ -319,13 +318,14 @@ public sealed partial class MqttSession
                 throw new InvalidOperationException("Incoming retransmission user properties changed.");
     }
 
-    internal sealed class IncomingMemoryTransaction
+    sealed class IncomingMemoryTransaction
     {
         public IncomingMemoryTransaction(MqttPublishPacket packet, long bytes) { Packet = packet; Bytes = bytes; }
+        public Guid Incarnation { get; } = Guid.NewGuid();
         public MqttPublishPacket Packet { get; }
         public long Bytes { get; }
         public Task<DispatchApplicationMessageResult> Dispatch { get; set; }
     }
-    internal sealed record IncomingQos2PublishResult(DispatchApplicationMessageResult Dispatch, IncomingMemoryTransaction MemoryTransaction = null, MqttIncomingQos2Transaction DurableTransaction = null);
+    internal sealed record IncomingQos2PublishResult(DispatchApplicationMessageResult Dispatch, ushort PacketIdentifier, Guid MemoryIncarnation = default, MqttIncomingQos2Identity DurableIdentity = null, long DurableRevision = 0);
     sealed record IncomingAcknowledgementOwner(long Generation, IncomingQos2PublishResult Publication);
 }

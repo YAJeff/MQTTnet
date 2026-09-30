@@ -55,8 +55,16 @@ public class MqttTcpChannel_Tests
         var read = tcpChannel.ReadAsync(buffer, 0, 1, CancellationToken.None);
         Assert.IsFalse(read.IsCompleted);
         tcpChannel.Dispose();
-        var exception = await Assert.ThrowsExactlyAsync<SocketException>(async () => await read.WaitAsync(timeout.Token));
-        Assert.AreEqual(SocketError.OperationAborted, exception.SocketErrorCode);
+        // Shutdown can complete an outstanding read with EOF on Unix or an
+        // aborted socket on Windows. It must never return data or remain pending.
+        try
+        {
+            Assert.AreEqual(0, await read.WaitAsync(timeout.Token));
+        }
+        catch (SocketException exception)
+        {
+            Assert.AreEqual(SocketError.OperationAborted, exception.SocketErrorCode);
+        }
     }
     static bool InvokeCertificateValidationCallback(MqttTcpChannel tcpChannel, X509Chain chain, SslPolicyErrors sslPolicyErrors)
     {
