@@ -573,6 +573,48 @@ public sealed class IncomingQos2Persistence_Tests
         await Assert.ThrowsExactlyAsync<MQTTnet.Exceptions.MqttCommunicationException>(() => client.ReceiveAsync(CancellationToken.None));
         if (durable) Assert.HasCount(1, store.Live);
     }
+    [TestMethod]
+    public async Task Durable_Acceptance_Carries_Native_Publication_Context()
+    {
+        var store = new Store();
+        var captured = new TaskCompletionSource<AcceptingIncomingQos2MessageEventArgs>(TaskCreationOptions.RunContinuationsAsynchronously);
+        store.Accept = e => { captured.TrySetResult(e); return Task.CompletedTask; };
+        using var context = await Context.Start(store);
+        using var client = await context.Connect(false);
+        await client.SendAsync(Packet());
+        await Receive<MqttPubRecPacket>(client);
+        var accepted = await captured.Task.WaitAsync(TimeSpan.FromSeconds(3));
+        Assert.AreEqual(context.Validation.ConnectionAttemptId, accepted.Owner.ConnectionAttemptId);
+        Assert.HasCount(1, store.Journals);
+        TrustedIngressContext_Tests.RequireContext(accepted);
+        await Complete(client);
+    }
+
+    [TestMethod]
+    public async Task Memory_Reconnect_Preserves_One_Admission_But_Not_Old_Execution_Lease()
+    {
+        using var context = await Context.Start();
+        InterceptingPublishEventArgs admitted = null;
+        var admissions = 0;
+        context.Server.InterceptingPublishAsync += e => { admitted = e; Interlocked.Increment(ref admissions); return Task.CompletedTask; };
+        using var first = await context.Connect(false);
+        var oldAttempt = context.Validation.ConnectionAttemptId;
+        await first.SendAsync(Packet());
+        await Receive<MqttPubRecPacket>(first);
+        await context.Close(first);
+        using var second = await context.Connect(true);
+        Assert.AreNotEqual(oldAttempt, context.Validation.ConnectionAttemptId);
+        await second.SendAsync(Packet(dup: true));
+        await Receive<MqttPubRecPacket>(second);
+        Assert.AreEqual(1, Volatile.Read(ref admissions));
+        await Complete(second);
+        var issued = TrustedIngressContext_Tests.RequireContext(admitted);
+        var tokenProperty = issued.GetType().GetProperty("CancellationToken");
+        Assert.IsNotNull(tokenProperty);
+        Assert.IsTrue(((CancellationToken)tokenProperty.GetValue(issued)).IsCancellationRequested,
+            "The admission identity may survive reconnect, but its original execution lease must be revoked.");
+    }
+
     static TaskCompletionSource Signal() => new(TaskCreationOptions.RunContinuationsAsynchronously);
     static MqttPublishPacket Packet(ushort id = 17, bool dup = false) => new() { PacketIdentifier = id, Topic = "incoming/test", QualityOfServiceLevel = MqttQualityOfServiceLevel.ExactlyOnce, Payload = new ReadOnlySequence<byte>(new byte[] { 42 }), Dup = dup };
     static async Task<T> Receive<T>(ILowLevelMqttClient client) where T : MqttPacket

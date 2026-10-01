@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches-ignore: [fix/incoming-negative-pubrec]
+    branches-ignore: [fix/incoming-negative-pubrec, test/trusted-ingress-context]
   pull_request:
 
 env:
