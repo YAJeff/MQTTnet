@@ -4,6 +4,7 @@
 
 using System.Collections.Concurrent;
 using MQTTnet.Formatter;
+using MQTTnet.Packets;
 using MQTTnet.Protocol;
 using MQTTnet.Server;
 using MQTTnet.Tests.Mockups;
@@ -276,3 +277,4 @@ public sealed class TrustedIngressContext_Tests
 
     static TaskCompletionSource Signal() => new(TaskCreationOptions.RunContinuationsAsynchronously);
 }
+
