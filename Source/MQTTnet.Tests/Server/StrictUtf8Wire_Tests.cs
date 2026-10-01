@@ -11,7 +11,7 @@ public sealed class StrictUtf8Wire_Tests
     [DataRow(true)]
     public async Task Invalid_Connect_Client_Id_Is_Rejected_Before_Validation(bool nullCharacter)
     {
-        using var environment = new TestEnvironment();
+        using var environment = new TestEnvironment { IgnoreServerLogErrors = true };
         var server = await environment.StartServer();
         var validations = 0;
         server.ValidatingConnectionAsync += _ => { Interlocked.Increment(ref validations); return Task.CompletedTask; };
@@ -39,7 +39,7 @@ public sealed class StrictUtf8Wire_Tests
     [DataRow(true)]
     public async Task Invalid_User_Property_Value_Is_Rejected_Before_Business_Callback(bool nullCharacter)
     {
-        using var environment = new TestEnvironment();
+        using var environment = new TestEnvironment { IgnoreServerLogErrors = true };
         var server = await environment.StartServer();
         var publications = 0;
         server.InterceptingPublishAsync += _ => { Interlocked.Increment(ref publications); return Task.CompletedTask; };
