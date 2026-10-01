@@ -6,7 +6,7 @@
     "network": "3 QoS cases exercise real publish and subscriber enqueue before checking same native context and exact attempt",
     "injection": "Real legacy injection checks native origin issuance, server identity and absence of fabricated network attempt; strict capability acceptance remains future tests",
     "will": "Actual MQTT5 DISCONNECT0x04 produces native Will before ownership-context assertion",
-    "replay": "Network and server SubscribeAsync exercise bypass path and snapshot context without republish",
+    "replay": "Network and server SubscribeAsync exercise bypass path and snapshot context without republish; two replacement barrier cases assert old captured payload remains old while retained state advances to new",
     "durable": "Existing fenced store fixture executes confirmed acceptance and PUBREC before missing-context assertion",
     "memoryReconnect": "PUBREC, disconnect, duplicate PUBLISH and PUBREL preserve one admission; original execution token must be revoked",
     "takeover": "Callback ignores cancellation behind barrier; successor connects, old result completes, exact native Quiesced task must finish before asserting zero stale retained/fanout effects",
@@ -28,6 +28,6 @@
     "Run legacy constructor/injection control alone and require green; no full suite until a proposed native implementation exists",
     "After implementation, add registry spoof/foreign-server/revoked capability, callback-initiated stop, recipient takeover, explicit retained replacement and memory lease rebind/PUBREL wire barriers before fresh full suite/consumer qualification"
   ],
-  "remainingPreparation": "Strict-mode registration/capability forgery and source mutation rejection tests need finalized additive API. Retained replacement and recipient takeover barriers are specified but not yet written. No red-run receipt exists yet.",
+  "remainingPreparation": "Strict-mode registration/capability forgery and source mutation rejection tests need finalized additive API. Recipient takeover and saturated-authority/ignored-callback cap barriers are specified but not yet written. No red-run receipt exists yet.",
   "scope": "Separate test branch only, sealed abfa/47b6/publicPR2273/publicPR2274/DEV2370 immutable"
 }

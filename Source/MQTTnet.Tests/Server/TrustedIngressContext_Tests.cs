@@ -98,6 +98,42 @@ public sealed class TrustedIngressContext_Tests
     }
 
     [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Retained_Replacement_Cannot_Rewrite_Already_Captured_Replay(bool serverSubscribe)
+    {
+        using var environment = new TestEnvironment(null, MqttProtocolVersion.V500);
+        var server = await environment.StartServer();
+        var sender = await environment.ConnectClient(o => o.WithClientId("snapshot-origin"));
+        var oldMessage = new MqttApplicationMessageBuilder().WithTopic("context/snapshot").WithPayload("old").WithRetainFlag().WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce).Build();
+        await sender.PublishAsync(oldMessage);
+        var receiver = await environment.ConnectClient(o => o.WithClientId("snapshot-recipient"));
+        var entered = new TaskCompletionSource<InterceptingClientApplicationMessageEnqueueEventArgs>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = Signal();
+        server.InterceptingClientEnqueueAsync += async e =>
+        {
+            if (e.ApplicationMessage.ConvertPayloadToString() != "old") return;
+            entered.TrySetResult(e);
+            await release.Task;
+        };
+        var filter = new MqttTopicFilter { Topic = "context/snapshot" };
+        var subscribe = serverSubscribe ? server.SubscribeAsync("snapshot-recipient", new[] { filter }) : receiver.SubscribeAsync(filter);
+        InterceptingClientApplicationMessageEnqueueEventArgs captured;
+        try
+        {
+            captured = await entered.Task.WaitAsync(Bound);
+            await sender.PublishAsync(new MqttApplicationMessageBuilder().WithTopic("context/snapshot").WithPayload("new").WithRetainFlag().WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce).Build());
+            Assert.AreEqual("old", captured.ApplicationMessage.ConvertPayloadToString());
+            Assert.AreEqual("new", (await server.GetRetainedMessagesAsync()).Single(m => m.Topic == "context/snapshot").ConvertPayloadToString());
+        }
+        finally { release.TrySetResult(); }
+        await subscribe.WaitAsync(Bound);
+        var context = RequireContext(captured);
+        Assert.AreEqual("RetainedReplay", RequireProperty(context, "RouteKind").ToString());
+        Assert.IsNotNull(RequireProperty(context, "RetainedRecordIdentity"));
+    }
+
+    [TestMethod]
     public async Task Takeover_Fences_Late_Callback_Before_Retained_Write_And_Recipient_Enqueue()
     {
         using var environment = new TestEnvironment(null, MqttProtocolVersion.V500) { IgnoreClientLogErrors = true };
