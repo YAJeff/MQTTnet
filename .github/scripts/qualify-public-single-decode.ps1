@@ -48,7 +48,7 @@ if($controlExit -eq 0 -or $c.total -ne '26' -or $c.failed -ne '18' -or $c.passed
 if((Get-FileHash "$root/test-binaries/net10.0/MQTTnet.Tests.dll").Hash -ne $harnessHash){throw 'Harness changed'}
 @{baseline=$baseline;baselineDllSha256=(Get-FileHash "$root/baseline-MQTTnet-net10.dll").Hash;harnessSha256=$harnessHash;total=26;expectedFailures=18;positivePasses=8;exit=$controlExit} | ConvertTo-Json | Set-Content "$root/COUNTEREXAMPLE.json"
 Copy-Item "$root/fixed-MQTTnet-net10.dll" "$root/test-binaries/net10.0/MQTTnet.dll" -Force
-git restore "--source='cc1373edcea2a7adf1a0709f891706f979833ce7'" -- @files
+git restore --source=cc1373edcea2a7adf1a0709f891706f979833ce7 -- @files
 if($LASTEXITCODE -ne 0){throw 'Fixed source restore failed'}
 $global:LASTEXITCODE=0
 dotnet "$root/test-binaries/net10.0/MQTTnet.Tests.dll" --report-trx --report-trx-filename full-linux-net10.trx --results-directory "$root/tests"
@@ -56,5 +56,6 @@ if($LASTEXITCODE -ne 0){throw 'Full Linux failure'}
 [xml]$full=Get-Content "$root/tests/full-linux-net10.trx"
 if ($full.TestRun.ResultSummary.Counters.total -ne '532' -or $full.TestRun.ResultSummary.Counters.passed -ne '532' -or $full.TestRun.ResultSummary.Counters.notExecuted -ne '0') { throw 'Incomplete full suite' }
 dotnet --info | Set-Content "$root/linux-dotnet-info.txt"
+
 
 
