@@ -1,0 +1,36 @@
+name: Package qualified UTF8 DLLs only
+on:
+  push:
+    branches: [qualification/strict-utf8-packaging]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: 47b6eacea398b9097f4282e4a8de962f138eda0a
+          path: qualified-source
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Package exact qualified binaries without compilation
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ./.github/scripts/pack-qualified-utf8.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: strict-utf8-packages
+          path: utf8-packages
+          retention-days: 7
