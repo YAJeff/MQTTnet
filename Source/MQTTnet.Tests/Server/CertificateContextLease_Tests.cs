@@ -32,7 +32,7 @@ public sealed class CertificateContextLease_Tests
         var path = Environment.GetEnvironmentVariable("MQTTNET_LEGACY_CERTIFICATE_PROVIDER_DLL");
         Assert.IsFalse(string.IsNullOrWhiteSpace(path), "Hosted qualification must compile the provider against the exact original abfa DLL, then supply its path.");
         var assembly = Assembly.LoadFrom(path);
-        var provider = (ICertificateProvider)Activator.CreateInstance(assembly.GetType("LegacyCertificateProvider", true), material.Leaf);
+        var provider = (ICertificateProvider)Activator.CreateInstance(assembly.GetType("MQTTnet.CompatibilityFixtures.LegacyCertificateProvider", true), material.Leaf);
         await using var fixture = new Listener(provider);
         using var peer = await Peer.Connect(fixture.Port, material);
         await peer.Ping();
