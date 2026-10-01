@@ -19,6 +19,13 @@ public sealed class CertificateContextLease_Tests
     static readonly TimeSpan Bound = TimeSpan.FromSeconds(5);
 
     [TestMethod]
+    public void Windows_Synthetic_Context_Is_Rejected_Before_Create()
+    {
+        if (!OperatingSystem.IsWindows()) Assert.Inconclusive("Windows-only conservative creation guard.");
+        Assert.Throws<PlatformNotSupportedException>(() => new Material());
+    }
+
+    [TestMethod]
     public async Task Legacy_Binary_Provider_Still_Serves_Tls()
     {
         using var material = new Material();
@@ -223,6 +230,9 @@ public sealed class CertificateContextLease_Tests
         public SslStreamCertificateContext Context { get; }
         public Material()
         {
+            // Windows Create can import intermediates into CA stores even offline.
+            // Reject before generating certificates or calling context Create.
+            if (OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("Synthetic chain context creation is disabled on Windows.");
             var now = DateTimeOffset.UtcNow;
             using var rootKey = RSA.Create(2048);
             var rootRequest = Request("CN=OwnedRoot", rootKey, true);
