@@ -1,0 +1,103 @@
+name: UTF8 public proof and isolated performance
+on:
+  push:
+    branches: [qualification/strict-utf8-performance]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: utf8-public-perf-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  performance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - uses: actions/download-artifact@v4
+        with:
+          name: strict-utf8-linux
+          run-id: 36827676935
+          github-token: ${{ github.token }}
+          path: .github/qualified
+      - uses: actions/download-artifact@v4
+        with:
+          name: native-incoming-linux
+          run-id: 36792223162
+          github-token: ${{ github.token }}
+          path: baseline
+      - name: Compare sealed baseline and fixed decoder allocations and throughput
+        shell: pwsh
+        run: ./.github/scripts/measure-utf8.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: utf8-isolated-performance
+          path: utf8-performance
+          retention-days: 7
+  public-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: 184fdb4fb9f74dd41200a79a8f8f7ba9999c9084
+          path: public-client
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Qualify public-only fix and exact master counterexample
+        shell: pwsh
+        run: ./.github/scripts/qualify-public-utf8.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: utf8-public-linux
+          path: public-client/utf8-public
+          retention-days: 7
+  public-windows:
+    needs: public-linux
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - uses: actions/download-artifact@v4
+        with:
+          name: utf8-public-linux
+          path: utf8-public
+      - name: Qualify exact public DLLs on Windows
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $m=Get-Content utf8-public/MANIFEST.json -Raw | ConvertFrom-Json
+          foreach($d in $m.dlls){if((Get-FileHash "utf8-public/test-binaries/$($d.framework)/$($d.library).dll").Hash -ne $d.sha256){throw 'DLL changed'}}
+          foreach($tfm in @('net8.0','net10.0')){
+            dotnet "utf8-public/test-binaries/$tfm/MQTTnet.Tests.dll" --filter 'FullyQualifiedName~StrictUtf8' --report-trx --report-trx-filename "focused-windows-$tfm.trx" --results-directory receipts
+            if($LASTEXITCODE -ne 0){throw 'Focused Windows failure'}
+          }
+          dotnet utf8-public/test-binaries/net8.0/MQTTnet.Tests.dll --report-trx --report-trx-filename full-windows-net8.trx --results-directory receipts
+          if($LASTEXITCODE -ne 0){throw 'Full Windows failure'}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: utf8-public-windows
+          path: receipts
+          retention-days: 7
