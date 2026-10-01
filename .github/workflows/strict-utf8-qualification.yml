@@ -1,9 +1,10 @@
 name: Strict UTF8 qualification
 on:
   push:
-    branches: [fix/strict-mqtt-utf8]
+    branches: [fix/strict-mqtt-utf8, fix/strict-utf8-single-decode]
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: strict-utf8-${{ github.ref }}
   cancel-in-progress: true
@@ -71,3 +72,42 @@ jobs:
           path: utf8-qualification/windows-tests
           retention-days: 7
           if-no-files-found: error
+  performance:
+    if: github.ref == 'refs/heads/fix/strict-utf8-single-decode'
+    needs: linux
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - uses: actions/download-artifact@v4
+        with:
+          name: strict-utf8-linux
+          path: optimized
+      - uses: actions/download-artifact@v4
+        with:
+          name: strict-utf8-linux
+          run-id: 36827676935
+          github-token: ${{ github.token }}
+          path: .github/qualified
+      - uses: actions/download-artifact@v4
+        with:
+          name: native-incoming-linux
+          run-id: 36792223162
+          github-token: ${{ github.token }}
+          path: baseline
+      - name: Measure baseline, sealed fix and single-decode candidate
+        shell: pwsh
+        run: ./.github/scripts/measure-utf8-triple.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: utf8-triple-performance
+          path: utf8-triple-performance
+          retention-days: 7
