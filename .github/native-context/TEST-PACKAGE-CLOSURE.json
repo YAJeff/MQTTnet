@@ -1,0 +1,792 @@
+{
+  "status": "SOURCE_DERIVED_NUSPEC_CLOSURE_ACTUAL_RESTORE_VERIFICATION_REQUIRED",
+  "frameworks": [
+    "net8.0",
+    "net10.0"
+  ],
+  "packages": [
+    {
+      "id": "Microsoft.ApplicationInsights",
+      "version": "2.23.0",
+      "sha256": "E6C7F76E0EC26598C7B1E2BE1777E839C84486655E8A878FC4C655BD2E918DBD",
+      "bytes": 1737910,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.applicationinsights/2.23.0/microsoft.applicationinsights.2.23.0.nupkg"
+    },
+    {
+      "id": "Microsoft.CodeCoverage",
+      "version": "18.0.1",
+      "sha256": "1BACB98B21D9DD1DAC8652C25BFB93BAC8A8FD4A9C9D64FBF57F9401BC6F0D06",
+      "bytes": 10065448,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.codecoverage/18.0.1/microsoft.codecoverage.18.0.1.nupkg"
+    },
+    {
+      "id": "Microsoft.DiaSymReader",
+      "version": "2.0.0",
+      "sha256": "F21A2D66687C45BE90EA80FD31E6FBE12BC075B0E8DFD63FD66F21E371C78E3C",
+      "bytes": 93176,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.diasymreader/2.0.0/microsoft.diasymreader.2.0.0.nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.DependencyModel",
+      "version": "6.0.2",
+      "sha256": "59533F82C84689ED49F6AE65DD8591CEB3D662556F5FA21223E4A254CA0FA79A",
+      "bytes": 122854,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencymodel/6.0.2/microsoft.extensions.dependencymodel.6.0.2.nupkg"
+    },
+    {
+      "id": "Microsoft.IO.RecyclableMemoryStream",
+      "version": "3.0.1",
+      "sha256": "BA7160FF911C53F5CA25BA1BE06B500B8DD87608B95637811ACEE17E18F8118A",
+      "bytes": 177094,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.io.recyclablememorystream/3.0.1/microsoft.io.recyclablememorystream.3.0.1.nupkg"
+    },
+    {
+      "id": "Microsoft.NET.ILLink.Tasks",
+      "version": "10.0.11",
+      "sha256": "28EE7CCF5C4BDFE67823C8E0EA62232174F61E224D77E7C6EF5CAA1413AC0A76",
+      "bytes": 1533276,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.illink.tasks/10.0.11/microsoft.net.illink.tasks.10.0.11.nupkg"
+    },
+    {
+      "id": "Microsoft.NET.ILLink.Tasks",
+      "version": "8.0.30",
+      "sha256": "91EDAB8B85D0B0E4BFDAE0C04946913F9C84D1DDFDE180FABA9D78B4D5A205E4",
+      "bytes": 1448031,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.illink.tasks/8.0.30/microsoft.net.illink.tasks.8.0.30.nupkg"
+    },
+    {
+      "id": "Microsoft.NET.Test.Sdk",
+      "version": "18.0.1",
+      "sha256": "D1CDFFAE9F5D8B4C3B1395267D187A3EBAE6DC07B28BC34E8F96E6DA2EA3021D",
+      "bytes": 39745,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.net.test.sdk/18.0.1/microsoft.net.test.sdk.18.0.1.nupkg"
+    },
+    {
+      "id": "Microsoft.Testing.Extensions.CodeCoverage",
+      "version": "18.1.0",
+      "sha256": "B30E871A9A09E7595D3DE7693F9D7A829631652ED68BDFF4F0B15856F239C609",
+      "bytes": 15585622,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testing.extensions.codecoverage/18.1.0/microsoft.testing.extensions.codecoverage.18.1.0.nupkg"
+    },
+    {
+      "id": "Microsoft.Testing.Extensions.Telemetry",
+      "version": "2.0.2",
+      "sha256": "F1FDB75B7D76E4BD99004C51570BD749FB776BDDE4FA949BFF40995741E5162E",
+      "bytes": 484735,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testing.extensions.telemetry/2.0.2/microsoft.testing.extensions.telemetry.2.0.2.nupkg"
+    },
+    {
+      "id": "Microsoft.Testing.Extensions.TrxReport",
+      "version": "2.0.2",
+      "sha256": "70B32D3D7F5338E10AAE5AEB470A8AA6C584E6A78807B792EFDDBEAC3B7ECF6D",
+      "bytes": 689953,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testing.extensions.trxreport/2.0.2/microsoft.testing.extensions.trxreport.2.0.2.nupkg"
+    },
+    {
+      "id": "Microsoft.Testing.Extensions.TrxReport.Abstractions",
+      "version": "2.0.2",
+      "sha256": "78F845224A16655B7BF53921BBAD8CC58C8885E14C0617F53546C88A664867D7",
+      "bytes": 89940,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testing.extensions.trxreport.abstractions/2.0.2/microsoft.testing.extensions.trxreport.abstractions.2.0.2.nupkg"
+    },
+    {
+      "id": "Microsoft.Testing.Extensions.VSTestBridge",
+      "version": "2.0.2",
+      "sha256": "A1D9FA7D93BBC9A3ECDC468452BD761AB6951F96A7A74AFF05A6C9A4997CABF7",
+      "bytes": 642697,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testing.extensions.vstestbridge/2.0.2/microsoft.testing.extensions.vstestbridge.2.0.2.nupkg"
+    },
+    {
+      "id": "Microsoft.Testing.Platform",
+      "version": "2.0.2",
+      "sha256": "2BC078B50698B259BE9E3510E7D9F2BE1E1FE1482B6CEA3A0D080EF47C2DD1A6",
+      "bytes": 2640233,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testing.platform/2.0.2/microsoft.testing.platform.2.0.2.nupkg"
+    },
+    {
+      "id": "Microsoft.Testing.Platform.MSBuild",
+      "version": "2.0.2",
+      "sha256": "45B2F621EFEC431D3B85F7E26A8F12711FB233262A23C6ACB650B4FEE7F76F33",
+      "bytes": 1684374,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testing.platform.msbuild/2.0.2/microsoft.testing.platform.msbuild.2.0.2.nupkg"
+    },
+    {
+      "id": "Microsoft.TestPlatform.AdapterUtilities",
+      "version": "18.0.1",
+      "sha256": "2C4E71B3273BE4445F955FC40380380D5FA36B62C06F4291FC33E29C01BE0202",
+      "bytes": 652551,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testplatform.adapterutilities/18.0.1/microsoft.testplatform.adapterutilities.18.0.1.nupkg"
+    },
+    {
+      "id": "Microsoft.TestPlatform.ObjectModel",
+      "version": "18.0.1",
+      "sha256": "A096D2ED2678E91CF2390FA00B2B16EEA251CBB57C4654156B977CB9A8DBF753",
+      "bytes": 1665637,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testplatform.objectmodel/18.0.1/microsoft.testplatform.objectmodel.18.0.1.nupkg"
+    },
+    {
+      "id": "Microsoft.TestPlatform.TestHost",
+      "version": "18.0.1",
+      "sha256": "39761FE6F838A620EBD74BDED1B6766526FE9DBDF23A21DAC8957772EE6C315E",
+      "bytes": 3260813,
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.testplatform.testhost/18.0.1/microsoft.testplatform.testhost.18.0.1.nupkg"
+    },
+    {
+      "id": "MSTest",
+      "version": "4.0.2",
+      "sha256": "139DAC5C2CA8D188AE29233C564C301CC09C1DC502FE08AEBA7FD3D116A14C6F",
+      "bytes": 30586,
+      "url": "https://api.nuget.org/v3-flatcontainer/mstest/4.0.2/mstest.4.0.2.nupkg"
+    },
+    {
+      "id": "MSTest.Analyzers",
+      "version": "4.0.2",
+      "sha256": "4A940E6C733D8ABDED11679B8800171B61BF4C6437341D1F58658E40B2E9C268",
+      "bytes": 1394532,
+      "url": "https://api.nuget.org/v3-flatcontainer/mstest.analyzers/4.0.2/mstest.analyzers.4.0.2.nupkg"
+    },
+    {
+      "id": "MSTest.TestAdapter",
+      "version": "4.0.2",
+      "sha256": "A74E850A8889B913DF2D41973E652FE600AED0569DBA5D1900EF00DC3C2342E9",
+      "bytes": 2009050,
+      "url": "https://api.nuget.org/v3-flatcontainer/mstest.testadapter/4.0.2/mstest.testadapter.4.0.2.nupkg"
+    },
+    {
+      "id": "MSTest.TestFramework",
+      "version": "4.0.2",
+      "sha256": "479E82AF824647B1C994E1A0B437B2CB10B07D92E94CAD239B4CB025A1B3D3D5",
+      "bytes": 2716476,
+      "url": "https://api.nuget.org/v3-flatcontainer/mstest.testframework/4.0.2/mstest.testframework.4.0.2.nupkg"
+    },
+    {
+      "id": "Newtonsoft.Json",
+      "version": "13.0.3",
+      "sha256": "872FC189E638AB1056555B03AAA38F68BCB54286E221AA646EB1129BABF63C77",
+      "bytes": 2441966,
+      "url": "https://api.nuget.org/v3-flatcontainer/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg"
+    },
+    {
+      "id": "System.Buffers",
+      "version": "4.5.1",
+      "sha256": "C30B3DD2C7E2F4CEE4B823D692FD42118309B42AB1F5007F923D329A5B0D6B12",
+      "bytes": 93737,
+      "url": "https://api.nuget.org/v3-flatcontainer/system.buffers/4.5.1/system.buffers.4.5.1.nupkg"
+    },
+    {
+      "id": "System.Collections.Immutable",
+      "version": "8.0.0",
+      "sha256": "17B3958CA370A6A6D487C95389D6EA256622E3BEA7B2AF67FBA934F90551A37C",
+      "bytes": 787241,
+      "url": "https://api.nuget.org/v3-flatcontainer/system.collections.immutable/8.0.0/system.collections.immutable.8.0.0.nupkg"
+    },
+    {
+      "id": "System.Diagnostics.DiagnosticSource",
+      "version": "5.0.0",
+      "sha256": "EA65B737A16F71D347FE9079F2997EA4548219683268FE217D5B42FD23160D5E",
+      "bytes": 306864,
+      "url": "https://api.nuget.org/v3-flatcontainer/system.diagnostics.diagnosticsource/5.0.0/system.diagnostics.diagnosticsource.5.0.0.nupkg"
+    },
+    {
+      "id": "System.Memory",
+      "version": "4.5.4",
+      "sha256": "DEC0847F33B8823E4260672D97D657411461C00ADA3107EC7BBCB32A845EEB91",
+      "bytes": 205467,
+      "url": "https://api.nuget.org/v3-flatcontainer/system.memory/4.5.4/system.memory.4.5.4.nupkg"
+    },
+    {
+      "id": "System.Reflection.Metadata",
+      "version": "8.0.0",
+      "sha256": "750182DF425AB880D63565CCAD234E2677156B5BA6475B228DACD8C140DD4881",
+      "bytes": 1307788,
+      "url": "https://api.nuget.org/v3-flatcontainer/system.reflection.metadata/8.0.0/system.reflection.metadata.8.0.0.nupkg"
+    },
+    {
+      "id": "System.Runtime.CompilerServices.Unsafe",
+      "version": "6.0.0",
+      "sha256": "6C41B53E70E9EEE298CFF3A02CE5ACDD15B04125589BE0273F0566026720A762",
+      "bytes": 84343,
+      "url": "https://api.nuget.org/v3-flatcontainer/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg"
+    },
+    {
+      "id": "System.Text.Encodings.Web",
+      "version": "6.0.1",
+      "sha256": "977A0AC194AD8DEC3F0A54AB0DA54BC870C0131A0FE88C26EAEA8949D23D609A",
+      "bytes": 271143,
+      "url": "https://api.nuget.org/v3-flatcontainer/system.text.encodings.web/6.0.1/system.text.encodings.web.6.0.1.nupkg"
+    },
+    {
+      "id": "System.Text.Json",
+      "version": "6.0.11",
+      "sha256": "2AC80E53746F48DFCA73E9B2E392B47AE6B8A3040F65AAFCD4B545D8ACEEA5FD",
+      "bytes": 1401254,
+      "url": "https://api.nuget.org/v3-flatcontainer/system.text.json/6.0.11/system.text.json.6.0.11.nupkg"
+    }
+  ],
+  "edges": [
+    {
+      "framework": "net8.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "MSTest.TestAdapter/4.0.2",
+      "range": "4.0.2",
+      "resolvedVersion": "4.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Extensions.TrxReport/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "MSTest.TestFramework/4.0.2",
+      "range": "4.0.2",
+      "resolvedVersion": "4.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.NET.Test.Sdk/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net8.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Extensions.CodeCoverage/18.1.0",
+      "range": "18.1.0",
+      "resolvedVersion": "18.1.0"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.CodeCoverage/18.1.0",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.DiaSymReader/2.0.0",
+      "range": "2.0.0",
+      "resolvedVersion": "2.0.0"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.CodeCoverage/18.1.0",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "range": "6.0.2",
+      "resolvedVersion": "6.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.CodeCoverage/18.1.0",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Platform/2.0.0",
+      "range": "2.0.0",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Runtime.CompilerServices.Unsafe/6.0.0",
+      "range": "6.0.0",
+      "resolvedVersion": "6.0.0"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Text.Encodings.Web/6.0.1",
+      "range": "6.0.1",
+      "resolvedVersion": "6.0.1"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Text.Json/6.0.11",
+      "range": "6.0.11",
+      "resolvedVersion": "6.0.11"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Buffers/4.5.1",
+      "range": "4.5.1",
+      "resolvedVersion": "4.5.1"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Memory/4.5.4",
+      "range": "4.5.4",
+      "resolvedVersion": "4.5.4"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.NET.Test.Sdk/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.TestPlatform.TestHost/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.NET.Test.Sdk/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.CodeCoverage/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.TestPlatform.TestHost/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.TestPlatform.ObjectModel/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.TestPlatform.TestHost/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Newtonsoft.Json/13.0.3",
+      "range": "13.0.3",
+      "resolvedVersion": "13.0.3"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.TestPlatform.ObjectModel/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "System.Reflection.Metadata/8.0.0",
+      "range": "8.0.0",
+      "resolvedVersion": "8.0.0"
+    },
+    {
+      "framework": "net8.0",
+      "from": "System.Reflection.Metadata/8.0.0",
+      "selectedDependencyGroup": "net8.0",
+      "to": "System.Collections.Immutable/8.0.0",
+      "range": "8.0.0",
+      "resolvedVersion": "8.0.0"
+    },
+    {
+      "framework": "net8.0",
+      "from": "MSTest.TestFramework/4.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "MSTest.Analyzers/4.0.2",
+      "range": "4.0.2",
+      "resolvedVersion": "4.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.TrxReport/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Extensions.TrxReport.Abstractions/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.TrxReport/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.TrxReport.Abstractions/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "MSTest.TestAdapter/4.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "MSTest.TestAdapter/4.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Platform.MSBuild/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "MSTest.TestAdapter/4.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "MSTest.TestFramework/4.0.2",
+      "range": "4.0.2",
+      "resolvedVersion": "4.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Platform.MSBuild/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Extensions.Telemetry/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Extensions.TrxReport.Abstractions/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.TestPlatform.AdapterUtilities/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.TestPlatform.ObjectModel/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.Telemetry/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.Testing.Extensions.Telemetry/2.0.2",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.ApplicationInsights/2.23.0",
+      "range": "2.23.0",
+      "resolvedVersion": "2.23.0"
+    },
+    {
+      "framework": "net8.0",
+      "from": "Microsoft.ApplicationInsights/2.23.0",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Diagnostics.DiagnosticSource/5.0.0",
+      "range": "5.0.0",
+      "resolvedVersion": "5.0.0"
+    },
+    {
+      "framework": "net10.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "MSTest.TestAdapter/4.0.2",
+      "range": "4.0.2",
+      "resolvedVersion": "4.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Extensions.TrxReport/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "MSTest.TestFramework/4.0.2",
+      "range": "4.0.2",
+      "resolvedVersion": "4.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.NET.Test.Sdk/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net10.0",
+      "from": "MSTest/4.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Extensions.CodeCoverage/18.1.0",
+      "range": "18.1.0",
+      "resolvedVersion": "18.1.0"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.CodeCoverage/18.1.0",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.DiaSymReader/2.0.0",
+      "range": "2.0.0",
+      "resolvedVersion": "2.0.0"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.CodeCoverage/18.1.0",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "range": "6.0.2",
+      "resolvedVersion": "6.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.CodeCoverage/18.1.0",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.Testing.Platform/2.0.0",
+      "range": "2.0.0",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Runtime.CompilerServices.Unsafe/6.0.0",
+      "range": "6.0.0",
+      "resolvedVersion": "6.0.0"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Text.Encodings.Web/6.0.1",
+      "range": "6.0.1",
+      "resolvedVersion": "6.0.1"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Text.Json/6.0.11",
+      "range": "6.0.11",
+      "resolvedVersion": "6.0.11"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Buffers/4.5.1",
+      "range": "4.5.1",
+      "resolvedVersion": "4.5.1"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Extensions.DependencyModel/6.0.2",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Memory/4.5.4",
+      "range": "4.5.4",
+      "resolvedVersion": "4.5.4"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.NET.Test.Sdk/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.TestPlatform.TestHost/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.NET.Test.Sdk/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.CodeCoverage/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.TestPlatform.TestHost/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Microsoft.TestPlatform.ObjectModel/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.TestPlatform.TestHost/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "Newtonsoft.Json/13.0.3",
+      "range": "13.0.3",
+      "resolvedVersion": "13.0.3"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.TestPlatform.ObjectModel/18.0.1",
+      "selectedDependencyGroup": "net8.0",
+      "to": "System.Reflection.Metadata/8.0.0",
+      "range": "8.0.0",
+      "resolvedVersion": "8.0.0"
+    },
+    {
+      "framework": "net10.0",
+      "from": "System.Reflection.Metadata/8.0.0",
+      "selectedDependencyGroup": "net8.0",
+      "to": "System.Collections.Immutable/8.0.0",
+      "range": "8.0.0",
+      "resolvedVersion": "8.0.0"
+    },
+    {
+      "framework": "net10.0",
+      "from": "MSTest.TestFramework/4.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "MSTest.Analyzers/4.0.2",
+      "range": "4.0.2",
+      "resolvedVersion": "4.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.TrxReport/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Extensions.TrxReport.Abstractions/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.TrxReport/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.TrxReport.Abstractions/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "MSTest.TestAdapter/4.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "MSTest.TestAdapter/4.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Platform.MSBuild/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "MSTest.TestAdapter/4.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "MSTest.TestFramework/4.0.2",
+      "range": "4.0.2",
+      "resolvedVersion": "4.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Platform.MSBuild/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Extensions.Telemetry/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Extensions.TrxReport.Abstractions/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.TestPlatform.AdapterUtilities/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.VSTestBridge/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.TestPlatform.ObjectModel/18.0.1",
+      "range": "18.0.1",
+      "resolvedVersion": "18.0.1"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.Telemetry/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.Testing.Platform/2.0.2",
+      "range": "2.0.2",
+      "resolvedVersion": "2.0.2"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.Testing.Extensions.Telemetry/2.0.2",
+      "selectedDependencyGroup": "net9.0",
+      "to": "Microsoft.ApplicationInsights/2.23.0",
+      "range": "2.23.0",
+      "resolvedVersion": "2.23.0"
+    },
+    {
+      "framework": "net10.0",
+      "from": "Microsoft.ApplicationInsights/2.23.0",
+      "selectedDependencyGroup": ".NETStandard2.0",
+      "to": "System.Diagnostics.DiagnosticSource/5.0.0",
+      "range": "5.0.0",
+      "resolvedVersion": "5.0.0"
+    }
+  ],
+  "missing": [],
+  "actualAssetsMustMatch": true,
+  "nugetAuditPreserved": true,
+  "resolutionNote": "Nearest compatible modern net/CoreApp group, else highest compatible netstandard; direct roots plus unified same-ID minimum dependency versions; both ILLink versions retained. Actual assets must match exactly; no unused fallback packages accepted."
+}

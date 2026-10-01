@@ -1,0 +1,182 @@
+{
+  "status": "SOURCE_RUNNER_AND_PINNED_CLOSURE_PREPARED_UNRUN_ROOT_REVIEW_REQUIRED",
+  "source": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
+  "testSourceSha256": "58E6A7DBD6144E282EE60E14E093BD3F7B703B4FB9FFFDD3280B817C27D251FC",
+  "compileApiQualifiedReceipt": {
+    "path": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\root-independent-qualification.json",
+    "sha256": "9D6D01CD837A3E2A576D8D80EBBA3F739CD24BA10875C7EF67C0A7515FE12FBC"
+  },
+  "linux": {
+    "frameworks": [
+      "net8.0",
+      "net10.0"
+    ],
+    "exactMethodGroups": [
+      {
+        "method": "Legacy_Binary_Provider_Still_Serves_Tls",
+        "cases": 1
+      },
+      {
+        "method": "Explicit_Context_Serves_Supplied_Intermediate",
+        "cases": 2
+      },
+      {
+        "method": "Wrong_Trust_Or_Hostname_Rejects",
+        "cases": 2
+      },
+      {
+        "method": "Configured_Protocol_Is_Not_Overridden_By_Context",
+        "cases": 1
+      },
+      {
+        "method": "Required_Client_Certificate_Is_Not_Bypassed",
+        "cases": 1
+      },
+      {
+        "method": "Rotation_Preserves_Handshake_And_Existing_Connection_Snapshot",
+        "cases": 1
+      },
+      {
+        "method": "Failed_Handshake_Releases_Material_After_Transport_Close",
+        "cases": 1
+      },
+      {
+        "method": "Invalid_Capability_Does_Not_Fall_Back_To_Leaf_Or_Plaintext",
+        "cases": 3
+      },
+      {
+        "method": "Missing_Or_Faulted_Handler_Releases_Exactly_One_Lease",
+        "cases": 2
+      },
+      {
+        "method": "Legacy_Null_Certificate_Keeps_Plaintext_Behavior",
+        "cases": 1
+      },
+      {
+        "method": "Owned_Handler_Shutdown_Releases_After_Stream_Teardown",
+        "cases": 1
+      },
+      {
+        "method": "Unknown_Lease_Release_Remains_Bounded_And_Closes_Admission",
+        "cases": 1
+      }
+    ],
+    "casesPerFramework": 17,
+    "operationBoundSeconds": 5,
+    "externalProcessBoundSecondsPerMethod": 10,
+    "serialOnly": true,
+    "creation": "Ephemeral leaf/root/intermediate plus offline supplied chain in private test process; no Windows synthetic creation",
+    "legacyFixture": "Unchanged shim built against exact original abfa DLL for each TFM; actual references and candidate/fixture/test DLL hashes must be retained"
+  },
+  "windows": {
+    "frameworks": [
+      "net8.0",
+      "net10.0"
+    ],
+    "exactMethodGroups": [
+      {
+        "method": "Windows_Synthetic_Context_Is_Rejected_Before_Create",
+        "cases": 1
+      }
+    ],
+    "casesPerFramework": 1,
+    "externalProcessBoundSecondsPerMethod": 10,
+    "actualTlsLifetimeQualifiedByThisGuard": false,
+    "prohibited": "Do not select other CertificateContextLease_Tests methods or whole class on Windows; Material rejects before key generation/Create. Actual Windows TLS requires separately reviewed store-isolated mechanism."
+  },
+  "runtimeOwner": "Root sole serial local window; Linux existing assigned path only, no new resource allocation",
+  "bounds": {
+    "compilerConcurrency": 1,
+    "windowsProcessCommittedMemoryBytes": 1610612736,
+    "windowsJobCommittedMemoryBytes": 2147483648,
+    "windowsJobMaxProcesses": 16,
+    "linuxContainerMemoryAndSwapBytes": 2147483648,
+    "linuxContainerTaskLimitIncludingThreads": 128,
+    "linuxContainerCpuLimit": 2,
+    "networkDuringLinuxCommands": "none",
+    "ownedDiskAbortBytes": 2147483648,
+    "perLogAbortBytes": 16777216,
+    "diskLimitation": "Monitored abort threshold, not hard filesystem quota; observed overshoot retained",
+    "prepareStepHardMinutes": 6,
+    "buildApiSlotHardSeconds": 600,
+    "linuxLifetimeSlotHardSeconds": 300,
+    "windowsApiGuardSlotHardSeconds": 120,
+    "fourCompileCommandMaxSeconds": [
+      180,
+      90,
+      90,
+      90
+    ],
+    "buildApiDotnetCommandMaxSeconds": 485,
+    "LinuxLifetimeGroups": 24,
+    "LinuxLifetimeProcessMaxSecondsEach": 10,
+    "WindowsApiGuardDotnetCommandMaxSeconds": 50,
+    "linuxWorkflowJobHardMinutes": 25,
+    "windowsWorkflowJobHardMinutes": 10
+  },
+  "qualificationRules": [
+    "All exact row names/counts pass with zero skips/failures; nonzero exit or timeout always failure",
+    "Guard-only Windows result never qualifies successful Windows context creation",
+    "Retain frozen source, actual build assets/DLLs/runtime identities, raw stdout/stderr/TRX before cleanup",
+    "Root independently audits actual processes, socket/handler shutdown and provider/material release before owned cleanup",
+    "Retain unknown release faults as unknown; no optimistic context disposal or capacity claim",
+    "Preserve earlier compile/API failures byte-exact, including v3 ordering limitation"
+  ],
+  "publicationBlocker": {
+    "resolvedInPreparedSource": true,
+    "genericWorkflowDelta": "Ignore only feature/server-certificate-context-lease in push trigger; other branch/PR/package workflow behavior preserved",
+    "replacement": ".github/workflows/native-context-qualification.yml",
+    "remainingGate": "Root independent source review before push/dispatch; no owner runtime"
+  },
+  "cloud": {
+    "newResources": 0,
+    "incrementalMonthlyUsd": 0,
+    "hostedComputeUnmeasured": true,
+    "artifactRetentionDays": 7
+  },
+  "brokerPinChanged": false,
+  "packagePublication": false,
+  "ownerRuntimeRuns": 0,
+  "packageClosure": {
+    "path": ".github/native-context/TEST-PACKAGE-CLOSURE.json",
+    "archiveCount": 31,
+    "basis": "Nearest compatible modern net/CoreApp group, else highest compatible netstandard; direct roots plus unified same-ID minimum dependency versions; both ILLink versions retained. Actual assets must match exactly; no unused fallback packages accepted."
+  },
+  "toolchain": {
+    "sdk": "10.0.303",
+    "referencePackSourceSdk": "8.0.424 exact8.0.30 Core/Asp reference packs only",
+    "runtimeCoreAsp": [
+      "8.0.30",
+      "10.0.11"
+    ],
+    "distributionManifest": ".github/native-context/TOOLCHAIN-DISTRIBUTIONS.json",
+    "runtimeRollForward": "Disable"
+  },
+  "cost": {
+    "newPersistentResources": 0,
+    "newCloudEnvironments": 0,
+    "estimatedIncrementalMonthlyUsd": 0,
+    "maxEphemeralHostedRunnerMinutes": 35,
+    "computeUsd": "Expected zero only if repository public standard-runner entitlement applies; account billing/policy must be checked by Root before dispatch; actual billing unavailable here",
+    "retentionDays": 7,
+    "incrementalAlwaysOnCapacity": 0,
+    "repository": "YAJeff/MQTTnet",
+    "private": false,
+    "visibility": "public",
+    "billingSource": "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+    "expectedComputeUsdStandardPublicRunners": 0,
+    "estimatedMaxArtifactGb": 4,
+    "worstCaseStorageUsdAtPublishedRate": 0.24,
+    "actualAccountChargesUnavailable": true,
+    "estimatedMaxOneRunRetainedArtifactUsdBeyondAllowance": 0.24,
+    "actualObservedSavingsUsd": null
+  },
+  "cleanup": [
+    "Every native command uses a private kill-on-close Windows job or one labeled Linux container with cgroup limits",
+    "Actual stdout/stderr/process/limits/TRX and immediate producer snapshots retained on failure",
+    "Always postflight queries actual private jobs or verifies exact labeled containers absent; Docker daemon failure is not absence",
+    "Owned work retained for artifact/audit; no host/global store/cache or broker pin/package feed edits",
+    "GitHub retires ephemeral hosted runner; Root independently reviews all raw receipts; no cleanup-only success reinterpretation"
+  ],
+  "lifetimeWindowsLimitation": "Guard-only Windows path. Successful Windows context/chain lifetime requires a separate reviewed store-isolated implementation; not introduced or claimed by this workflow."
+}

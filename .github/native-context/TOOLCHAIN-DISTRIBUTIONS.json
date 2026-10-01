@@ -1,0 +1,103 @@
+{
+  "distributions": [
+    {
+      "component": "reference-pack-source",
+      "version": "8.0.424",
+      "name": "dotnet-sdk-win-x64.zip",
+      "rid": "win-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.424/dotnet-sdk-8.0.424-win-x64.zip",
+      "hash": "1787ab90635c2950672ed7c6507b000e1b212ea7d9a22fcef37061344d37c64d4c4eda12b8742601eff5b45c8736485b31c55613892f240c300190e4e88a58b0"
+    },
+    {
+      "component": "reference-pack-source",
+      "version": "8.0.424",
+      "name": "dotnet-sdk-linux-x64.tar.gz",
+      "rid": "linux-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.424/dotnet-sdk-8.0.424-linux-x64.tar.gz",
+      "hash": "6503fd9f464d5e3a4f43a881d2b74afc6a2c46ceda74d027f1565b7239f4b3ec884857c03c0dcd49eb52f384d5ae1fa5aaf135f0a6aabc5518103aceed643c74"
+    },
+    {
+      "component": "sdk",
+      "version": "10.0.303",
+      "name": "dotnet-sdk-linux-x64.tar.gz",
+      "rid": "linux-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.303/dotnet-sdk-10.0.303-linux-x64.tar.gz",
+      "hash": "538df11ceb9d86bdda061bab6ede3d1f6d46bb9ba087ae905643f3d456afe982949d1b952bceb305a5d22d2d6e69cc0e5100216ffcc709aaa86e867f2d9cdf9a"
+    },
+    {
+      "component": "sdk",
+      "version": "10.0.303",
+      "name": "dotnet-sdk-win-x64.zip",
+      "rid": "win-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.303/dotnet-sdk-10.0.303-win-x64.zip",
+      "hash": "ad4ef6202e55babde1c65e1be7b468c3ecb738ccc2fb8bd3c2bb408a4f45d247c8c5a5f57fedc54ebee7cb5fc4f487772997f2d053010d2e1903b974cc64216d"
+    },
+    {
+      "component": "aspnetcore-runtime",
+      "version": "8.0.30",
+      "name": "aspnetcore-runtime-linux-x64.tar.gz",
+      "rid": "linux-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.30/aspnetcore-runtime-8.0.30-linux-x64.tar.gz",
+      "hash": "415f79420e9fc465467ccab237f18b609710a715ebe43cd3c05c69af975d474fddcbe37eb831164472de60739874216c451ebbfb5f1fb040b41e90e41dc77206"
+    },
+    {
+      "component": "aspnetcore-runtime",
+      "version": "8.0.30",
+      "name": "aspnetcore-runtime-win-x64.zip",
+      "rid": "win-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/8.0.30/aspnetcore-runtime-8.0.30-win-x64.zip",
+      "hash": "a40c0e6e4fac5741693dd3319e143b7c725f48eb9b347da30ef86de3be5cdd68ff3e4700f5ab898c85f77efca9f538b200c967a0b4e79fec5832edbdc7a0683d"
+    },
+    {
+      "component": "runtime",
+      "version": "8.0.30",
+      "name": "dotnet-runtime-linux-x64.tar.gz",
+      "rid": "linux-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/8.0.30/dotnet-runtime-8.0.30-linux-x64.tar.gz",
+      "hash": "64d921a7a79c32c5a3f45f5473e8b56d41180c4ea41204bf0efd1f1b9249c2e509ee219341617138fa34ff79a7f6ca8523c4a73a29a5b6616ddea2e43204d62c"
+    },
+    {
+      "component": "runtime",
+      "version": "8.0.30",
+      "name": "dotnet-runtime-win-x64.zip",
+      "rid": "win-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/8.0.30/dotnet-runtime-8.0.30-win-x64.zip",
+      "hash": "99e61c9a2d15dbb280db98bfc3ee45dfeda25fdb91e3d3c167789dd74328957a4f791c57ad13e8a3344df64a27d6ef8332dd91a773072541789a1d11ee3b4439"
+    },
+    {
+      "component": "runtime",
+      "version": "10.0.11",
+      "name": "dotnet-runtime-linux-x64.tar.gz",
+      "rid": "linux-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.11/dotnet-runtime-10.0.11-linux-x64.tar.gz",
+      "hash": "64c77a5f98d6dfc63393ed5d2fed47c2855c7cdd4322008b3b13e1d0b710aefc1fba7e56612f25f7e8a2b1b6cef5cf77cb3a834ff3685e723ad286703c3396d8"
+    },
+    {
+      "component": "runtime",
+      "version": "10.0.11",
+      "name": "dotnet-runtime-win-x64.zip",
+      "rid": "win-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.11/dotnet-runtime-10.0.11-win-x64.zip",
+      "hash": "d9ab9c0d9916b8fa3585b5f403057f594ffffb8364dac09e0007dd8ac671c86754935b980d8fb5da83cb1b82ac3cd57cc407c969e6d837aaa2fae21047cb7448"
+    },
+    {
+      "component": "aspnetcore-runtime",
+      "version": "10.0.11",
+      "name": "aspnetcore-runtime-linux-x64.tar.gz",
+      "rid": "linux-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/10.0.11/aspnetcore-runtime-10.0.11-linux-x64.tar.gz",
+      "hash": "4c6be0623330074e699dab8084be15a1baebb7a518c0dd8ce99f93cf79777cd46f3a38ef9d25edc152ed606f084b63736bd9e4082eb32d188fc357bf6ac4d1d6"
+    },
+    {
+      "component": "aspnetcore-runtime",
+      "version": "10.0.11",
+      "name": "aspnetcore-runtime-win-x64.zip",
+      "rid": "win-x64",
+      "url": "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/10.0.11/aspnetcore-runtime-10.0.11-win-x64.zip",
+      "hash": "1c8de827f63cc1fe66894151c552ac81f59d1841a3a3e278603ba1d51c282a2599254801625eb58a8bb3677ceff3af46cbeff368e46f9fbd312a0dba3fe96f4a"
+    }
+  ],
+  "linuxContainerImage": "mcr.microsoft.com/dotnet/runtime-deps@sha256:3b8db93b36e94c7de4524d5b3da230ab9ef5e336c469c7d5c44e0cdbab49d297",
+  "selection": "From pinned SDK8.0.424 extract only exact Core/Asp8.0.30 reference packs. Install pinned SDK10.0.303 plus exact Core/Asp8.0.30 and10.0.11 runtimes; runtimeconfigs disable roll-forward. Vendor archive SHA512 checked; owned download archive removed after extraction.",
+  "metadataOnlyNoRuntimeExecuted": true
+}

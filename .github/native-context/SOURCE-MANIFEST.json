@@ -1,0 +1,3247 @@
+{
+  "source": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
+  "files": [
+    {
+      "path": ".editorconfig",
+      "bytes": 4306,
+      "sha256": "5B75F0D27799EB68F098347AE25F176929D855CE1D57E25DA3A6DC51ACF23FD2",
+      "layer": "original"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 11,
+      "sha256": "459E7C172CEF04014C22E56BE39D6F344BB7B801B730A930484F910701A2C52B",
+      "layer": "original"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+      "bytes": 1906,
+      "sha256": "FB6A0A54C4179F91D48566532BD2F0820889750424AB30ED52E4175F8E7CB001",
+      "layer": "original"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/custom.md",
+      "bytes": 417,
+      "sha256": "8FD8E08C322AA7DE25AC5DFA82808EA7CD4CB41DE00C49329210C3A0A8F4AA6F",
+      "layer": "original"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/feature_request.md",
+      "bytes": 843,
+      "sha256": "FDF95849C1B23E97F5717F9948D960F9057AAA85ECC2630A8FC6732801DEB164",
+      "layer": "original"
+    },
+    {
+      "path": ".github/legacy-certificate-provider/LegacyCertificateProvider.cs",
+      "bytes": 446,
+      "sha256": "C80472649E7996479878D560961D4FCCE33E9839C26B411EDB8E206D225BE78F",
+      "layer": "native-overlay"
+    },
+    {
+      "path": ".github/legacy-certificate-provider/LegacyCertificateProviderFixture.csproj",
+      "bytes": 461,
+      "sha256": "203D8135A71E743FC577777E3340DDD40CA352B65614BC4E33876D1BC9FEA5E9",
+      "layer": "native-overlay"
+    },
+    {
+      "path": ".github/scripts/qualify-public-client.ps1",
+      "bytes": 4711,
+      "sha256": "F228CD5897C0927D0EA6C1062CACFBB2BF79586A0FB2CED549643AD7425C8161",
+      "layer": "original"
+    },
+    {
+      "path": ".github/scripts/verify-client-negative-control.ps1",
+      "bytes": 3482,
+      "sha256": "00809692532774411FC87F8934D69D25DF4BA6FF458E99990B6B6DD74AE6DD7D",
+      "layer": "original"
+    },
+    {
+      "path": ".github/scripts/verify-native-qualification.ps1",
+      "bytes": 2679,
+      "sha256": "916422C998F93E9DE895680DB7DEC5F5D73C849AD28DDE9A5C698238E1F69757",
+      "layer": "original"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 4899,
+      "sha256": "43D8C6CCF7A52D9929B97F7A6B108AFA85E577469FB4BF656B1D7F8AC9B92774",
+      "layer": "original"
+    },
+    {
+      "path": ".github/workflows/native-incoming-qualification.yml",
+      "bytes": 7294,
+      "sha256": "0C9E6F4C550A24005E6A22397CF9F512E98458F3CBF5FBA04962015EFCF2FAF8",
+      "layer": "original"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 5253,
+      "sha256": "7E7D5A5496663DA6178FA9B361D54F7F880249C25ADD48DD2A11B88C7DB21F02",
+      "layer": "original"
+    },
+    {
+      "path": "CODE-OF-CONDUCT.md",
+      "bytes": 263,
+      "sha256": "95096236D7FC47384F7416F87F17C44C994C6E82A8F7B0A50168E8FFA1B29A08",
+      "layer": "original"
+    },
+    {
+      "path": "Directory.Build.props",
+      "bytes": 1323,
+      "sha256": "70D8F7A3E6F77C5DB23F28C58DB68D5560E125D3EC52C316CC6E47AB0D84DBA0",
+      "layer": "original"
+    },
+    {
+      "path": "Directory.Build.targets",
+      "bytes": 1161,
+      "sha256": "0343E7D26B7CED1CC81B339455F5361687E324BF616E82EAC9F4F4632CA516C4",
+      "layer": "original"
+    },
+    {
+      "path": "Images/Logo_128x128.png",
+      "bytes": 4143,
+      "sha256": "BD7C1F1B5BBB7C461CF6AAD06F8E5C45B1A35ABB88760FD7C82BE3A251A185F4",
+      "layer": "original"
+    },
+    {
+      "path": "Images/MQTT.svg",
+      "bytes": 8806,
+      "sha256": "7EE17F604D9F4EBE29A1744A605756D1FB3737432B132EE8BB311B848AAF469B",
+      "layer": "original"
+    },
+    {
+      "path": "Images/icon_256.png",
+      "bytes": 7971,
+      "sha256": "DF5D87CE259FCFB58620CF7EA62B8330EF2F6C88EB13E163CDA2A20B20AE7DB1",
+      "layer": "original"
+    },
+    {
+      "path": "Images/icon_512.png",
+      "bytes": 16589,
+      "sha256": "3A3835FF8EC69AB1E92DE1319FAFEC2C2D26A905AA71B3ADF99AAC7DFCBEDDC2",
+      "layer": "original"
+    },
+    {
+      "path": "Images/icon_64.png",
+      "bytes": 2251,
+      "sha256": "1BC058FC0BC02BD334C8BD5D2578E50E49AE6A5C1993DC40CA6BF912C8BDD8CD",
+      "layer": "original"
+    },
+    {
+      "path": "Images/icon_det_256.png",
+      "bytes": 11040,
+      "sha256": "8E42C3A1DE100A974B16D0D25A33587914CAF3E4070707E4069366204431A597",
+      "layer": "original"
+    },
+    {
+      "path": "Images/icon_det_512.png",
+      "bytes": 23830,
+      "sha256": "FD8E79C538CB0C214FED966226026DFD1C0DA7D99CB495977D461056610B88BC",
+      "layer": "original"
+    },
+    {
+      "path": "Images/icon_det_64.png",
+      "bytes": 2735,
+      "sha256": "016E75B76F389F5B71D34046A3481957A815197B55E6004C4C874968D3F647C7",
+      "layer": "original"
+    },
+    {
+      "path": "Images/nuget.png",
+      "bytes": 4143,
+      "sha256": "BD7C1F1B5BBB7C461CF6AAD06F8E5C45B1A35ABB88760FD7C82BE3A251A185F4",
+      "layer": "original"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1136,
+      "sha256": "E3160994BBBC97820C7DE52409EE15E10B6C03128052AE3F3A9F3000F5D4D83D",
+      "layer": "original"
+    },
+    {
+      "path": "MQTTnet.slnx",
+      "bytes": 1381,
+      "sha256": "E8A36F898F65A96456050BBF0AD6B468FE2BE247AC26403FA0DED5B7344F1C93",
+      "layer": "original"
+    },
+    {
+      "path": "MQTTnet.slnx.DotSettings",
+      "bytes": 16378,
+      "sha256": "559FAA7956326E1FC2E6F5E534BFFA6DE27E27AC4117CD5FE8706D0C6EAC9194",
+      "layer": "original"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4263,
+      "sha256": "9F6B68E95DF031A68703B846C0B74466FBF1F3EF7342695C3C95F93B305D078E",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Client/Client_Connection_Samples.cs",
+      "bytes": 21632,
+      "sha256": "83D6E4089333DBD6A8E58380951087CC7C8404AF55AF1F1E20DE57A496941F2C",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Client/Client_Publish_Samples.cs",
+      "bytes": 4035,
+      "sha256": "9940788225EFF82BB7CE304A5C43879B17F0B085041E073B7DFAA23816649DC4",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Client/Client_Socks5_Samples.cs",
+      "bytes": 3690,
+      "sha256": "6661CDD16F67C6CBC85CC94D5FDF1CF62B542A2C583E7CC5D0EF12EAE2CED5D8",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Client/Client_Subscribe_Samples.cs",
+      "bytes": 8146,
+      "sha256": "065BABA1DD4BCC073D59FAA0E196CB546FB44E4D8A19475160F3920C9C7A1587",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Client/Client_Subscribe_TopicTemplate_Samples.cs",
+      "bytes": 3144,
+      "sha256": "E3D42A47CEF55550007E1D88A12FAB8D0D7D7699D9CD14BC79D8816124E770AC",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Diagnostics/Logger_Samples.cs",
+      "bytes": 3528,
+      "sha256": "8F4709D142D108196E36365DCA5791CD2CBE8322878CAA200789F4439E72EBF3",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Diagnostics/PackageInspection_Samples.cs",
+      "bytes": 1760,
+      "sha256": "B86F97A9FECEE9121C6F820F8A214312CCE14BA1534A9EC9739473204A3FCBAE",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Helpers/ObjectExtensions.cs",
+      "bytes": 777,
+      "sha256": "69B7BBB0A5795B180C3657EB04A954C9269A352F27F8AA67A8A83E4A32E5965A",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/MQTTnet.Samples.csproj",
+      "bytes": 926,
+      "sha256": "F57AF485F6B81676A939157962E193E374F82187BCB508A264468B77C21401DE",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Program.cs",
+      "bytes": 2254,
+      "sha256": "C308E4658C41EBBD2220D625D867E6C5437373568E806325D166241F6BF108E7",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/RpcClient/RpcClient_Samples.cs",
+      "bytes": 3580,
+      "sha256": "079593A1FBFA2FE52F036807B797C502D716261C67E01C59C8F72397F1A204DA",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Server/Server_ASP_NET_Samples.cs",
+      "bytes": 4024,
+      "sha256": "ECD04FF205580D8B91438DA0C6AB04FC17C5FD6BEED6D827C4B225812732C240",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Server/Server_Diagnostics_Samples.cs",
+      "bytes": 2064,
+      "sha256": "DF4C6CFA1E52A02968E17CF244114442A5EB34145781BF765F5032CF0999FD72",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Server/Server_Intercepting_Samples.cs",
+      "bytes": 2723,
+      "sha256": "1D7E939B3F44C7717B1B9E8690DA6FC78BF4EB1E57464607A3D60818690652D9",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Server/Server_Retained_Messages_Samples.cs",
+      "bytes": 5813,
+      "sha256": "E4ABB2BD00C2A97EB99177C999CC6A812090B6351623717041F4FAEAA76F9F83",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Server/Server_Simple_Samples.cs",
+      "bytes": 7172,
+      "sha256": "C55387D8C3EDAF5C3C3824D79A941E6A8C8C69F00FC9F993B9D54C6EDC34B905",
+      "layer": "original"
+    },
+    {
+      "path": "Samples/Server/Server_TLS_Samples.cs",
+      "bytes": 2893,
+      "sha256": "0D3D0493555D744015C4DE3AD0D823B88027F030D84C4F34CF7CAF15F8F834E4",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/MQTTnet.AspTestApp.csproj",
+      "bytes": 630,
+      "sha256": "E7E7286531D65663E37947F49C7E0128F30349791E96C76A27DBF0BE7E3FD000",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/Pages/Index.cshtml",
+      "bytes": 724,
+      "sha256": "0E2FCAC0B63199356156F0B80997661C736967386245CE57178EE424BF235E8B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/Pages/Index.cshtml.cs",
+      "bytes": 651,
+      "sha256": "468E7A1AE6D811E35ED5663F5666ED3470CEDB2A1B0BB9FFA8C674862BBDDBD6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/Pages/Shared/_Layout.cshtml",
+      "bytes": 315,
+      "sha256": "B6144DD85833EB9FEF4EA27AA180B9BC4E31FA204CC0E7BB64D4932F4DBF9CF3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/Pages/_ViewImports.cshtml",
+      "bytes": 94,
+      "sha256": "41248971ACFCE6F1AC06FBFDF53634A486173D305F6930D75932759A85867003",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/Pages/_ViewStart.cshtml",
+      "bytes": 35,
+      "sha256": "47E02B4DA20D198892B7B1B00B12944068797C438EF2E82D20FF70B4D56BAD39",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/Program.cs",
+      "bytes": 1722,
+      "sha256": "27DD2D6E3A32C920B809CC4A9686211AE79F07EEFB317292C268C9E35FD42858",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/appsettings.Development.json",
+      "bytes": 154,
+      "sha256": "2F962AFB0C211AD8148ABE63029BB390C3E637C40D265B57C9E29E66FDA90651",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/appsettings.json",
+      "bytes": 151,
+      "sha256": "200332B434757A0054A3D356C91CDE01F2C48712BE8AA2BCB0F3E973619F06E3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspTestApp/libman.json",
+      "bytes": 75,
+      "sha256": "7978BE7AE6F7315F64209D80096CBF2FAE2C83E3533D80F086160AAE31B6A14C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/ApplicationBuilderExtensions.cs",
+      "bytes": 1940,
+      "sha256": "33C191BD7A7CD2FE4966460C1E9E6A3D0A18E902195B701745564B741D79C495",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/AspNetMqttServerOptionsBuilder.cs",
+      "bytes": 600,
+      "sha256": "6A3120767DFFF693842914EFCCBF7812289A5F0E17626810D121599A9B0CDE9E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/BufferExtensions.cs",
+      "bytes": 621,
+      "sha256": "E2E11E973C602D60864EBAEF5627B69DA802E7D2BD9EF5140627A48B9F1033BF",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/ConnectionBuilderExtensions.cs",
+      "bytes": 501,
+      "sha256": "DD79E14E74781FDEFC06F421B0FB7AC50E08F7E162F6D98FD99C4B725429BED5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/DuplexPipe.cs",
+      "bytes": 1408,
+      "sha256": "6653B9D297EF30A4AC452333C957FB6AC9C202C5D20F822A06A24ED28B537A4A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/EndpointRouterExtensions.cs",
+      "bytes": 728,
+      "sha256": "99A0DB7A317C6295149CD576B02DFA17F168AB20DE810EBC852F0FD1968DE1A6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/MQTTnet.AspNetCore.csproj",
+      "bytes": 1351,
+      "sha256": "2FF488C793BE4D9B3D2C6ACC0E183E0177CE7A51CB98DF848D5B475608A1DE28",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/MqttClientConnectionContextFactory.cs",
+      "bytes": 1162,
+      "sha256": "AD37FD88D4E7D6410B87C75594B28F4D2C8763602603F6038F43858D424DC71C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/MqttConnectionContext.cs",
+      "bytes": 8308,
+      "sha256": "984BFCFC54B25CC98890ED1F9CFA1B2BE519F0E5CA9EDAD37F93A7E7862B48C0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/MqttConnectionHandler.cs",
+      "bytes": 1704,
+      "sha256": "DA6C18CBFCE86F82273E4EAB48363FC1E206F9F8327D7BF6161E2B9CB4139096",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/MqttHostedServer.cs",
+      "bytes": 1482,
+      "sha256": "5836E587BE3456D187ABEDFE133DC81D52B2A29F3222ABF618719931C28639E3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/MqttSubProtocolSelector.cs",
+      "bytes": 1161,
+      "sha256": "CE44A499133737ABA5DCBD9DA48987F31548322B50AB11703AC645A16E20C8AA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/MqttWebSocketServerAdapter.cs",
+      "bytes": 2184,
+      "sha256": "AF4E66B5A1239EEC10FE5DD8D560D3F1B6791F3BE8CBFBFF63ED67A0142161D6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/ReaderExtensions.cs",
+      "bytes": 4175,
+      "sha256": "085BF0EFC12F32836C4E008F313FA196EA6C691EF71E06FA97C43B2AF39BCCE8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/ServiceCollectionExtensions.cs",
+      "bytes": 3861,
+      "sha256": "262094EF882FDED0DC8CFD3D2CB10420836CFC5457DB4637D174BD33635AB5C4",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/SocketAwaitable.cs",
+      "bytes": 1846,
+      "sha256": "FF356060C47E3F66D3586881C59F35BC2F6544550F7E5DC7E8E796C3C9B969D8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/SocketConnection.cs",
+      "bytes": 7253,
+      "sha256": "573C075563126301422A754C07FE327FA4C26CFFD9C86C7C42EC00C77A1B8072",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/SocketReceiver.cs",
+      "bytes": 1186,
+      "sha256": "1F6AEA0D9FCD3438CE02740CB04F0D9E5AAEFE93C445FCB0C50E263638E68415",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.AspnetCore/SocketSender.cs",
+      "bytes": 2695,
+      "sha256": "3D7B630EDE36B2D98E3A75302EC453DED57E2034F2BC4C58F51555940879BF80",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/AssemblyInfo.cs",
+      "bytes": 28,
+      "sha256": "9B6B0271BEEC1D582CF49C46921980F4038F6563E2AFFB8294C10A78E8AEB08F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/AsyncLockBenchmark.cs",
+      "bytes": 1780,
+      "sha256": "BE5CF6E5B4D3DFF5E3132419900F8C9A03FBEE1562CB356725D6C00DF5640C1B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/BaseBenchmark.cs",
+      "bytes": 282,
+      "sha256": "B798DCBC9D8E17FDD27E801EDD172018D6CCE8E30F2DF59B8FCFFEFDF44E2FBB",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/ChannelAdapterBenchmark.cs",
+      "bytes": 2424,
+      "sha256": "1302D15C04E1CCE00F46EAD6540355945D91691F7398BBFE01A00AF5A98FC41B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/LoggerBenchmark.cs",
+      "bytes": 2522,
+      "sha256": "7EA16C00B181E8E1C5C39EBA5AA5A4430159C7C39217B09C3D98F35170B820B2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/MQTTnet.Benchmarks.csproj",
+      "bytes": 808,
+      "sha256": "4C82CC313C55C2BCF4D4D7FAC6F757F5EA713C3F68D1D6DC4101D2694291448A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/MemoryCopyBenchmark.cs",
+      "bytes": 833,
+      "sha256": "6CE490D48F4EF33DED2BB2AAB39BF5E08CF22F163D0EEE2F6EB6AD7FD204CF39",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/MessageDeliveryBenchmark.cs",
+      "bytes": 7520,
+      "sha256": "D0B92E99849FB166C6CED9E6EF8F47FD0DF9029C1035B5BCA09B47DD0E2251E1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/MessageProcessingBenchmark.cs",
+      "bytes": 1467,
+      "sha256": "EADD354993D8DF34E3455296FC71E88E9C1E9B482FE7E339710CAFA51DDFB895",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/MessageProcessingMqttConnectionContextBenchmark.cs",
+      "bytes": 2192,
+      "sha256": "A61D9A6366DDA1B6E9476279D34F153C2AE3405E230FC712BFDA7A8CA0B6A564",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/MqttBufferReaderBenchmark.cs",
+      "bytes": 1670,
+      "sha256": "8743C074698E797C27269322EB0CA9C37A6165B2D56B03719BD3459D02979287",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/MqttPacketReaderWriterBenchmark.cs",
+      "bytes": 3056,
+      "sha256": "E5474FA5B1008EF2A2B396E5D8D18A6D55C506FD3030F6DBDFCE9C7793100359",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/MqttTcpChannelBenchmark.cs",
+      "bytes": 2882,
+      "sha256": "B465911FD503F944FA0E1BC88B61FD7F0695F271DD571D62AF044274FB1ACA54",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/Program.cs",
+      "bytes": 3895,
+      "sha256": "6451A9A9A8DBEF35310883051ABDADDCB30117EF46643DAE2AEF2BFE70655E1D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/ReaderExtensionsBenchmark.cs",
+      "bytes": 2861,
+      "sha256": "5B5C577DDF0F502F2B75F867D375076EF845A692E431C867D939DC1BDF942B5E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/RoundtripProcessingBenchmark.cs",
+      "bytes": 652,
+      "sha256": "46BA9FFE64109AE0A05C6E8809DD4C217CC82709A71FA699789C6A409CAAEC40",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/SendPacketAsyncBenchmark.cs",
+      "bytes": 2053,
+      "sha256": "CC31D877909336350BDFA8319D7ADDBE35301A1D6B382A3BD12395F98C32DB23",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/SerializerBenchmark.cs",
+      "bytes": 3354,
+      "sha256": "9EB70B7D5F31B702678E57ED44929E7F1D3564C5FF87B745AC150ECD129A655C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/ServerProcessingBenchmark.cs",
+      "bytes": 1053,
+      "sha256": "242235AB5D94B76272A6115436A09D7A74529CC7CEE2DCE9167D1B27E13F49E2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/SubscribeBenchmark.cs",
+      "bytes": 1885,
+      "sha256": "43B25EDA3C9607AEE6C148650D10064D1971EBAB293CDA5FB652917C45DDB366",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/TcpPipesBenchmark.cs",
+      "bytes": 2181,
+      "sha256": "44AFB17D202E52887F319EF8BD4D6E3F60F82BD6DA88A51F512B65E0A8A9AA3D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/TopicFilterComparerBenchmark.cs",
+      "bytes": 1691,
+      "sha256": "55EAFB1FEDA319A5477485B480A990A4B68C4FC5670FE7A727A9A432E0664454",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/TopicGenerator.cs",
+      "bytes": 3091,
+      "sha256": "5B5665550A599BC90EC47AF4B3D3C6C920A7D68D93F17D8629B5CB903CB7021C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Benchmarks/UnsubscribeBenchmark.cs",
+      "bytes": 1931,
+      "sha256": "A01599669507FC8986657E784A2EA273118ECB6B87E16513C0256F1504CDF084",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/DefaultMqttRpcClientTopicGenerationStrategy.cs",
+      "bytes": 1018,
+      "sha256": "6F2C87F4F4D26B65CA61F5075D177AC636BD3318226B048B628D7C73047D6E5A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/IMqttRpcClient.cs",
+      "bytes": 715,
+      "sha256": "FCD4906897B9BF85C7121D2DE248EB620F73177E6FD42E91F6FFC95ADD0B5369",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/IMqttRpcClientTopicGenerationStrategy.cs",
+      "bytes": 376,
+      "sha256": "0F76251E59B1165549C973F9F7DDE78442AC95579EB760F4803F611422239170",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/MQTTnet.Extensions.Rpc.csproj",
+      "bytes": 1166,
+      "sha256": "F5D9DF72170DE502C25946FF41339495E4418333D12194CCDA4E1515FA2A7B73",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/MQTTnet.Extensions.Rpc.csproj.DotSettings",
+      "bytes": 600,
+      "sha256": "2B24A96BB723D33A1D3A177C17823A7376DEFA05FB1E26CBC3F64CD8E68AF16D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/MqttFactoryExtensions.cs",
+      "bytes": 1005,
+      "sha256": "F534264D7422FFC20DDEB514D305CC09C87632B73A4FE0C052788EC4FBF7329B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/MqttRpcClient.cs",
+      "bytes": 5096,
+      "sha256": "08D1D08583F3318E34CBC61CC5B85DF48A44FABE08A7BA72B853945813E81E12",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/MqttRpcClientExtensions.cs",
+      "bytes": 804,
+      "sha256": "AEA58353903EF1B869E707DB6DB942026CBB251B6166A6F6DF659DFE4A750661",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/MqttRpcClientOptions.cs",
+      "bytes": 432,
+      "sha256": "44CB950264359846EDEFB8896AF36F7FECE1A6AB677785A48C22E0A1047E05FA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/MqttRpcClientOptionsBuilder.cs",
+      "bytes": 850,
+      "sha256": "E02D09850FCF67449DA1F8CB99D85F5C51DA9A386BEC8BFC50065FD09831C98C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/MqttRpcTopicPair.cs",
+      "bytes": 382,
+      "sha256": "942A4C89BF2B68A234F2EE978F6D7DCF89DA86D399C5D0D7C0033F1F60BA6DA6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/SampleCCode.c",
+      "bytes": 1357,
+      "sha256": "1F03803F6AA8A8797CCBC6768614EAC80201B71ACF7A724410870E38AE9F5F79",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Rpc/TopicGenerationContext.cs",
+      "bytes": 1808,
+      "sha256": "4CF8E8D0511F234E565A1BED3978EA3EC6BBCF2B07DE51F6FF8016F9A7347C66",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Socks5/MQTTnet.Extensions.Socks5.csproj",
+      "bytes": 1069,
+      "sha256": "37479F32E90FCAD47E372311C9CB937E3246BBE98AF410CE2A9EBE4743A4E168",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Socks5/MqttClientOptionsBuilderExtensions.cs",
+      "bytes": 1679,
+      "sha256": "2B45B7BF457AD82E1688822123F34FBE8ED1B8DB7389ECB0E020E9E4D7BD9F23",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Socks5/Socks5NetworkStream.cs",
+      "bytes": 3712,
+      "sha256": "AABDDB212A26E34DB044E0E98A3BC9366C0884F7EBCB95370B03E1E7D378F114",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Socks5/Socks5Protocol.cs",
+      "bytes": 1511,
+      "sha256": "7350D4A77F13BD203B14C12A3066FB43CA6B54A657CBDA15AB0201560419F8DC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Socks5/Socks5ProxyOptions.cs",
+      "bytes": 2790,
+      "sha256": "D54260D3BC0702304CA235D41F5BAB8D0F4D938BD38EF0E12AD1D87CFC519E98",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Socks5/Socks5ProxyOptionsBuilder.cs",
+      "bytes": 3111,
+      "sha256": "64D526A44031D405B057B67C1A0288AE8CDF08659DE00349FE361031FC6DBA38",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.Socks5/Socks5StreamProvider.cs",
+      "bytes": 20946,
+      "sha256": "BBB6DB9BB781BD73A70AB847B2C167040E75C86F7BE7BCE24D09FFADAB8DCB12",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.TopicTemplate/MQTTnet.Extensions.TopicTemplate.csproj",
+      "bytes": 1241,
+      "sha256": "E837F82AEDA603266A6E733A3915C1BE291A28B06E03B2ECDBEA76DB03B949F2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.TopicTemplate/MqttTopicTemplate.cs",
+      "bytes": 12168,
+      "sha256": "1EA977541E15F698F3FFCE770D5764C62E451B260D22C8A3C1286029311C7477",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.TopicTemplate/README.md",
+      "bytes": 2885,
+      "sha256": "35B2CB7BBA0FDCC65AA6C98FF6D1925D6A75D12A4DE2728430C86F8BA951140B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Extensions.TopicTemplate/TopicTemplateExtensions.cs",
+      "bytes": 6844,
+      "sha256": "E898F8D3CD715C443FC7A475E9A19A8E256EF575886D2D66A4449CDD26136FE6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Disconnecting/MqttServerClientDisconnectOptions.cs",
+      "bytes": 1146,
+      "sha256": "F2A157B80F99C1632D158D7FB193D6EE0FB1F1155E6806BF6F0FB4E9BFE2892D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Disconnecting/MqttServerClientDisconnectOptionsBuilder.cs",
+      "bytes": 2434,
+      "sha256": "22CABF59B8AD1620954E420E847AAEA4DD8B42B83C573920609309EFBE9CF158",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/EnhancedAuthentication/ExchangeEnhancedAuthenticationOptions.cs",
+      "bytes": 515,
+      "sha256": "3A330EFC974DC8B83A99F8C9B64185281E1BCEB0E0BC49E1A4F10C8A61A9E896",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/EnhancedAuthentication/ExchangeEnhancedAuthenticationOptionsFactory.cs",
+      "bytes": 2892,
+      "sha256": "89CC59962725C8BE58E8672AA1F92F302550F9E668CCA662152463965C7E5568",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/EnhancedAuthentication/ExchangeEnhancedAuthenticationResult.cs",
+      "bytes": 306,
+      "sha256": "A52EDA5468591416C2912359FD9B68DABA3BA50362DD78AE70848CECEAF875CC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/EnhancedAuthentication/ExchangeEnhancedAuthenticationResultFactory.cs",
+      "bytes": 1171,
+      "sha256": "B0C02C2145B47DD1E3B39DE3389A3A2D4DEF55E64520913927EA46E4FF3D879A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/AcceptingIncomingQos2MessageEventArgs.cs",
+      "bytes": 1547,
+      "sha256": "6D8A7D58D17BC90DBC90ADB0C312EBBD54A97425CC6ED537516D091F8E3973AA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/ApplicationMessageEnqueuedEventArgs.cs",
+      "bytes": 2797,
+      "sha256": "2A23D78FF60375862B2F698363262EC19794EA4955CB5CA2DDE1884E6A0C7C55",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/ApplicationMessageNotConsumedEventArgs.cs",
+      "bytes": 931,
+      "sha256": "212BD4A194BB5C3ED0A1AA5CAB599238236B0AD08DC1440EE8B98AFBA35C7980",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/ClientAcknowledgedPublishPacketEventArgs.cs",
+      "bytes": 2920,
+      "sha256": "FC54B1A2C8A8876C0B72EBC7087C68E0AEFEAEB1F87B9DC58A528CFAFC54AD0F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/ClientConnectedEventArgs.cs",
+      "bytes": 2636,
+      "sha256": "EF5FC8C3285A0A3FD868758E8ED5A35413BF88A7502DE1E408EAFF2177D62BE0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/ClientDisconnectedEventArgs.cs",
+      "bytes": 3662,
+      "sha256": "8175978369ED3127918E379475F17448BB58A0F719C47B78EE655E775FC44577",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/ClientSubscribedTopicEventArgs.cs",
+      "bytes": 1563,
+      "sha256": "A7F06FB166876B587E78DA7FAEE167D7D64F49459DB966A4B545422EE7E4FCD8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/ClientUnsubscribedTopicEventArgs.cs",
+      "bytes": 1533,
+      "sha256": "943CDBC10BC6261133EB0A737962890DE65D54B171FB82E819BDE5C289DA0187",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/InterceptingClientApplicationMessageEnqueueEventArgs.cs",
+      "bytes": 2178,
+      "sha256": "9662DA3ADB50CC8951A5EA16F840673F91736CE4442A15040893ED702B53AEA0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/InterceptingPacketEventArgs.cs",
+      "bytes": 2482,
+      "sha256": "C24DE15343A975666386CC541FF04C27480EBDB905294E7D6DE900338411236C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/InterceptingPublishEventArgs.cs",
+      "bytes": 2146,
+      "sha256": "41489B32A7B4A4A6C021626209DC6AB3D41D9E3175DD98BF33EEDD2215732A35",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/InterceptingSubscriptionEventArgs.cs",
+      "bytes": 3243,
+      "sha256": "E5A63221C96357C3BEBB9E003C78F554B960387673A0789F4344AC18956964FC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/InterceptingUnsubscriptionEventArgs.cs",
+      "bytes": 3072,
+      "sha256": "2998FA739CCA28A5DF8326CAE5467B821318B379CB5FAABDFAE94346D4636FEA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/LoadingRetainedMessagesEventArgs.cs",
+      "bytes": 423,
+      "sha256": "A6F21244263B26A34C93D2225385CAFA8E0C7A728CA528F45C07BF9A16BA5E1D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/MqttSessionApplicationMessage.cs",
+      "bytes": 664,
+      "sha256": "32BEED262ECCD84D47A953D599194F864A0C47EE626D39B1D71E3DD5A67D440B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/PreparingSessionEventArgs.cs",
+      "bytes": 2146,
+      "sha256": "32C10B0645B685748C24442EF4FD295584918B688A118938D6EB24DCDA0550CF",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/PreparingSessionRecoveryEventArgs.cs",
+      "bytes": 3363,
+      "sha256": "A006A404A3627268A629A51D009CFA52653CDEB0B30EC4E9E817CE0B4D0849FF",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/QueueMessageOverwrittenEventArgs.cs",
+      "bytes": 1462,
+      "sha256": "A9D9597B80479F745D764D4E603EF81B3CAC7F80F767DF90AB56704C7B03B9FD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/RetainedMessageChangedEventArgs.cs",
+      "bytes": 997,
+      "sha256": "79DBCB47A40EC844E58239629F2732192712DD47A72B29A239629E22FCF147AB",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/SessionApplicationMessagesInvalidatedEventArgs.cs",
+      "bytes": 2568,
+      "sha256": "0A74B609DEB15DB23B256EDD582C6884B80D227AA71A33724B86353442BBB8E8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/SessionDeletedEventArgs.cs",
+      "bytes": 1057,
+      "sha256": "E1507C6BB22B5D3D17515BDE326414D8C466963A26519ECB31AB16BBEE5FFC5D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Events/ValidatingConnectionEventArgs.cs",
+      "bytes": 12263,
+      "sha256": "AAC933E7C35F20B4C010785863DE40ADD316F8243E33ED38BEB47302019A20B1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Exceptions/MqttPendingMessagesOverflowException.cs",
+      "bytes": 773,
+      "sha256": "E89D2266C08F548853FA2BE372EB2C4BD6AC4522CFD998C71AD7A4BB4C390769",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/IMqttServerAdapter.cs",
+      "bytes": 517,
+      "sha256": "7618AA8B246B7F16865BA09CB0835CCB421056D7AE77F0E5AAB01509C5CD9299",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/InjectedMqttApplicationMessage.cs",
+      "bytes": 1055,
+      "sha256": "71C204375D20E8BBD53AB79D3227ADF802E547BE4F20D6D25B00A291B73ECA01",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Adapter/MqttTcpServerAdapter.cs",
+      "bytes": 3711,
+      "sha256": "DBFFE9C5AA8B9E2E32552624ADA71D850C86609C9934C71F39151DB80F3E512B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Adapter/MqttTcpServerListener.cs",
+      "bytes": 11591,
+      "sha256": "678BCFAF8678E30C3F2C2EA4036210B662B2A0F6C6011711F7E71DA52F134CF3",
+      "layer": "native-overlay"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/CheckSubscriptionsResult.cs",
+      "bytes": 660,
+      "sha256": "FF6E0F7934B2C0549A7E597C9ABD9E7E96AEB395AEC0F78EF92E54D56A16FA73",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/DispatchApplicationMessageResult.cs",
+      "bytes": 831,
+      "sha256": "1E6EC857B916E59D9527727C0575B4BB29F512CCA5581279B8548E592352807C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/EnqueueDataPacketResult.cs",
+      "bytes": 315,
+      "sha256": "8B35C70E1CF9E7D26359E7C82107663D844946FB836FA4358EB13C1A2565FDE7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Formatter/MqttConnAckPacketFactory.cs",
+      "bytes": 1831,
+      "sha256": "695B1E954F1ADE7480CEDA472FD76ADA7778CCCCEEF8C63061D8DB2D18BF59F9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Formatter/MqttDisconnectPacketFactory.cs",
+      "bytes": 1187,
+      "sha256": "FED6F617CBC68A6BFD2109801B23523DAD6C7AE6E32F1DF2DAE25546568F71A1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Formatter/MqttPubAckPacketFactory.cs",
+      "bytes": 1066,
+      "sha256": "4E930B48E97242EC650EE722D369E95F63AA8BF60F8C1061A21CC3C1EA2DB0A6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Formatter/MqttPubCompPacketFactory.cs",
+      "bytes": 748,
+      "sha256": "D052A9B58D5F699CB49BE0B9A4BAD75707919CD71874684F43D905C51A595D59",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Formatter/MqttPubRecPacketFactory.cs",
+      "bytes": 982,
+      "sha256": "DFEDAB409C1594979898ECC27ABF4B77C62C05D605B148E962A45CCAD35944E6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Formatter/MqttPubRelPacketFactory.cs",
+      "bytes": 744,
+      "sha256": "A2065B3158A7E8FE979BAD9E8BC030F9F90AC05DA8D8B589E40AD572AD6380AA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Formatter/MqttPublishPacketFactory.cs",
+      "bytes": 3529,
+      "sha256": "94E333EA3E471FE189202A2EA43686B4F598DBD7CB052B8DE25A9C1051E82DF9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Formatter/MqttSubAckPacketFactory.cs",
+      "bytes": 927,
+      "sha256": "89298A1FEA2ECBAD69ECC545F4643514416F01677160B8B3BB05042884FA697A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/Formatter/MqttUnsubAckPacketFactory.cs",
+      "bytes": 875,
+      "sha256": "79F5836295345517982F79EE03C91198C644517A1FDA4D5944FFDB3936C13D71",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/ISubscriptionChangedNotification.cs",
+      "bytes": 282,
+      "sha256": "509EFF7AE45B2CC4F5A4C32A75411F3EC8F21EC5DD5F96235ECFBDE9BCAD09A5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttClientSessionsManager.cs",
+      "bytes": 41402,
+      "sha256": "EEBED545C167E5B5AD432B4D90F86391151FAAECC7FA6A7CA219B2F9C101A58E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttClientStatistics.cs",
+      "bytes": 3666,
+      "sha256": "7087A9F523D35778CE78B4ED10B5673EEA81E7E061D841D77DA7A58D31C8A5DB",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttClientSubscriptionsManager.cs",
+      "bytes": 24835,
+      "sha256": "451731094030E25CEA68BBB6F9185C85923F64802D0C7E76B8C237F9615772F4",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttConnectedClient.cs",
+      "bytes": 35161,
+      "sha256": "0A69308806F424D514C3021948C44512A8EF294B9CF40054295F0920BDD96B76",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttPublishPacketSnapshot.cs",
+      "bytes": 2044,
+      "sha256": "9579194DCBE5BAB1EB9C103784A7E02D656EEDD79FED872931E7BCD6F2679C97",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttRetainedMessagesManager.cs",
+      "bytes": 5527,
+      "sha256": "8712BB99C848E3CC496D297D9E219053D422859BA70A4E9FB9E449D086991FD7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttServerEventContainer.cs",
+      "bytes": 5181,
+      "sha256": "12D40C5DC6859B86695F996112B94F548A3D91F9BBCE131AF4E501A6CB7BE1B0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttServerKeepAliveMonitor.cs",
+      "bytes": 5111,
+      "sha256": "F4A57CBD0E03D7BDE14D3071D7EEECE6E14ED4303E55722C045723B7F11F9489",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttSession.IncomingQos2.cs",
+      "bytes": 22190,
+      "sha256": "0EE4E02E250073EE80774608953DE25D62F836067367355C98EE9608A4D6C8B8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttSession.Persistence.cs",
+      "bytes": 31148,
+      "sha256": "9BD97DDB7734CB5EDA781790ED146F436620E77F72BD97D16C94C608D89E71AD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttSession.PersistentSubscriptions.cs",
+      "bytes": 12012,
+      "sha256": "1C51BD33149BACFFDCC2AC19DE0578BE76602346D6616A566BEE6AFD46845C9A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttSession.Recovery.cs",
+      "bytes": 13465,
+      "sha256": "A9E35AE3CEB6A90C836DF3187AB73174A9A1094CE41573AC9E2D74FFAEBE4BDE",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttSession.cs",
+      "bytes": 29213,
+      "sha256": "BD331C2240CFCE1382551310096536BFE2A7407D5C83B4A7355A26DE1142FBE1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttSessionsStorage.cs",
+      "bytes": 2300,
+      "sha256": "8444A81C8CCABE15F671A4A080186480877040FDE760990F3F8BCDB879979C67",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttSubscription.cs",
+      "bytes": 1423,
+      "sha256": "E8875115C47BA86792E96694967FDC7F8F8876AEC75AA7703D33BFBFB8E2805A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttTopicHash.cs",
+      "bytes": 11383,
+      "sha256": "D06EE39BF3D97DF5C610E9504CBEA7FBABA4B1692D51A355EEC66A6109B13E59",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/MqttWillMessagesManager.cs",
+      "bytes": 11294,
+      "sha256": "42FBFCB02CE97453ECA93E8F0B1B76AB455EAB935545C42125C090190E185B2D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/SubscribeResult.cs",
+      "bytes": 777,
+      "sha256": "CEBCCCEEFD66DD78837F764E047DC5CC48B793A07DEDD5EDDA9B6217AC377E7A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/TopicHashMaskSubscriptions.cs",
+      "bytes": 1137,
+      "sha256": "B1E73AFA6DFDC201B530BA1C5EB5AAC4E96383736D8E540A452AA0F81B42BA77",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Internal/UnsubscribeResult.cs",
+      "bytes": 564,
+      "sha256": "46872D1AB712359BFE1F5AA4D7412B9AD4A033EFC6E687904F6402E68586D61F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/MQTTnet.Server.csproj",
+      "bytes": 866,
+      "sha256": "B0F8048D88AEFBC03ED5EC00C0858EA574341CB11DFD15DBFB7A9B33699DF8BB",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/MQTTnet.Server.csproj.DotSettings",
+      "bytes": 1005,
+      "sha256": "44570F0F4866CD415B1A9A7A44A28A7AAC4107AF938BC6D275C9291909C956AD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/MqttClientDisconnectType.cs",
+      "bytes": 320,
+      "sha256": "53EB393FB002BB7C5895ABDB5CAA19A6810C4E9FC71C68A2AFA9B00B1A7AFB3B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/MqttRetainedMessageMatch.cs",
+      "bytes": 878,
+      "sha256": "E0B86A3714D99A891BB732773E0B6E0EB16EC8ACAF6A4A3F820A384FC8E9232E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/MqttServer.cs",
+      "bytes": 18511,
+      "sha256": "2001C8F694C0D874C943E08380ABCD81934DC7258F4BEF0581DE349F2CBFD0DC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/MqttServerExtensions.cs",
+      "bytes": 2650,
+      "sha256": "50847B905F651A367C112A274DF7EB1A96C1C097B19971276D599D505C89BE25",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/MqttServerFactory.cs",
+      "bytes": 2870,
+      "sha256": "99B90536E869D36DEAD20B8964B42D20D65652460579E973450B58BE51DB2262",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/MqttWillMessageSnapshot.cs",
+      "bytes": 2184,
+      "sha256": "1530D3FFD321086CC3BAFE0EEAAA9B0B2437F96F37BA9101EA131B1EDAB3CA40",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Options/IMqttServerCertificateCredentials.cs",
+      "bytes": 323,
+      "sha256": "F98E2B20474E4BF81EECDF4D8CDE18E3E47C33A0AA2EEC93951E121BA6CAC434",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Options/MqttPendingMessagesOverflowStrategy.cs",
+      "bytes": 342,
+      "sha256": "162DA55D4657CCCB43A81CD84C1CBFF16F5242BB438DFC4AC22B9B6D29135E14",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Options/MqttServerCertificateCredentials.cs",
+      "bytes": 366,
+      "sha256": "2B9A3F47B8FE618321DDBD13D00F80E4E23FA85BCFE267F22F7FEF2F8F9314C7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Options/MqttServerKeepAliveOptions.cs",
+      "bytes": 861,
+      "sha256": "8C64529E3FA91BD36D882D27A769D7B971A70CFEB27EB6EE8BBB0D283422302F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Options/MqttServerOptions.cs",
+      "bytes": 1997,
+      "sha256": "AE664888E25A04917EC7C852DD3E2D738BE42C53598ED13F6EDAA04F0C266254",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Options/MqttServerOptionsBuilder.cs",
+      "bytes": 8062,
+      "sha256": "B160B0C3DD9B598DBE4A336C230A42B6F64E3E23F0D87D3E086C25DCDEEF2B57",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Options/MqttServerTcpEndpointBaseOptions.cs",
+      "bytes": 2830,
+      "sha256": "35C02AECF8CE61D982D700B8EF8D1FB68AA998BFD5A0C3AFE57BFAF69A8E63FD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Options/MqttServerTcpEndpointOptions.cs",
+      "bytes": 398,
+      "sha256": "31AE805CBF73467C8E911BF9E79A359E3F5BFFA173E64FF091827F8353836633",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Options/MqttServerTlsTcpEndpointOptions.cs",
+      "bytes": 1288,
+      "sha256": "9D7CBFF77F234BEE0799CA294F132ACA3C8DB16D300C961D6F1093C2EB6E17A9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Persistence/IMqttServerIncomingQos2Persistence.cs",
+      "bytes": 5909,
+      "sha256": "43225125AFF3D3C7B1CCA5475F2660750AF4FE87AB03A58D29CDD7744A652434",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Persistence/IMqttServerSessionPersistence.cs",
+      "bytes": 9690,
+      "sha256": "A8CC96552F518BFDE98895143E2C743E2B153E7AA1176B4A3F02F1D97B5D8373",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Persistence/MqttSubscriptionRequestSnapshot.cs",
+      "bytes": 3026,
+      "sha256": "2404134BB876401C004D67942DB9DBD06D1674494D5AE7E6394EB3187E97D627",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/PublishResponse.cs",
+      "bytes": 533,
+      "sha256": "23B92625837390EE0563614C012B25A43C05C9AB10C79A11A8FB09F7347C6E76",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Status/MqttClientStatus.cs",
+      "bytes": 2615,
+      "sha256": "45617EC93F399791998CB4C7A1715BCA3D6649F000F71C520749568D8A2423B4",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Status/MqttClientStatusExtensions.cs",
+      "bytes": 805,
+      "sha256": "4C727CA938CACF0CADB17B5BD0B2E99D05255C7DA00ED2502C5D451A9F6734DA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Status/MqttOutgoingTransactionSnapshot.cs",
+      "bytes": 1308,
+      "sha256": "4E119C6B96A9B27022588B662D5A7544A2FFCBFA743E8598F7ACA8B72F4878FD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Status/MqttSessionRecoveryLease.cs",
+      "bytes": 4153,
+      "sha256": "D25B331189A54A6E0BA85B61D34EAAED12E784290995402BDEE0959A6550A058",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Status/MqttSessionStatus.cs",
+      "bytes": 6364,
+      "sha256": "4CE6A1013E8CC42E9694767A1A147F08FB3EEFBF7CA1EC6578AA8343498EA678",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Stopping/MqttServerStopOptions.cs",
+      "bytes": 808,
+      "sha256": "4E4ED2438F93AA47F4E60CB4B9D44066E9EE089AECD7728233A4322BDB8A288C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/Stopping/MqttServerStopOptionsBuilder.cs",
+      "bytes": 1058,
+      "sha256": "ED97E388C181C61EE2BA1E8F87F35E2D224CCFE2B5ACDB66249F0A455BF57586",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/SubscribeResponse.cs",
+      "bytes": 719,
+      "sha256": "1525F97E508BD4F5B05393280AC92EBAB96D977F4FEA28768C2B5C93F6AD296D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Server/UnsubscribeResponse.cs",
+      "bytes": 647,
+      "sha256": "AE7FDAF3BBA6AFD8C6609BE682905582BEFEF91D941025067D773140EF8C99D7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/AsyncLockTest.cs",
+      "bytes": 1309,
+      "sha256": "12BE260DC9E415709060B836E094A9085B2D34EBC52496360CB42A5C0757748E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/ClientFlowTest.cs",
+      "bytes": 1573,
+      "sha256": "C424A982F24EBC6AAF812321B4072D6E1A2A8CFBEA8BABBCF7C66024C550AC41",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/ClientTest.cs",
+      "bytes": 3486,
+      "sha256": "4F59DDE95FBC8A7051C7D26B95862770D0CE9475E34B44E3D37051ACF36AD17B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/MQTTnet.TestApp.csproj",
+      "bytes": 579,
+      "sha256": "4E1577B332DB670934E972B81BFE9FD212253FF3AE94BE08B1EBB5FA5FA264B7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/MessageThroughputTest.cs",
+      "bytes": 12940,
+      "sha256": "AEC91016BFB0CCC42BCEE74CCDEFD08A0154134E0B63401E9BFFFCF1B72C5B49",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/MqttNetConsoleLogger.cs",
+      "bytes": 2054,
+      "sha256": "006BF59A70246A9107DBBA6FD5D5702686CAF2F39FB4F0B49409AE29BDB747DD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/PerformanceTest.cs",
+      "bytes": 23802,
+      "sha256": "CE2F9B91D8B8BD78C3694876B061A1B02FB4277427EE6DED96BB5EAE344523E4",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/Program.cs",
+      "bytes": 2942,
+      "sha256": "6C7B472F5770C1F730C81AD0BADDE0662B63FFACD660137695CF4F7FB88502E3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/PublicBrokerTest.cs",
+      "bytes": 8283,
+      "sha256": "951FD30343EEC6F0827FA30C69F583F4239D130E584C763AA485E75F60820535",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/ServerAndClientTest.cs",
+      "bytes": 1019,
+      "sha256": "FB8537BD6B092F07C027E34EE63094D82B23F9F07FA59A27911B06ABF29DE921",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/ServerTest.cs",
+      "bytes": 7353,
+      "sha256": "269EB131AEF3F3EB899F60DD3317BD4899A94812F34B672BD4C552376686B1E0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.TestApp/TopicGenerator.cs",
+      "bytes": 3869,
+      "sha256": "79E6A9278AC182F3DEF14FC403B8DBADD36688931490AE5221A4C6B08C35B1FD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests.Extensions.Socks5/AssemblyInfo.cs",
+      "bytes": 238,
+      "sha256": "FFBFCFFF6FCC2EDDF9A7291F4C8DEAC0FD35BA057FD5162234C360CA4ECFD77A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests.Extensions.Socks5/FakeSocks5Server.cs",
+      "bytes": 19570,
+      "sha256": "68ADB2CCB167BE1EB7C3C625EA89ADC85B981E30E2AB6C953F24B66E91EC12D6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests.Extensions.Socks5/GlobalUsings.cs",
+      "bytes": 268,
+      "sha256": "23EF95819E09DE321679D515EBEE3CECF3CE9851045919902DD670425FDAF52D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests.Extensions.Socks5/MQTTnet.Tests.Extensions.Socks5.csproj",
+      "bytes": 990,
+      "sha256": "019EE0C36C65E926AB0EC5610BBFD3A42ED1AD164679C06E40FB53E0CC3E7548",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests.Extensions.Socks5/Socks5MqttClient_Tests.cs",
+      "bytes": 21698,
+      "sha256": "4E94D8C9E9F451209A9F2ECF7C4A499E5A4B8786AC3B8593C73C3D56E2EDAAA0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests.Extensions.Socks5/Socks5ProxyOptionsValidation_Tests.cs",
+      "bytes": 3450,
+      "sha256": "9D9867EB74F215BD6582DB79EC2776F8B1064499B6CD0EBDF644825757F6F20D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests.Extensions.Socks5/Socks5TestHelper.cs",
+      "bytes": 3641,
+      "sha256": "3FC6203F352FEA4612DFDCC73D0ED448DA31A75DF3682FFFD24342F5DDABC9AA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/ASP/Mockups/ConnectionHandlerMockup.cs",
+      "bytes": 1381,
+      "sha256": "DAD892F6FA2B79E74DF856E52724C65426742BCA20ABA28EB09384DD0F6BAAD7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/ASP/Mockups/DuplexPipeMockup.cs",
+      "bytes": 732,
+      "sha256": "9A571482591E0FA0314226086B934F16279E424F9895C861BEA64B724B569568",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/ASP/Mockups/LimitedMemoryPool.cs",
+      "bytes": 590,
+      "sha256": "450405C1E0B96F15118F504054B07D964295F3EB9E3D4FDDA753A7C61EA17255",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/ASP/Mockups/MemoryOwner.cs",
+      "bytes": 765,
+      "sha256": "CE4632FCCD4FEF3CDDE194F1286A0313ECEBD80DC384053F3DDE356FC16E46B2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/ASP/MqttConnectionContextTest.cs",
+      "bytes": 5158,
+      "sha256": "E20947771D578BEC194F0583ADE699D2A574A2ECAA8914B692C621486F9E0BD3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/ASP/ReaderExtensionsTest.cs",
+      "bytes": 1549,
+      "sha256": "93E305B66AD81E9D299B84D568221B7633DB6BA95A36C9398E6A01E97007E934",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/AssemblyInfo.cs",
+      "bytes": 28,
+      "sha256": "9B6B0271BEEC1D582CF49C46921980F4038F6563E2AFFB8294C10A78E8AEB08F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/BaseTestClass.cs",
+      "bytes": 889,
+      "sha256": "F0F8185616D2FC84B0CE8F9A1AD3A65567A0FD9D226750718495DFD5323688B5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Clients/LowLevelMqttClient/LowLevelMqttClient_Tests.cs",
+      "bytes": 7015,
+      "sha256": "3EA04A8D0BFAF224639E624E3471C1931B24F8B2FBD78F1DA2D6E2B95EC4F551",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Clients/MqttClient/MqttClient_Connection_Tests.cs",
+      "bytes": 11285,
+      "sha256": "ADFBA721523D233D2527DA4345D0A8CC7357DC00B68093248F256FFF2C86A5B1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Clients/MqttClient/MqttClient_Tests.cs",
+      "bytes": 38082,
+      "sha256": "25BC74942E82E60AD236D55E5951EB0AA26AE2CC5B23B1368CB87F2A0D998D3A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Clients/MqttClientOptionsBuilder_Tests.cs",
+      "bytes": 751,
+      "sha256": "B719CF43656C2E147A5CEBE9B442A974A544AE0FB2169FC1090F425E6674DA3E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Diagnostics/Logger_Tests.cs",
+      "bytes": 2098,
+      "sha256": "1815B915971A316C5CE0E64C27EC01440DCE249FE00761C393FED35CB815766B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Diagnostics/PacketInspection_Tests.cs",
+      "bytes": 1560,
+      "sha256": "80B48C15C4CB87464AE8930CC05131BABBCA8D97510D16082E10DE0BC866F64D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Diagnostics/SourceLogger_Tests.cs",
+      "bytes": 865,
+      "sha256": "54A3E24660DB1AD806A04C1E03235E1314A198F20FDE5CD2C32DC5AD950237B7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Exceptions/MqttProtocolViolationException_Tests.cs",
+      "bytes": 831,
+      "sha256": "A718AC84A787AC93AC39A74D662151FE8133B4F2D45E19FD54677BC2DCE329A2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Extensions/MqttTopicTemplate_Tests.cs",
+      "bytes": 9037,
+      "sha256": "BC1EE1867108D98815110D386B1CE968AACF0AC277CEB084F69705ED91791922",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Extensions/Rpc_Tests.cs",
+      "bytes": 10353,
+      "sha256": "4D67984B26FFB6AABBB9E9271CF534D190E14173C17FB8F1EE06E3340EC4C8DC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Factory/MqttFactory_Tests.cs",
+      "bytes": 2442,
+      "sha256": "9471B1E1E07E12813EE2FB559BC666FD43A2E87C81426677DF7817DB1D873648",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttBufferReader_Tests.cs",
+      "bytes": 12375,
+      "sha256": "CDCC3D67949FCB03CF4E455949C19C1470040C83CC781108D116EB020CA99C10",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttPacketSerialization_V3_Binary_Tests.cs",
+      "bytes": 19122,
+      "sha256": "B0E5869C3A6FDE6E7573FA85B4C62538ACA882A0D4BF54106A3FF1732E91FD12",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttPacketSerialization_V3_Tests.cs",
+      "bytes": 22061,
+      "sha256": "1506143F6079A9E88A151C73A5A17B25348D76682555687AC175DBB96FE78B64",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttPacketSerialization_V5_Tests.cs",
+      "bytes": 21102,
+      "sha256": "5370B80F5013E2ED52216C7A0AF1A38600648C3CCEFD94E7402E4DC21270E4CE",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttPacketWriter_Tests.cs",
+      "bytes": 3259,
+      "sha256": "41A289FEEA0C16B5D29447ACBAB5EF386317B5A63155C14CD989E5A0A7CA2EF3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttV5PublishPropertyValidation_Tests.cs",
+      "bytes": 1519,
+      "sha256": "FAC56793863DC2E68D4251069F22236B740DBBFAA438E523CD2426B8DD6BDC15",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttV5SubscribeIdentifier_Tests.cs",
+      "bytes": 2619,
+      "sha256": "7B437A0A2AB16756723BD16C2EBE357A9A8D3CEEC8619D4BE15F05766B3C4A0A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttWillTopicValidation_Tests.cs",
+      "bytes": 3242,
+      "sha256": "CE7F5F352DCD6B9FCEE43BA7AD3D6E6FB6C2749B2F6A3AA87CFB2A13CAC56082",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Helpers/MqttClientExtensions.cs",
+      "bytes": 561,
+      "sha256": "76E2B59692E9ED72E239DEBC69CCB2E06B49C73CB2A235C9C8DAD76565683C54",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Helpers/MqttPacketWriterExtensions.cs",
+      "bytes": 694,
+      "sha256": "D0CCD448B75F38BCC2567A9443C225BCD6A799FE68F417624B8E083C27186F8B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Helpers/ReflectionExtensions.cs",
+      "bytes": 738,
+      "sha256": "CCE7BA704F77E773B51A8297FD6B72B4352D09E40E86FD5DB6AA731C3F39CB01",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/AsyncEvent_Tests.cs",
+      "bytes": 3667,
+      "sha256": "2F77513A460A1612BC5E1FB86E383646BD6AE619F91E74D3C4D5BCF4E4C958E7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/AsyncLock_Tests.cs",
+      "bytes": 7966,
+      "sha256": "89A448D9418D9BDC8BAE26E4E0DDA59E4316984400792D3AECD1C87F4933D5C2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/AsyncQueue_Tests.cs",
+      "bytes": 3712,
+      "sha256": "EA4062073624E067785FEB67ECA4927E53ACE07C6B2D38A0C55555AE2A5E68D6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/AsyncSignal_Tests.cs",
+      "bytes": 3820,
+      "sha256": "A3DF64B0CF05DB6F0BACAD9A59B5E46227E9987DFF6F740AF99476947DC75E19",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/BlockingQueue_Tests.cs",
+      "bytes": 3709,
+      "sha256": "0C5EEAF63C1D0AC67EDFF3946B012FA46F1D21576D2D7A60CF9FDFA88786BCF6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/CrossPlatformSocket_Tests.cs",
+      "bytes": 3121,
+      "sha256": "90CE44F4F155992B6DF10E2408F96DD295AA4BEEBF7E9D309435E7C151600D2C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/MqttPacketBusItem_Tests.cs",
+      "bytes": 5065,
+      "sha256": "CC561313F6733BB2CE2BD7366AA4B827C6A03FF0C33EA8A5AF6A9C4527CAF444",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/MqttPacketBus_Tests.cs",
+      "bytes": 7372,
+      "sha256": "BD204F21E45A22FAA1506A33ABDF6DBFDC4E7884D177BB1372D387E97D133637",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MQTTnet.Tests.csproj",
+      "bytes": 1286,
+      "sha256": "6402516C6CCDCAE3A30F61F28602A4AB6DDD535FD451005DE4E0CFF294A6E1C4",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MQTTv5/Client_Tests.cs",
+      "bytes": 14115,
+      "sha256": "06C8FE8BE2E5A8E853A203C44A5FF2BDA97A221BFB5C22624268DAA2B3ACC825",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MQTTv5/Server_Tests.cs",
+      "bytes": 7982,
+      "sha256": "BC209A52561F5DD29A31F1A7D108A0C8DEDC81DCB6FC4D8B9B264DAF57C5BA3A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Mockups/MemoryMqttChannel.cs",
+      "bytes": 1708,
+      "sha256": "2C6E3DC8F13EDB52D364843674BD9330757B4329444544E5C7F6DEE07B4150E0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Mockups/TestApplicationMessageReceivedHandler.cs",
+      "bytes": 2055,
+      "sha256": "F3893BF2E53BC85EFF1AC4257FA9CA04D83788A4B8A8BD14BDA57F1E55FEC283",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Mockups/TestEnvironment.cs",
+      "bytes": 13482,
+      "sha256": "F4D16E5533DC9BC70B6AE2F5609E792A78A8358BF868B8A6A57DF3B0C8DB9272",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Mockups/TestLogger.cs",
+      "bytes": 917,
+      "sha256": "1A1FB351D4218D7E42CB900C022D0F0FAEA2CF42D142EE25D058AD57409ABB79",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttApplicationMessageBuilder_Tests.cs",
+      "bytes": 5194,
+      "sha256": "4EB05B180812A75FC218BB159968C79001730F73957D80EB17D1D099BC3E0FDE",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttApplicationMessageValidator_Tests.cs",
+      "bytes": 1684,
+      "sha256": "89D9D3E82112E4C1080AC92423D4CF94B0EF9E8A23DC21C605A3C0FA58AD9AA3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttClientOptionsValidator_Tests.cs",
+      "bytes": 2240,
+      "sha256": "5DBC808A710C6EDBDB6D9F0320863A01BE0928662615D8262D246616BA021148",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttPacketIdentifierProvider_Tests.cs",
+      "bytes": 973,
+      "sha256": "FBDD826E02E57EE66969455CBDB509F1F12C5F6F1DC8FD69DB6DF109BA62778E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttPacketSerializationHelper.cs",
+      "bytes": 2220,
+      "sha256": "4EFDF8DCDE55775288BF009BB399C022D6D4F97C28D78EE153010ED415484DCD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttPacketWriter_Tests.cs",
+      "bytes": 936,
+      "sha256": "4B46E554ABB8A74046057F71247E97894E628ADD9EFE46671599B4589FCB44AE",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttTcpChannel_Tests.cs",
+      "bytes": 3470,
+      "sha256": "5009775911F77CB3845314ADD9F0FA66816497B61B5E409553AFD2D74293152F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttTopicValidatorSubscribe_Tests.cs",
+      "bytes": 1486,
+      "sha256": "BB8E45A501575B04F67DDE198893898ED54AE491BE896350C229FEC74693F2F5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttTopicValidator_Tests.cs",
+      "bytes": 1074,
+      "sha256": "81EEBAA0469606B3CDD34D9AAA24DDEBCC6E6008731E04E2C9FBAB21A6797306",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Protocol_Tests.cs",
+      "bytes": 1487,
+      "sha256": "50F8C06F1911218FF64AE7ACB27F854174CA93A06A0BF998003ADE69E83D99F9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/RoundtripTime_Tests.cs",
+      "bytes": 1770,
+      "sha256": "6D2E2836DCEEC4D9EC8420446BC0CDDA2EE29B2A2E789D0C27E254B6F2313554",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Assigned_Client_ID_Tests.cs",
+      "bytes": 2965,
+      "sha256": "9D5411184FC79177F7CFFA2D4FD40D945C3697A2F1F5504CF65844F9E578A402",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/CertificateContextLease_Tests.cs",
+      "bytes": 21623,
+      "sha256": "58E6A7DBD6144E282EE60E14E093BD3F7B703B4FB9FFFDD3280B817C27D251FC",
+      "layer": "native-overlay"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/ClientNegativePubRec_Tests.cs",
+      "bytes": 10332,
+      "sha256": "F0B85877D4D8E2338431D0A7A4520A58511F2DA38E59D862DC7FBFF3C71133DC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/ConnectionAttemptClosure_Tests.cs",
+      "bytes": 7386,
+      "sha256": "1CB30FA989F421B6243ABB86A9B0ECC9EB960A654A080BBF7C2E78B23950F5E9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Connection_Tests.cs",
+      "bytes": 2648,
+      "sha256": "8357849784900D19530032552C7009E73B4101549FC75D04422CA2F267DE1241",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Cross_Version_Tests.cs",
+      "bytes": 2562,
+      "sha256": "E2C095FA77FFA743B99D9F2F0CC496F21EBFB893E951F8E7681589C1D084BB41",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/DisconnectSessionExpiry_Tests.cs",
+      "bytes": 6902,
+      "sha256": "E60AAB2ADC7BF047B4DA9938CB4F0B8A3B8936C894FA6E7D2567DC454D0A6098",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/DurableSessionPersistence_Tests.cs",
+      "bytes": 39673,
+      "sha256": "1A4F0EE0534CE4B2DDDA81EDDACA69AEEE37720AB2499E288AAF0BAAB2DAE48D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/EnqueueCorrelation_Tests.cs",
+      "bytes": 25392,
+      "sha256": "92E2E95A04CD8685D73E5CAD2FD27C0DE75880C3D88D1257E97EA8B007EFD760",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Events_Tests.cs",
+      "bytes": 6214,
+      "sha256": "72036480DB888D64EABF249D76F7E7B7F0C61693D994D52F1CB6F7439D8FAA8F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/EvictedPublishTracking_Tests.cs",
+      "bytes": 4503,
+      "sha256": "91363D22DFD4A26E1506D4F5174EC0B745DA525E8FADF57C46C6BB699751DD38",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/ExternalWillOwnership_Tests.cs",
+      "bytes": 14716,
+      "sha256": "E3306849BA85E0088DF00A934D3C8FD7AA5DF2BA7A386624BFF2E80486219B70",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/General.cs",
+      "bytes": 31671,
+      "sha256": "D4EC225A90F3227510201FF9235ACA500791FFED0389EBBECEE55C20CB4AA487",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/HotSwapCerts_Tests.cs",
+      "bytes": 14302,
+      "sha256": "96A63B75BC26DAAF6F071661D2872B145E7DA62AD03088DE4B0F76E9A810677F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/IncomingQos2Persistence_Tests.cs",
+      "bytes": 45073,
+      "sha256": "2A04A1E6E0900702F6898ED04BCFB2F191BEB8A4C0C702D71D09DA9E93F0D5E3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Injection_Tests.cs",
+      "bytes": 18611,
+      "sha256": "5282BC4DDF163E52DDE051051293E7F2F8A6EC01C904C1647F2300E33FDB6204",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Keep_Alive_Tests.cs",
+      "bytes": 2465,
+      "sha256": "B841372DB8AD8EC8C1EABAC77391395CB34A1A6E2CD7F8B20A6C612AF93C3902",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Load_Tests.cs",
+      "bytes": 5220,
+      "sha256": "E3C8ED7E898F2F5D3CB670A35884618CFA0CB729D43848B9664A3AF99054424A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/MqttRetainedMessageManager_Tests.cs",
+      "bytes": 708,
+      "sha256": "12686E6C539F2E20A26C2AC04386876716EE08DB9A0CF320828CA0A83382DCB7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/MqttSessionAcknowledgement_Tests.cs",
+      "bytes": 4760,
+      "sha256": "03026733D6A0E6743A3325C4D4B89FB687CEBCD52075BAA08B9CE0CFB8C90E0B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/MqttSubscriptionsManager_Tests.cs",
+      "bytes": 8432,
+      "sha256": "D69A38EDB31A8C9CE75AC4CD3BD0C06BADB5D440781E2C157448A7ECC35B2FE6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/No_Local_Tests.cs",
+      "bytes": 1583,
+      "sha256": "6AC063A4C11A36CE04ECDDB0B8B75C2E10C8D137BB7E88FA74B4E255F78EECDF",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/NonEvictingEnqueue_Tests.cs",
+      "bytes": 14622,
+      "sha256": "DECC10C128999E99BE16735BC948650E97343D62E4E6CF51F02A7C5F7B4D1412",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/NonEvictingReplay_Tests.cs",
+      "bytes": 4575,
+      "sha256": "6AB0D6EBD9C324DC0A5A5CD3B04C32719761777F77C395D53D5001C7DB137713",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/OrderedSessionRecovery_Tests.cs",
+      "bytes": 15999,
+      "sha256": "2B577865B1B8A054C478BB72DF4AFDB5D5953052D83FC8E0C4AFCFCACE984040",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/OutgoingSessionResume_Tests.cs",
+      "bytes": 26097,
+      "sha256": "46ED5E6F1B4EA277BE5D425D7AC91E4CAF839E14F17F6FB0C4A2DE3D4EE4CBF5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Publishing_Tests.cs",
+      "bytes": 5321,
+      "sha256": "87165845FF6C28DAF1997AA2319EB06E55D2388D5B6782CD56984163E5943D27",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/QoS_Tests.cs",
+      "bytes": 6025,
+      "sha256": "9E05B50FA0C12CA04FE9ED79A9D373A49EA1FDBAAC7EE0AC8D68CA7A3A4D3DCF",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/ReceiveMaximum_Tests.cs",
+      "bytes": 22108,
+      "sha256": "070EB98F16CF439F3AF014C6C44E1BA2AFA6585DDC316A4EE122A5ADE6996D47",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Retain_As_Published_Tests.cs",
+      "bytes": 1618,
+      "sha256": "27F026C9131806408CD2AEDC308C7CC91E444C947ECFB6A167D87CA5FACF3447",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Retain_Handling_Tests.cs",
+      "bytes": 2318,
+      "sha256": "10E76C0AA04CCF3D66F44D7FD6F9FDD0C8ABD46ABC10D74449118C97F8522FC0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Retained_Messages_Tests.cs",
+      "bytes": 10878,
+      "sha256": "21B7BE98B4965ABDAA1674E4505F8D7F3353AC85B39B3557100D15BD6AC93078",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Security_Tests.cs",
+      "bytes": 6098,
+      "sha256": "CFD3D06F59348B95311B7DA5A2BB5000D86F9AC7F78FB3390973CD1DCF08B149",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Server_Reference_Tests.cs",
+      "bytes": 1360,
+      "sha256": "82A8698B791894E16EFD05A32FDC4D4D55B45EEB5F2827BA0D211D7EF3083C97",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Session_Tests.cs",
+      "bytes": 13082,
+      "sha256": "B399A585AB222E5C6208DB5035DC9E4B2509C0DDD282340DB37931AB71A3B259",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Shared_Subscriptions_Tests.cs",
+      "bytes": 1744,
+      "sha256": "A84B0A4632C6D26ABE2913B2B30B7ECB78A701CB4689F3EE6B4D4CD88A4205B9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Status_Tests.cs",
+      "bytes": 6952,
+      "sha256": "8A5B8FD3BEA13CBCA448C563C25CB9A78F4B0F0433AB1000F77848CAC624146F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Subscribe_Tests.cs",
+      "bytes": 14182,
+      "sha256": "C1E14F64CDC67CDF9C75AB36CB533A857BAA8CBA7A8DC316021D9BFFDAEF7680",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Subscription_Identifier_Tests.cs",
+      "bytes": 3942,
+      "sha256": "726BCDC1EA918D7755009649382A590E0D82C9A74EA73F88DD7C9358CC37230A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Subscription_TopicHash_Tests.cs",
+      "bytes": 20576,
+      "sha256": "2413F265EA69D40C9438A216DFE86F8A54546E60CBF85B1BC132F2CC248F5EAA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Tls_Tests.cs",
+      "bytes": 7038,
+      "sha256": "038895AADF90F28816EF4518F40A691DCA5B113E7507F90DB1F2F9A383DF8940",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Topic_Alias_Tests.cs",
+      "bytes": 2527,
+      "sha256": "AA58BD5659795D9C0238E2C119A6F4F0C2AB67BED2F64BA1B1108CA1B7BA82CC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Unsubscribe_Tests.cs",
+      "bytes": 2018,
+      "sha256": "F074B6DF67E0CD140EFA08619578342F899C6395F51559EEFA527D5C06F6BA3F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/User_Properties_Tests.cs",
+      "bytes": 2073,
+      "sha256": "14EFEFDEF8A1051A9CE6C39617617838ACA162C4F5DE2F6F831EC1D5CA115F99",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Wildcard_Subscription_Available_Tests.cs",
+      "bytes": 1652,
+      "sha256": "4B27427C97FDCD6DEEE63793BFE8F7B3056F41932FC7EE514171F8D7FA0FC90F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/WillLifecycle_Tests.cs",
+      "bytes": 14998,
+      "sha256": "533F669DD02E13A7B5221A86B145EA3AAE805298722E27016D3303C1E8B66422",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Will_Tests.cs",
+      "bytes": 2846,
+      "sha256": "38E026FEADF70D6039DA9E1062A1F48371F30459946F8E07B68175E3B729F50E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/TopicFilterComparer_Tests.cs",
+      "bytes": 5765,
+      "sha256": "2AFEB26BC14E62400ECA68012BAC3AC1235BEF0154A92B48C0869EC8AC48E1A5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet.Tests/TopicGenerator.cs",
+      "bytes": 3722,
+      "sha256": "579C0A0120B3F61E88514540739340D4C03E2FA6281605339BBA2A898E2B32A1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Adapter/IMqttChannelAdapter.cs",
+      "bytes": 1045,
+      "sha256": "03EC3690E455104AB8B4C845FAFF337FC4816F22B9BC8E2D75358764EB122A6F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Adapter/IMqttClientAdapterFactory.cs",
+      "bytes": 456,
+      "sha256": "56EE3E1332B2C739D70B3BDFFA963572D64247742613AF6F5A75E0652D179D3F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Adapter/MqttChannelAdapter.cs",
+      "bytes": 16053,
+      "sha256": "97AE4053E4E41F79B319A6BFFF7DAC20CEE66F3A3F6701D567E109747FE1C72F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Adapter/MqttConnectingFailedException.cs",
+      "bytes": 481,
+      "sha256": "D99BD0AE688E73256ECC5E30E7E22AFD5BA52A4BBBDCADEDD2B10AD1AD64015F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Adapter/MqttPacketInspector.cs",
+      "bytes": 2644,
+      "sha256": "93438AD025258B118417EDAC22E6CE95D6D3A8A7F9E9A5BBE09DF1193F0EC240",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Adapter/ReceivedMqttPacket.cs",
+      "bytes": 666,
+      "sha256": "90766D64AFC032701695A4B5666D55AB937F797AA32AB9655993194998632DC5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Certificates/BlobCertificateProvider.cs",
+      "bytes": 1125,
+      "sha256": "001CD75381A12715E82CCD20B72A58F531DF3CF2A8AF8EADF3B63FC220E81947",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Certificates/ICertificateContextLease.cs",
+      "bytes": 545,
+      "sha256": "4E293D79F6B56B56D7156AD277FF0C105209E29D776B291E6959B444A50F57E4",
+      "layer": "native-overlay"
+    },
+    {
+      "path": "Source/MQTTnet/Certificates/ICertificateContextProvider.cs",
+      "bytes": 452,
+      "sha256": "016F98D33E440FB6139979F2FBA42BEF8A47FEC07C6FA216C3959D137C0AB101",
+      "layer": "native-overlay"
+    },
+    {
+      "path": "Source/MQTTnet/Certificates/ICertificateProvider.cs",
+      "bytes": 382,
+      "sha256": "6A1002FF3D7FAF4CA0BD2CC505B8F9926879028D4F65B157CC0869298C059BAE",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Certificates/X509CertificateProvider.cs",
+      "bytes": 601,
+      "sha256": "D63B8D05E588335A50A16492B35C43026C18AF7A26E391A351EC6DA71ACD7351",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Channel/IMqttChannel.cs",
+      "bytes": 897,
+      "sha256": "ABB54D6CEA349804B2412E0C2F6AFDAA9735C67E6250F8ED7C8CBA624D9DB013",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Channel/IMqttClientStreamEndPoints.cs",
+      "bytes": 1084,
+      "sha256": "0F5A1F0A5886F359840E66869F50BEA2B276795D39475B5819A6DE9502879B3A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Channel/IMqttClientStreamProvider.cs",
+      "bytes": 2591,
+      "sha256": "ABD8FFC8C6D944D7C56014E80D42EE4F119BAAC7CD3E955A3E3297C5002CA40E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Connecting/MqttClientConnectResult.cs",
+      "bytes": 4071,
+      "sha256": "26970490B576453C3F1BC2AF0A6999FA485445F052556C35DC8118DD33AFDA1B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Connecting/MqttClientConnectResultCode.cs",
+      "bytes": 921,
+      "sha256": "A097B56979912AA24AAA6BC8E170D882FB9A6C6E0126BAE9CF0D7FCAA3170091",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Connecting/MqttClientConnectResultFactory.cs",
+      "bytes": 3957,
+      "sha256": "DDFAD24F02E2F6CFF607A0F58A4192913F0EAF6EA7A34F70BFC92DAC4BD135C6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Connecting/MqttClientConnectedEventArgs.cs",
+      "bytes": 686,
+      "sha256": "C53AE93FB2EF33BECF8287C5E48CB52075A1EEFB55366FD6DE0A781C7D13E351",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Connecting/MqttClientConnectingEventArgs.cs",
+      "bytes": 481,
+      "sha256": "3A16BAC0CFB77CE8A222AD3E6112278367674676FB21CC79B3A4D2338C4B28D9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/Logger/IMqttNetLogger.cs",
+      "bytes": 432,
+      "sha256": "955EC1C36A34D38FE8B90FD687F0830D02E67F0CAFE559191E3A5CE7BF08241D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/Logger/MqttNetEventLogger.cs",
+      "bytes": 2030,
+      "sha256": "8FDF66967C6956033072519C87F694D6F772E20ECE6869B211AE535F8B6BF9F7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/Logger/MqttNetLogLevel.cs",
+      "bytes": 338,
+      "sha256": "2587F54B8B8DF21DF88ACE8DF95B20C85C2D7FA12EA46EEF4C200B3B2F120B74",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/Logger/MqttNetLogMessage.cs",
+      "bytes": 890,
+      "sha256": "5724F0F29CF0F67F9D5FCCA10DB92301AB587DCAD78942A52AB3E1A00166BCBF",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/Logger/MqttNetLogMessagePublishedEventArgs.cs",
+      "bytes": 471,
+      "sha256": "580D6CD708BCD37042DB4EB08F39E94033E460193303FD0BD9A552FE0CB8AC9C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/Logger/MqttNetNullLogger.cs",
+      "bytes": 632,
+      "sha256": "8A9BB000BF39F3222C3097246421F06843CF2998742683759F37962265030CC6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/Logger/MqttNetSourceLogger.cs",
+      "bytes": 682,
+      "sha256": "511028C1B4F63D9A3F23DC9CF6FB3554F651886B5FD42FD393F6F2E67A3159FB",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/Logger/MqttNetSourceLoggerExtensions.cs",
+      "bytes": 6508,
+      "sha256": "AA7C820176AC400236F25F9B484F81C84D23E6D54511DEF11D6B851D9DAF42B5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/PacketInspection/InspectMqttPacketEventArgs.cs",
+      "bytes": 629,
+      "sha256": "188A118239ADE703A61CDDB0C7F9749A57D2DDF443319C8F379E46BB1B581068",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Diagnostics/PacketInspection/MqttPacketFlowDirection.cs",
+      "bytes": 330,
+      "sha256": "7817113666F000C7AD01F8CE3FD9599DF2DD2A14E9E9E44545BFB62465A01D61",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Disconnecting/MqttClientDisconnectOptions.cs",
+      "bytes": 1658,
+      "sha256": "E3AE7384549515D6DB1A062B7C6006813A69C0918B499CDB8B581A17130B5974",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Disconnecting/MqttClientDisconnectOptionsBuilder.cs",
+      "bytes": 2448,
+      "sha256": "0C7D9C3F844685D33922CDC4D8DABFB93D1D6A581CAFB43A29ECACCF0E6BB747",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Disconnecting/MqttClientDisconnectOptionsReason.cs",
+      "bytes": 846,
+      "sha256": "D1A256848CFA8293F1DE21DF1DC6B1B54C8D41C2458D43554F5F63DBA5975711",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Disconnecting/MqttClientDisconnectOptionsValidator.cs",
+      "bytes": 1080,
+      "sha256": "5AAD197783FB024266507EFB247E4AFC7E2CFDFE88DC4E8AEA383A0738FBB84F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Disconnecting/MqttClientDisconnectReason.cs",
+      "bytes": 1227,
+      "sha256": "D1C632D5BD69DAD91CF306E05F06C59747D32B1CBB5E9567B5431F6D98F596D2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Disconnecting/MqttClientDisconnectedEventArgs.cs",
+      "bytes": 1425,
+      "sha256": "FDE83520791E1C498AFBB7354243CCBDB2379BCFD787F2B1CEBF1630C3F60CE2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Exceptions/MqttClientDisconnectedException.cs",
+      "bytes": 470,
+      "sha256": "C1BF2C408B4CF33A3D8163A09555437929DF180E9C78C648AD13AF643A277D39",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Exceptions/MqttClientNotConnectedException.cs",
+      "bytes": 424,
+      "sha256": "6C41F7A0B67B31E2780C9BCAC5B1FE31D28F416B272CFEB42BAD85F6A9F17CE0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Exceptions/MqttClientUnexpectedDisconnectReceivedException.cs",
+      "bytes": 1060,
+      "sha256": "1A49B9461D4F727FC7D403578697C6AD5988DF801CABE584ADCE0437E25FC4E8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Exceptions/MqttCommunicationException.cs",
+      "bytes": 611,
+      "sha256": "D85810819A022BC673EB6B2084471BEA987A7B7B623A0D8C32844B086F1741C8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Exceptions/MqttCommunicationTimedOutException.cs",
+      "bytes": 576,
+      "sha256": "0053A0F1821E6688A5C478D473EA0A8590C06090021FA1703B56CF0B672DD435",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Exceptions/MqttConfigurationException.cs",
+      "bytes": 589,
+      "sha256": "DFC294BD36EEE5E96F0EF9C75C17F0E99FA567D332C923EACE6F6B39AF1DB358",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Exceptions/MqttProtocolViolationException.cs",
+      "bytes": 705,
+      "sha256": "C065BCB5559F97B84CBE054DF69DFC71459FBB3D1B2D994A6CE563D2B23FAA78",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Exceptions/MqttProxyErrorCode.cs",
+      "bytes": 2090,
+      "sha256": "637AB046920266C1BD7889063E09595612A2584AC60EE27425F5D9848C51836B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Exceptions/MqttProxyException.cs",
+      "bytes": 1698,
+      "sha256": "312626702B38DA72047E2A35AE6CD67C4D8FBCBA9DDB5DA5E41D71CE1E894A71",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/IMqttPacketFormatter.cs",
+      "bytes": 443,
+      "sha256": "FC6DE5A590B9E95357A8B542D45DC5ED0185C0933EB45FF1123F402056FE1089",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttApplicationMessageFactory.cs",
+      "bytes": 1383,
+      "sha256": "217D4D050A1135429BF463C935F4A7807E2C04EADD0E90256416374861033676",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttBufferReader.cs",
+      "bytes": 4779,
+      "sha256": "A92A04A4590A855D899FDF6C964BB910BCEB5506C726ED31C34B11C5A9ADD546",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttBufferWriter.cs",
+      "bytes": 9032,
+      "sha256": "56B3492AB744E2BDCBAB9660539942817A41B104EC9251467D92EE80B7E86486",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttConnectPacketFactory.cs",
+      "bytes": 2658,
+      "sha256": "5D045DFCA6C5D0CF72F216C4E0DCAFCBF3655779758962620DBFEFE10314C575",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttConnectReasonCodeConverter.cs",
+      "bytes": 1912,
+      "sha256": "CF82E7F3A25B5D370D8F1B16F224CFDC2F3AA46217B7951224DDB27A7EFEF72B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttDisconnectPacketFactory.cs",
+      "bytes": 1223,
+      "sha256": "7A040D9DEE93E5F1CE143DA6A4A7D4671DA8C6F6E12D0049827B241A27A2DAF8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttFixedHeader.cs",
+      "bytes": 482,
+      "sha256": "7A507CD31DC9146016B27FA33EBD0DB54539282AD3C9FF6E8287379697747569",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttPacketBuffer.cs",
+      "bytes": 1463,
+      "sha256": "92BE41AF80CD64329E6C5FDEE28F8901D01CFE3534736840DD2D796A698D4A68",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttPacketFormatterAdapter.cs",
+      "bytes": 4581,
+      "sha256": "7AE7A36ED2CAEA4E42CCD4BC468671D3131FB54F4316BCEDBE79886685475ACA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttProtocolVersion.cs",
+      "bytes": 341,
+      "sha256": "46C287E4F772F2B5BC09EA97B9172B168B1F70E5FD8FA3D3B6DE5CD3923A882B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttPubAckPacketFactory.cs",
+      "bytes": 1037,
+      "sha256": "DE6F0CC4CC9EC42427FD882303D217997B68A8AAD6683A80B27AEA01C821EE8D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttPubCompPacketFactory.cs",
+      "bytes": 732,
+      "sha256": "DB987C879F98F6A9B2D6FBFCA3EE1FF25DD19A7C544E9350B0024E0D55F3BF4F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttPubRecPacketFactory.cs",
+      "bytes": 1245,
+      "sha256": "74420F17722F56D503D2E443A46E5D00DD21F80F52B26B0A407B5DB9BF820EBD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttPubRelPacketFactory.cs",
+      "bytes": 728,
+      "sha256": "797E1EA8C8CF5E635F84B5D000B096E9AAF4F979CBF7EB8424711602629D5BF6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttPublishPacketFactory.cs",
+      "bytes": 1633,
+      "sha256": "D280365EB46AAAC2E1B5760B445409B10490C68587484A9A52631D50A225DA69",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttSubscribePacketFactory.cs",
+      "bytes": 812,
+      "sha256": "308076DBFDB618C79217067911DF1A394A9284358EDFF57AB48CCC31D8F06CF3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/MqttUnsubscribePacketFactory.cs",
+      "bytes": 842,
+      "sha256": "279AB660A341D778E6EAD95A113DB2E7601C2B28E5D4627B56FD8D4BFC61341D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/ReadFixedHeaderResult.cs",
+      "bytes": 671,
+      "sha256": "3723F591FF3E088A70B05533E4E78B7337DBE0BF8552856155EEDEF0F1B3AA99",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/V3/MqttV3PacketFormatter.cs",
+      "bytes": 27107,
+      "sha256": "8C8D96609981C7A5F070870057E63DFED6B1F55DE67C0DE2DEEE55C772DFDF37",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/V5/MqttV5PacketDecoder.cs",
+      "bytes": 31225,
+      "sha256": "8DF2D60A559CAA0AD12CC544F2EC45885A639CDCA0D3BC361FF107949321666B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/V5/MqttV5PacketEncoder.cs",
+      "bytes": 20382,
+      "sha256": "A412E70152B1BFB405DFCA9392291D86776D9AD0BC564E742C11DB4DF2AC1037",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/V5/MqttV5PacketFormatter.cs",
+      "bytes": 880,
+      "sha256": "A253E335E034CD0C2A35808D5252E6A63B4985ED13F2A37E5DF8829C924F19B0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/V5/MqttV5PropertiesReader.cs",
+      "bytes": 5388,
+      "sha256": "F95912A490AAA5F6A67805B4B50DA02FF4DEC495659B7828BC3C77AF64778F4D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Formatter/V5/MqttV5PropertiesWriter.cs",
+      "bytes": 9886,
+      "sha256": "A571E1B881BA66FCF6EAA8D5A959196A181CD7BD65502C5ADAD7223F7492C7A9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/IMqttClient.cs",
+      "bytes": 2262,
+      "sha256": "C18CF63F9F2C3847706B5F68C1070412F76D01532B1B81E8AACEBF717CD9CD94",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Implementations/CrossPlatformSocket.cs",
+      "bytes": 6370,
+      "sha256": "52DADB80E02F1B95B938C8D0800E2514B72203E0978F6EE2217ACD5B66D5F22D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Implementations/MqttClientAdapterFactory.cs",
+      "bytes": 1625,
+      "sha256": "7F13F61D2CF79B866862FD081857D2830B8F4942DEE25CA083D813B00658147D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Implementations/MqttTcpChannel.cs",
+      "bytes": 13055,
+      "sha256": "47228FABA07CB98C7743B2B09B5C00F43D21D351C48E623A7C3533B1A92CC0F8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Implementations/MqttWebSocketChannel.cs",
+      "bytes": 8591,
+      "sha256": "E73098C594325EDE915A1419141D13F4250D3863153051B3A67E59D848097A96",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/InjectMqttApplicationMessageResult.cs",
+      "bytes": 334,
+      "sha256": "EB3CA0792472933EEC4EBAFE5A495D984420D6728CAC5C2209FA0973A7B1E470",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/AsyncEvent.cs",
+      "bytes": 3254,
+      "sha256": "3D5072104FFE770A2DCA985AED7CA2A8A65D3776B71D6B9DB8A4465AB6ACFE8D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/AsyncEventInvocator.cs",
+      "bytes": 1308,
+      "sha256": "39540AD9285899F5D54B25C9AC4AF73D697809C24574F20A1A1F5A9F797F98E1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/AsyncLock.cs",
+      "bytes": 4164,
+      "sha256": "1E57FB6E2F11917AD9CD95456B3E04B8A6E747E29E3D5D7EA1F05768EED84BA9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/AsyncQueue.cs",
+      "bytes": 2839,
+      "sha256": "275703B525F42C20820F07B89A0CB57B950925B743EC18CE430D62381806EEA7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/AsyncQueueDequeueResult.cs",
+      "bytes": 509,
+      "sha256": "7FA50B54E3C29AF6790592C7B58F9E882513A2FEB9A184B2AB68E4B259B8DAEC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/AsyncSignal.cs",
+      "bytes": 3684,
+      "sha256": "969C666CFF11C2A3EF664D3F672E478D07A4BF3E6D3B893AB1AEAA18CC4FBC13",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/AsyncTaskCompletionSource.cs",
+      "bytes": 838,
+      "sha256": "D541DB214B6E4E8772CB78EC8FA867326E08B1D08EBDA5E2B97A61C116C61454",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/BlockingQueue.cs",
+      "bytes": 2802,
+      "sha256": "FD20DAF2817C44DA9B7108B623981533FBFEF4D7D4FBCB914A24617DA6B2DF77",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/CancellationTokenSourceExtensions.cs",
+      "bytes": 1048,
+      "sha256": "2460B8E2CA568882FC96AA92F513E3CF9A6B2AEBD3A1A7F1EFAC03EC912EB3D5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/CompletedTask.cs",
+      "bytes": 342,
+      "sha256": "03AE261060AA4CFDFB3F91D7ABFA6488A498AB16327E50F6F73D4C09C22543BC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/Disposable.cs",
+      "bytes": 895,
+      "sha256": "3501B44D3874B141BFE8D3ED98AA08E13AC272991E0268042AB6F9886DDE3C4F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/EmptyBuffer.cs",
+      "bytes": 532,
+      "sha256": "89AC147D20D0CACF7A7E9FED3A6AF2E8311683405C6B10B1EB333021281B77B3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/MqttClientEvents.cs",
+      "bytes": 796,
+      "sha256": "D449D59BCC06E127EFF5876A2125D25973912DF70C14497C548F1E72C69E253C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/MqttMemoryHelper.cs",
+      "bytes": 2713,
+      "sha256": "7152B839C52171176B8154BFCDF73E0BB63D5B477BBFC7EF33B1CC30F6006351",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/MqttPacketBus.cs",
+      "bytes": 5845,
+      "sha256": "A2CB4E0E0D76A369B9E57E0B7DE8A12E8FB49B997D2E6F0D9A8666B5DEA77E53",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/MqttPacketBusItem.cs",
+      "bytes": 1161,
+      "sha256": "A26635509B6CE359F238C5E454E05A7D48456C186A5BDD0998E0C027A90A08E5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/MqttPacketBusPartition.cs",
+      "bytes": 345,
+      "sha256": "E7B80A6F7BCE37D3C90563A9629E79C5B7CE256C660585FE73A3416AA07A877C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Internal/TaskExtensions.cs",
+      "bytes": 1791,
+      "sha256": "E0CFB8DFDB90E485D3785C2F675F09161652C08386A05B13C4ADFF81435C1BF0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/LowLevelClient/ILowLevelMqttClient.cs",
+      "bytes": 617,
+      "sha256": "D4537BEE9E289D50292A87E8CD684779FC45278F61FAEEB4EE942EDCAEFA254B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/LowLevelClient/LowLevelMqttClient.cs",
+      "bytes": 4364,
+      "sha256": "578F738144257E0C7BF9D7A42F9B66E965E35BF320FC9FC0A4CB7D5C18169C7C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MQTTnet.csproj",
+      "bytes": 1461,
+      "sha256": "7FCBE43B692EF545284C92F7D14D3F41E12F1141F1F0019BEBDB51C90623E74A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MQTTnet.csproj.DotSettings",
+      "bytes": 4321,
+      "sha256": "F118E93A938E1FD82888B6ACE80727070BD331BDE4B9DEE3C880E3472F518682",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttApplicationMessage.cs",
+      "bytes": 7285,
+      "sha256": "AD5E055A73A112885E080B501A2F595859D7F8A290E38D0936071A881DB73258",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttApplicationMessageBuilder.cs",
+      "bytes": 10215,
+      "sha256": "938651F2CA8ED74F1207B4038DBEFF55B794177FC61BD508E21564180BF68BE2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttApplicationMessageExtensions.cs",
+      "bytes": 659,
+      "sha256": "4286894EB58BAA7CAF1C78814A4DF6BF232B9809203C65EE390578B2A6C59BD1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttApplicationMessageValidator.cs",
+      "bytes": 1911,
+      "sha256": "95386BACC96AA00E5A8245C4576D4A94A630DD194F46E5B4EB7F38B57273E450",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttClient.cs",
+      "bytes": 42248,
+      "sha256": "39E5378D6A54AEFF122ED8B9A9E175CC49A82E309882DBA013C98DAC4CBD0EB3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttClientConnectionStatus.cs",
+      "bytes": 345,
+      "sha256": "9F6852722BDF47CEA89B71D938418BE7563C6C0DEFCE9FA4DB3A967527047A0B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttClientExtensions.cs",
+      "bytes": 6881,
+      "sha256": "737295DC3F0D98C9B545618AEE2C46D4E54D7FFE31ED4BE37A22CA6A6D23A6E8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttClientFactory.cs",
+      "bytes": 3908,
+      "sha256": "06CF71555D28DDAF824892C069C6D7E949CEF736B434C5CB3CD23682371DA5E1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttPacketIdentifierProvider.cs",
+      "bytes": 810,
+      "sha256": "BFF85668022269BB5DB2134CF87BE071B60D1AA3CE138172D9B707E41EFF4627",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttTopicFilterBuilder.cs",
+      "bytes": 3255,
+      "sha256": "95549D709AC5507F227AB31E67C365ACFFC0EB4F2986EB463652D53EC4456D7C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttTopicFilterCompareResult.cs",
+      "bytes": 348,
+      "sha256": "28AFA5AD60E6225B67C663A4E6EA108C692391E1EC130CFE4BD13A7A68D6BCF5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/MqttTopicFilterComparer.cs",
+      "bytes": 7767,
+      "sha256": "714A9CC7EA196263BB47A6C0FC6E3F2B1466D8A47BB1FA32C3BDD28A61579358",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/DefaultMqttCertificatesProvider.cs",
+      "bytes": 1003,
+      "sha256": "58741EFB7D3E615DD4A4D2E648529B9E53A82D1FF1F1143397339C8C0170D549",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/IMqttClientCertificatesProvider.cs",
+      "bytes": 390,
+      "sha256": "B31C33C7E0953FE68EAC550B609B7E3B4D654F186F249BF03565FF361136733E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/IMqttClientChannelOptions.cs",
+      "bytes": 324,
+      "sha256": "48431B330FF722D4329CEF200D43A781721BE6300946F5D4856F261395951307",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/IMqttClientCredentialsProvider.cs",
+      "bytes": 399,
+      "sha256": "94909E88F51E389C751C8F1D0AE3BDCB8D00AACB71506F8A95B928E282800BA5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/IMqttEnhancedAuthenticationHandler.cs",
+      "bytes": 379,
+      "sha256": "F05E7FF7DF8607F2C862BB06A2EFE09CE88B9E99261900191DEFAD4478B73DC8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientCertificateSelectionEventArgs.cs",
+      "bytes": 1172,
+      "sha256": "FB242F1B150B9BECAD09EF0A8CB44E6F60999872B04B9EA678B10ED8D1D4EBB9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientCertificateValidationEventArgs.cs",
+      "bytes": 989,
+      "sha256": "A76B730FBD7A6AF98939201E01519ED8DA37098C92F2EFC3B6C1A2FFE95A7666",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientCredentials.cs",
+      "bytes": 741,
+      "sha256": "CBBBCF0139BB487F44DF81E48F8E5A9F55C3C64E0D2E731F393FDE241ECF74B9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientDefaultCertificateValidationHandler.cs",
+      "bytes": 1343,
+      "sha256": "58B904D7E4CFFD476F828566F7C39F9997BCBFD9CC19C8D5B09DFD9BC7433A4A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientOptions.cs",
+      "bytes": 10128,
+      "sha256": "5FACA947DB159C9E871FA1A8FFF6824259458AA65EB23D25D5DE3A57CD66B66E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientOptionsBuilder.cs",
+      "bytes": 18160,
+      "sha256": "41663EDEFE138FD89B00A10A42ECE258339BF5A514C6991E08E948C09520C8C3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientOptionsValidator.cs",
+      "bytes": 3295,
+      "sha256": "F05FE225812BFC553A9ED34C0D9DBE0673E7634949D85662A2F2F9B35144C9EF",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientTcpOptions.cs",
+      "bytes": 2555,
+      "sha256": "1A69E9F1447346A64935B556974CB2574E6B741FD55671E5D3C520F4FB56D14A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientTlsOptions.cs",
+      "bytes": 2045,
+      "sha256": "808681564450839CB282ABDC59707EBAEA3AFFA7A7B1BC73990208F83699EC8B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientTlsOptionsBuilder.cs",
+      "bytes": 4613,
+      "sha256": "DFB8EB79A92B6BEE3ACF490CC032FC4DC1C4AFDC7A77C4FC3551DDBFE621D7A6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientWebSocketOptions.cs",
+      "bytes": 1554,
+      "sha256": "F5ED9FEF5AA3C713276D3EDE64501C5E0E55F915C63D4A69FB29D89CC92419B5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientWebSocketOptionsBuilder.cs",
+      "bytes": 3332,
+      "sha256": "444DD7F1B19D705CDAEE41DD0DBE74AA8F5AC5C4A50F97429BA73EE7AA3AEE66",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientWebSocketProxyOptions.cs",
+      "bytes": 608,
+      "sha256": "B4DF1D883EDE4ED82F7D6AD55315C9DDBD6FC2667F20A8809E527EA4A3A219D9",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttClientWebSocketProxyOptionsBuilder.cs",
+      "bytes": 1878,
+      "sha256": "8BA2CD3F5F03324361AE4995682B2342C58A99764DEAA2A23A7843C28A48E1C0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttEnhancedAuthenticationEventArgs.cs",
+      "bytes": 4140,
+      "sha256": "0B3930C629C9530C4DA16249A9B73F3DBF8CF923C086F9C638CC3395403FEAE7",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/MqttEnhancedAuthenticationExchangeData.cs",
+      "bytes": 1815,
+      "sha256": "BE381D9EE4DFB5009A5B5644C8C876875B4DFFAF48BA044E6EC0689EE6D6D8B2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/ReceiveMqttEnhancedAuthenticationDataResult.cs",
+      "bytes": 643,
+      "sha256": "35576C2D821D5FFF1A9E37EA0BCB4C66652BEC495BC3623685BAD529D75F2CC1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Options/SendMqttEnhancedAuthenticationDataOptions.cs",
+      "bytes": 478,
+      "sha256": "88DBF22A7850A8B46E04144FCEBEBA4FC00CFB6A9C4F0C66E7C3D26238499929",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/PacketDispatcher/IMqttPacketAwaitable.cs",
+      "bytes": 479,
+      "sha256": "F0C0C8AE68CE59F92DBB8B37D104B5878C5A2446E9ED64F7779D826A270A8E5E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/PacketDispatcher/MqttPacketAwaitable.cs",
+      "bytes": 1836,
+      "sha256": "1E0FD03581D43D650881D9B2C86891F5A2EDFDD9364238EA0550C1E8CAFB8CB0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/PacketDispatcher/MqttPacketAwaitableFilter.cs",
+      "bytes": 380,
+      "sha256": "4F84EF600FD1484E1390C54F531E8768C9A8CB4FE31B23A82F6E587B2EEA2016",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/PacketDispatcher/MqttPacketDispatcher.cs",
+      "bytes": 3467,
+      "sha256": "77C2B0BF36DDFB9FBE2605AE2F8965EA8DD59FA06FA25F058E6ED5ED48BF9704",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttAuthPacket.cs",
+      "bytes": 651,
+      "sha256": "E06F63913F2C8E3CF3C25AAF1CC1602857FA609C25BE1AD8431E93FB32879FD8",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttConnAckPacket.cs",
+      "bytes": 1830,
+      "sha256": "84048D1AEB30283BFC5219374BBAA912BB359CE3DCBD9854CA72CFD7D0D355CD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttConnectPacket.cs",
+      "bytes": 2466,
+      "sha256": "F599B84E75C576C4A02165FC6BD2E53041719668C40923E5218F0994214E84A6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttDisconnectPacket.cs",
+      "bytes": 1724,
+      "sha256": "41718746C9DF8BB4D8AE9E42E9A7934D63DA444E2644EB59CAD37FBFC3B4EF43",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPacket.cs",
+      "bytes": 271,
+      "sha256": "D60C95F3C698E2EF196EE18CEB98A0C84DE90BB066E897561ADA12EC677E826D",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPacketExtensions.cs",
+      "bytes": 1189,
+      "sha256": "7AB387A50A529C2406E97D7E1989BBE46D6C946820038F9F3B6A9B46E4C87C18",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPacketWithIdentifier.cs",
+      "bytes": 353,
+      "sha256": "093BB1C2736FC57B41F0BFBA430551966B687438388A75FAF49F43DE347C2EC6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPingReqPacket.cs",
+      "bytes": 489,
+      "sha256": "D8B05F76C1D9E3224FCA76695E0F9A9BAC1A754B041EA1FEEB5C36DE37572249",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPingRespPacket.cs",
+      "bytes": 492,
+      "sha256": "3FC05C791209BB02BE4AACD73CA542B8C670D2DF522252343D5E6CFDC0EF76F6",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPubAckPacket.cs",
+      "bytes": 892,
+      "sha256": "810FBDD3810037208115B5629A95C77FB99A9A3CFC91C3821DC23AAB8E6159D2",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPubCompPacket.cs",
+      "bytes": 896,
+      "sha256": "34C64000BAAEBAF777322FDE1168E6BB11B66244A2C75CC786005CDB14395E66",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPubRecPacket.cs",
+      "bytes": 892,
+      "sha256": "70B8D47C6F149E609ADEC2D67DD2E27C02BBE918432ACCD3B12B7C803448348C",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPubRelPacket.cs",
+      "bytes": 892,
+      "sha256": "41DD71D09DFE8F8581BFA3324D7592DF1188C656A708CBD8FC914F0972ED5376",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttPublishPacket.cs",
+      "bytes": 1666,
+      "sha256": "EC743A7F2C5913DDB7DD16F2A0F3E5C94FCA8DFA432C049318E7F1E8E58E54DC",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttSubAckPacket.cs",
+      "bytes": 1052,
+      "sha256": "A1A78F3FC83037C264F1EDF8BA7FA412DA7BE3746878450C1E0CFC14ACF57F41",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttSubscribePacket.cs",
+      "bytes": 967,
+      "sha256": "C5F92F625E4A1C271EF46D164350C6C03618762C035FA9F2E613DACB88201234",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttTopicFilter.cs",
+      "bytes": 2432,
+      "sha256": "15A72FF2D9714F822303EC4C01BE308BAD3E300F324C2955A9B59DFA9D98070A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttUnsubAckPacket.cs",
+      "bytes": 1104,
+      "sha256": "4DBAB4E2BB605EE485B92F83575176D3EA2FA9FF9D89FFE8851FEDE2EDE76A30",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttUnsubscribePacket.cs",
+      "bytes": 729,
+      "sha256": "BF47B6782E1C34AC452A8A533BF7DF46F6E971158BAA74501ACC3CC616F452D5",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttUserProperty.cs",
+      "bytes": 2593,
+      "sha256": "38A9F273DC9905187FAC9E0BC107C306CC73B9F622CC6FCACDAB38D403AF4A20",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Packets/MqttUserPropertyExtensions.cs",
+      "bytes": 780,
+      "sha256": "0A13A0D031C2E83338BDB3CE40C8ED2BCE77CDCDDFCA5FEE1D793ACEA9F3C9A1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Properties/AssemblyInfo.cs",
+      "bytes": 208,
+      "sha256": "BFCBFE1EFF487FBBF224270DF17F632840DE9B4EDBF006B9E680F47F22C3648F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttAuthenticateReasonCode.cs",
+      "bytes": 360,
+      "sha256": "96881C26FA91E662D79A3857AA7A7C7F0901EDD4CB113C1793EFB17A2C7330DD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttConnectReasonCode.cs",
+      "bytes": 924,
+      "sha256": "EFE398C6606A7C4CF8BBBA6C53D5C85CC1B31C479E50B5EA8512779F92B40E00",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttConnectReturnCode.cs",
+      "bytes": 560,
+      "sha256": "4882842FA3EE566601DA52B37311379C807C500B5AF46174C3B8FD529FB8113E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttControlPacketType.cs",
+      "bytes": 557,
+      "sha256": "411DDE2AFCD87838B3A58E1132050E11681C484EEF215011FDD7B5204A9FAE46",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttDisconnectReasonCode.cs",
+      "bytes": 1198,
+      "sha256": "8B4705893FA3A792A0BEEDBB2F2F4BA6ED725D6361010DCF08BDC0D46415E90F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttPayloadFormatIndicator.cs",
+      "bytes": 328,
+      "sha256": "505F06A75295CB5DE987A9A37C1BCE1E0758F5759D95EB7CEA4B04E06E3986D4",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttPorts.cs",
+      "bytes": 351,
+      "sha256": "1D9707DF9D2A2F94F475C1E67907F4BF96D0AC9ABCFA568056AED4BE4E6F6B97",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttPropertyId.cs",
+      "bytes": 1105,
+      "sha256": "803232B3CC754547ED4D2F75D7A7762189446C30688C633D7DAC0CF98AB5D8C3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttPubAckReasonCode.cs",
+      "bytes": 798,
+      "sha256": "DD9B98874A7F7DF1BA8FB32426BAE8DDBB6AF4EDA47CDA1243472F7FDA134C01",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttPubCompReasonCode.cs",
+      "bytes": 332,
+      "sha256": "AC4C235C4E18A1173400040DFAAF5CF197CE60032C6C64859FE837DE7101198A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttPubRecReasonCode.cs",
+      "bytes": 544,
+      "sha256": "0BF67C5C834BDE5544D1C194B942832ED77AC2329B57B9BE82BB8A368B9F3480",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttPubRelReasonCode.cs",
+      "bytes": 331,
+      "sha256": "139E4EE85150E83D43707CDC8F1ED4AEAC9CB7EAC503EA54A045A770CA03645E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttQualityOfServiceLevel.cs",
+      "bytes": 355,
+      "sha256": "DAAECEBA140813407CF3EB66D3CFB4B6EF3BF33F39CC5397739184D6475854AE",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttRetainHandling.cs",
+      "bytes": 382,
+      "sha256": "1380A0979831E5582A5F968AB5B6BD68C04AF062FB7EB1F5DBA593D614B81DBA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttSubscribeReasonCode.cs",
+      "bytes": 740,
+      "sha256": "E6332C8AD28D8F475B63BC05FAB07AB47AD3AB37B2544DB09A882E88F7C61D60",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttSubscribeReturnCode.cs",
+      "bytes": 396,
+      "sha256": "013EE9D96543EA4FF7D2095930B8D8C580AA9ED9BEE82A001E1FAF4F80A6C74B",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttTopicValidator.cs",
+      "bytes": 1717,
+      "sha256": "C4C9774B8DE4F7DF2931F5815C3150BC53D62E8D06CD043E4AD32AD6D147F3E0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Protocol/MqttUnsubscribeReasonCode.cs",
+      "bytes": 492,
+      "sha256": "C7642E8C6362F9CE5EB910D9AD647839A284C1D5D8F9367D50DDDA758CB4EFD4",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Publishing/MqttClientPublishReasonCode.cs",
+      "bytes": 544,
+      "sha256": "A5B1C45AC715B1DCDF71DAF74C79C13D19D05CF233E4EFEE4DE21A7A98C17D36",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Publishing/MqttClientPublishResult.cs",
+      "bytes": 2358,
+      "sha256": "173ED10F44EB3468052ED2D623BED1FB67750C85452FAFC770DDCDF922F4B257",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Publishing/MqttClientPublishResultFactory.cs",
+      "bytes": 3004,
+      "sha256": "36CB27815679A616666F3C1597092FE2D18BF67B9D469D6CEAA7C44E8514B8A0",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Receiving/MqttApplicationMessageReceivedEventArgs.cs",
+      "bytes": 3496,
+      "sha256": "80ADB6CB7F6E3A187EFCA3AEA0D3A4019BB3C6176C6C034865B7EB747CE21257",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Receiving/MqttApplicationMessageReceivedReasonCode.cs",
+      "bytes": 592,
+      "sha256": "2595F632BDCE0E41FA7E1AE96C45765BF3653E1A0576EE1D7993EA94058F04BD",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Subscribing/MqttClientSubscribeOptions.cs",
+      "bytes": 1923,
+      "sha256": "E14D604DDCD44AE184B26EDE99687CFA31336F1F71B1741D7F71112460EA5D25",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Subscribing/MqttClientSubscribeOptionsBuilder.cs",
+      "bytes": 3918,
+      "sha256": "5E9DB35091F4043BB1F308ED069D99165E78946C808DB763E77F9EDF2E19CE4E",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Subscribing/MqttClientSubscribeOptionsValidator.cs",
+      "bytes": 1515,
+      "sha256": "C4D598C4FCAFE350675D5808FFAF5008E35DCB5DBBA950ADAA886E1D3517E931",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Subscribing/MqttClientSubscribeResult.cs",
+      "bytes": 1548,
+      "sha256": "3C2A8A7CC5C7716BB4945D987C3005C72C61B38A42A3FFC42605630047A4E94F",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Subscribing/MqttClientSubscribeResultCode.cs",
+      "bytes": 678,
+      "sha256": "9B2F6FEF88F5573EF0BBAE932D058AF406C60048D899DF66010D98D48432BF37",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Subscribing/MqttClientSubscribeResultFactory.cs",
+      "bytes": 1748,
+      "sha256": "DFA39EC38226888BA21317448D4B4C601CF9E9AE562E3E6D14368E33B7EE7493",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Subscribing/MqttClientSubscribeResultItem.cs",
+      "bytes": 961,
+      "sha256": "27354FED2986FDCFD941ED786C36D856B899953894DCAE37DB5C7CBACB5144C3",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Unsubscribing/MqttClientUnsubscribeOptions.cs",
+      "bytes": 1217,
+      "sha256": "CBF83B777B2C3C369AA97C4635461713001ABE33435F8A1FA2E3D267B2D01785",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Unsubscribing/MqttClientUnsubscribeOptionsBuilder.cs",
+      "bytes": 2596,
+      "sha256": "1CDF526EC635C8E926364518803FF1EB74FAD07A6DB676E34BE3E060BD948201",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Unsubscribing/MqttClientUnsubscribeOptionsValidator.cs",
+      "bytes": 931,
+      "sha256": "96528CBB8420567E662A2DD2703D98C360C1D6E1C563FFC98858F4F6B86338DA",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Unsubscribing/MqttClientUnsubscribeResult.cs",
+      "bytes": 1563,
+      "sha256": "269F524B49796F6514DDAFDC165E37C05EA5A86E326418F5102C389FE6A6FCEF",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Unsubscribing/MqttClientUnsubscribeResultCode.cs",
+      "bytes": 489,
+      "sha256": "4118FCCB1B439B8F637234C9D2F90DFC7B7671DA01D8B7BE919B6284D2019B60",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Unsubscribing/MqttClientUnsubscribeResultFactory.cs",
+      "bytes": 2034,
+      "sha256": "5940ACC871456674929AEB8573181867C0073B9E85EE03F2F2DDAC767B59AAC1",
+      "layer": "original"
+    },
+    {
+      "path": "Source/MQTTnet/Unsubscribing/MqttClientUnsubscribeResultItem.cs",
+      "bytes": 925,
+      "sha256": "80CB6268E1FE4EC6AC0D0E9CD6C523FF608409449F55742A3CB89F6A038EB20A",
+      "layer": "original"
+    },
+    {
+      "path": "Source/ReleaseNotes.md",
+      "bytes": 446,
+      "sha256": "375BA19F4488D144B63A8911FA628239CF68C35C862D7A06EACF987A24078812",
+      "layer": "original"
+    },
+    {
+      "path": "global.json",
+      "bytes": 74,
+      "sha256": "F10DEE205876C53FA86E2C6CC32EE2AC79A92C2B7702C6628B1FA8754FACE5BC",
+      "layer": "original"
+    }
+  ],
+  "sourceZip": "source-2a6.zip",
+  "qualificationHelpersSeparate": true
+}

@@ -1,0 +1,60 @@
+{
+  "source": "abfa18f51481d8e988689bdb9e0b597a1e45372b",
+  "status": "READ_ONLY_SEALED_ARCHIVE_MEMBERS_NO_CLR_LOAD",
+  "members": [
+    {
+      "package": "MQTTnet",
+      "framework": "net8.0",
+      "archiveSha256": "e2ca46a7cc447d08e7d2f3d8e4629e73a770c151199d9d00e59b49f1c400a457",
+      "member": "lib/net8.0/MQTTnet.dll",
+      "dllSha256": "b43ac4aeab6fe593fe7dcfe861f0aaef58122242fba9849cc888817da8900f1e",
+      "bytes": 233984,
+      "archiveName": "mqttnet.5.2.0-local.incoming.abfa18f5.nupkg"
+    },
+    {
+      "package": "MQTTnet",
+      "framework": "net10.0",
+      "archiveSha256": "e2ca46a7cc447d08e7d2f3d8e4629e73a770c151199d9d00e59b49f1c400a457",
+      "member": "lib/net10.0/MQTTnet.dll",
+      "dllSha256": "1e6de492ffe595c76c836da149e0f5006590bd5e53dc9434a6697e058d06f49b",
+      "bytes": 234496,
+      "archiveName": "mqttnet.5.2.0-local.incoming.abfa18f5.nupkg"
+    },
+    {
+      "package": "MQTTnet.Server",
+      "framework": "net8.0",
+      "archiveSha256": "d882b6727099305145430af9ddfc0d0f8dad5cc2c702545340a12de09f3f5647",
+      "member": "lib/net8.0/MQTTnet.Server.dll",
+      "dllSha256": "1e9504327e37015e01ee5a7e776196c907c555a539765bb4841f7c58b66356a6",
+      "bytes": 298496,
+      "archiveName": "mqttnet.server.5.2.0-local.incoming.abfa18f5.nupkg"
+    },
+    {
+      "package": "MQTTnet.Server",
+      "framework": "net10.0",
+      "archiveSha256": "d882b6727099305145430af9ddfc0d0f8dad5cc2c702545340a12de09f3f5647",
+      "member": "lib/net10.0/MQTTnet.Server.dll",
+      "dllSha256": "16191b51c1a083ab1f3d87ffabda8a71a5ce100c59a75f3fc5f1bae3b449b7a5",
+      "bytes": 298496,
+      "archiveName": "mqttnet.server.5.2.0-local.incoming.abfa18f5.nupkg"
+    },
+    {
+      "package": "MQTTnet.AspNetCore",
+      "framework": "net8.0",
+      "archiveSha256": "052c562f3a8c0372ea69bc23afc818afb6728a753116997f01b8c9e43656e128",
+      "member": "lib/net8.0/MQTTnet.AspNetCore.dll",
+      "dllSha256": "2877aa2ba38c79c02bb242fdb6a885338925a2c60bb0cdbdaa800ee3ed611cf6",
+      "bytes": 41984,
+      "archiveName": "mqttnet.aspnetcore.5.2.0-local.incoming.abfa18f5.nupkg"
+    },
+    {
+      "package": "MQTTnet.AspNetCore",
+      "framework": "net10.0",
+      "archiveSha256": "052c562f3a8c0372ea69bc23afc818afb6728a753116997f01b8c9e43656e128",
+      "member": "lib/net10.0/MQTTnet.AspNetCore.dll",
+      "dllSha256": "116bf07293f8b3913fd00f2fa18197159cb2ad68aea5954dd6b72186f71cb38d",
+      "bytes": 41984,
+      "archiveName": "mqttnet.aspnetcore.5.2.0-local.incoming.abfa18f5.nupkg"
+    }
+  ]
+}

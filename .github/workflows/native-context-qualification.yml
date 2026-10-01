@@ -1,0 +1,102 @@
+name: Native certificate context qualification
+on:
+  push:
+    branches: [feature/server-certificate-context-lease]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: native-context-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  DOTNET_GENERATE_ASPNET_CERTIFICATE: 'false'
+  DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: 'false'
+jobs:
+  linux:
+    if: github.repository == 'YAJeff/MQTTnet' && github.ref == 'refs/heads/feature/server-certificate-context-lease'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.7'
+      - name: Export exact qualified source
+        timeout-minutes: 1
+        run: git archive --format=zip --output="${{ runner.temp }}/source-2a6.zip" 2a6cb80a7a0625967d0f06e83e15e4be03d9c503
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: YAJeff/MQTTnet
+          run-id: '36792223162'
+          name: native-incoming-linux
+          path: ${{ runner.temp }}/original-abfa
+      - name: Stage hash-pinned distributions and offline dependency closure
+        timeout-minutes: 6
+        run: python -B .github/native-context/qualify.py --mode prepare --job-root "${{ runner.temp }}/native-context" --source-zip "${{ runner.temp }}/source-2a6.zip" --baseline "${{ runner.temp }}/original-abfa"
+      - name: Compile tests and prove strict API and old-binary compatibility
+        timeout-minutes: 11
+        run: python -B .github/native-context/qualify.py --mode build-api --job-root "${{ runner.temp }}/native-context"
+      - name: Prove seventeen actual TLS lifetime cases per framework
+        timeout-minutes: 6
+        run: python -B .github/native-context/qualify.py --mode linux-lifetime --job-root "${{ runner.temp }}/native-context"
+      - name: Observe and close only owned isolation objects
+        if: always()
+        timeout-minutes: 2
+        run: python -B .github/native-context/qualify.py --mode cleanup --job-root "${{ runner.temp }}/native-context"
+      - name: Retain actual binary transfer and raw evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-context-linux
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/native-context/transfer
+            ${{ runner.temp }}/native-context/receipts-*
+            ${{ runner.temp }}/native-context/PREPARATION.json
+            ${{ runner.temp }}/native-context/OWNERSHIP.json
+            ${{ runner.temp }}/native-context/ISOLATION-POSTFLIGHT.json
+  windows:
+    needs: linux
+    if: github.repository == 'YAJeff/MQTTnet' && github.ref == 'refs/heads/feature/server-certificate-context-lease'
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.7'
+      - uses: actions/download-artifact@v4
+        with:
+          name: native-context-linux
+          path: ${{ runner.temp }}/native-context-linux
+      - name: Verify and stage identical Linux-produced DLLs
+        timeout-minutes: 6
+        run: python -B .github/native-context/qualify.py --mode prepare --job-root "${{ runner.temp }}/native-context" --transfer "${{ runner.temp }}/native-context-linux/transfer"
+      - name: Prove Windows API compatibility and creation guard only
+        timeout-minutes: 3
+        run: python -B .github/native-context/qualify.py --mode windows-api-guard --job-root "${{ runner.temp }}/native-context"
+      - name: Observe private jobs after process exit
+        if: always()
+        timeout-minutes: 2
+        run: python -B .github/native-context/qualify.py --mode cleanup --job-root "${{ runner.temp }}/native-context"
+      - name: Retain actual Windows raw evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-context-windows
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/native-context/receipts-*
+            ${{ runner.temp }}/native-context/PREPARATION.json
+            ${{ runner.temp }}/native-context/OWNERSHIP.json
+            ${{ runner.temp }}/native-context/ISOLATION-POSTFLIGHT.json
