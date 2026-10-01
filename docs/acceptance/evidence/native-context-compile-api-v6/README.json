@@ -1,0 +1,96 @@
+{
+  "scope": "Compile, additive public API and old-binary compatibility only; no TLS/context creation or adoption.",
+  "source": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
+  "qualificationSHA256": "9D6D01CD837A3E2A576D8D80EBBA3F739CD24BA10875C7EF67C0A7515FE12FBC",
+  "receiptFiles": [
+    {
+      "path": "candidate-six-dll-seals.json",
+      "sha256": "286A59DD815D0B7F6B4A5DDC739AC2613B7BA24C5AF2D9C37224291693882EC0",
+      "bytes": 2439
+    },
+    {
+      "path": "root-independent-pre-cleanup-audit.json",
+      "sha256": "2324C627BE9C30A2099E7CDFA1E35713E446F2545569DDC1B9C7263937D45705",
+      "bytes": 2060
+    },
+    {
+      "path": "root-independent-qualification.json",
+      "sha256": "9D6D01CD837A3E2A576D8D80EBBA3F739CD24BA10875C7EF67C0A7515FE12FBC",
+      "bytes": 1467
+    },
+    {
+      "path": "ROOT-POSTFLIGHT.json",
+      "sha256": "8C5488ABB3DA7F6D9DF1693FF760727D0340985A2E7A4131430AD36589801D05",
+      "bytes": 1772
+    }
+  ],
+  "originalFailuresPreserved": [
+    {
+      "path": "C:\\corevar\\output\\native-context-api96e8-root-run-20261001\\receipts\\RESULT.json",
+      "sha256": "E41C8E19516CA02B2F206456223E7D40E73204E1C1A8DB14D96B1CBFA79D6C6D",
+      "bytes": 2451
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api96e8-root-run-20261001\\receipts\\root-independent-failure-review.json",
+      "sha256": "F78AC2696B92846A374D988096769D30ABD53E516E0D1A048A8168C38F025778",
+      "bytes": 705
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api96e8-root-run-20261001\\receipts\\ROOT-POSTFLIGHT.json",
+      "sha256": "3ADFD47AC4E947A6EB5D80992782043FC8AE4CFCD38A97FCD00F226201CF6F91",
+      "bytes": 455
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api-v3-root-run-20261001\\receipts\\RESULT.json",
+      "sha256": "871DE5EB13BE2F74CD3AE0110C22B810F95617C674F8B966FA59E32A8C120638",
+      "bytes": 8894
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api-v3-root-run-20261001\\receipts\\root-independent-failure-review.json",
+      "sha256": "2AF1613DD4ED0B1A37C887CF1468D2E20CF086F1F661C72C9E3D1CC02B9D3636",
+      "bytes": 3186
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api-v3-root-run-20261001\\receipts\\ROOT-POSTFLIGHT.json",
+      "sha256": "C61CA63C4F3CD89B79D119CCEC251CE8BF0A2F5C886040044FDD98BF7F262C3F",
+      "bytes": 1092
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api-v4-root-run-20261001\\receipts\\RESULT.json",
+      "sha256": "2C2E9D4954B102D60BFE69ADFA86E54717A40198F8259631DF5E381ED095A5F5",
+      "bytes": 945
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api-v4-root-run-20261001\\receipts\\root-independent-pre-cleanup-audit.json",
+      "sha256": "B40533F27370EE8C41B2E99EA0FE5D67FF67E5C7226A5968AFA2564904EA454E",
+      "bytes": 729
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api-v4-root-run-20261001\\receipts\\ROOT-POSTFLIGHT.json",
+      "sha256": "F2AC803359A5CAD069CF131E7340F4E2CEF2C67EB69CD91A1AF3A25B35906AEE",
+      "bytes": 412
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api-v5-root-run-20261001\\receipts\\RESULT.json",
+      "sha256": "7B10C53778CB5C29035187138BF46392F99234C94ECD1922A5F650DC8D85F344",
+      "bytes": 6732
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api-v5-root-run-20261001\\receipts\\root-independent-pre-cleanup-audit.json",
+      "sha256": "D5FFC072AABA07EC9710482FCAB9608419DA442D7D075645AF83C85D8840876D",
+      "bytes": 1268
+    },
+    {
+      "path": "C:\\corevar\\output\\native-context-api-v5-root-run-20261001\\receipts\\ROOT-POSTFLIGHT.json",
+      "sha256": "5F337DBF895403B20B17ADBCA41ADF99F2D11921BA32AC80F2132E9DCC2908B5",
+      "bytes": 956
+    }
+  ],
+  "limitations": [
+    "Actual TLS/context lifetime unqualified",
+    "Windows synthetic context creation prohibited",
+    "No broker pin/package publication/native ingress ACK/capacity/release qualification",
+    "V3 producer audit ordering limitation preserved",
+    "V4 SDK certificate banner observed without before-store baseline; store impact unqualified"
+  ]
+}

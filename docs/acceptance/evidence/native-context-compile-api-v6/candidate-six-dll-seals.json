@@ -1,0 +1,38 @@
+[
+  {
+    "sourceRelativePath": "Source/MQTTnet.AspnetCore/bin/Release/net8.0/MQTTnet.dll",
+    "retainedPath": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\build-evidence\\candidate-build\\Source\\MQTTnet.AspnetCore\\bin\\Release\\net8.0\\MQTTnet.dll",
+    "bytes": 234496,
+    "sha256": "F4CEAFE15AFE26832832C5770384299CD6BAB387E1DAA3F9A86B713995A78EAA"
+  },
+  {
+    "sourceRelativePath": "Source/MQTTnet.AspnetCore/bin/Release/net8.0/MQTTnet.Server.dll",
+    "retainedPath": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\build-evidence\\candidate-build\\Source\\MQTTnet.AspnetCore\\bin\\Release\\net8.0\\MQTTnet.Server.dll",
+    "bytes": 299008,
+    "sha256": "CA4B6CDBA45E0DBA110A603CD326B9D8492B8B03BC0252C9206C9432E4B5CA21"
+  },
+  {
+    "sourceRelativePath": "Source/MQTTnet.AspnetCore/bin/Release/net8.0/MQTTnet.AspNetCore.dll",
+    "retainedPath": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\build-evidence\\candidate-build\\Source\\MQTTnet.AspnetCore\\bin\\Release\\net8.0\\MQTTnet.AspNetCore.dll",
+    "bytes": 41984,
+    "sha256": "1D427E4AF97CD293FBCB989C73C9072D2AA3D44366648217AE0B08EA4F748E03"
+  },
+  {
+    "sourceRelativePath": "Source/MQTTnet.AspnetCore/bin/Release/net10.0/MQTTnet.dll",
+    "retainedPath": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\build-evidence\\candidate-build\\Source\\MQTTnet.AspnetCore\\bin\\Release\\net10.0\\MQTTnet.dll",
+    "bytes": 235008,
+    "sha256": "87BE1874E2148F8C71215A5AE1AADB88C03511C4C658F1C7986BCEF4016440B4"
+  },
+  {
+    "sourceRelativePath": "Source/MQTTnet.AspnetCore/bin/Release/net10.0/MQTTnet.Server.dll",
+    "retainedPath": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\build-evidence\\candidate-build\\Source\\MQTTnet.AspnetCore\\bin\\Release\\net10.0\\MQTTnet.Server.dll",
+    "bytes": 299008,
+    "sha256": "C540F6B09B263B6A5F008A913C2688EE10415F956BE85694B0DFC304F41F453D"
+  },
+  {
+    "sourceRelativePath": "Source/MQTTnet.AspnetCore/bin/Release/net10.0/MQTTnet.AspNetCore.dll",
+    "retainedPath": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\build-evidence\\candidate-build\\Source\\MQTTnet.AspnetCore\\bin\\Release\\net10.0\\MQTTnet.AspNetCore.dll",
+    "bytes": 41984,
+    "sha256": "245D8505BDA9D883B1A0CD47A5B6BFDDAEA72D950AB3B6F0C666D24830CDC9BF"
+  }
+]

@@ -1,0 +1,63 @@
+{
+  "result": "PASS_PRE_CLEANUP_AUDIT_ONLY_NATIVE_V6_COMPILE_AND_STRICT_API_PASS",
+  "originalFailurePreserved": true,
+  "artifactAndPreservationSealsStable": 1555,
+  "frozenSourceRowsVerified": 540,
+  "ownedWorkFilesHashedBeforeDeletion": 929,
+  "retainedProducerSnapshotRowsVerified": 634,
+  "privateJobFreshAbsentOrEmpty": [
+    {
+      "name": "Local\\MQTTnet-Context-API-126c09c0-3f98-4d48-9e7d-fc3e0dda88e8",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-49798ccb-c900-4fde-adee-a29b8cad371f",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-a5952cef-0c3f-4882-a5b5-900f83503435",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-25b60094-c214-42c3-9e98-6774a29009e0",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-3ea2dfab-f136-4ba8-9e48-7bdb9484605c",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-a95ea505-8d74-4c58-8948-a071a400ecc0",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-d2bb283d-20da-42ab-80af-8413376f04b4",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-e7e0e24d-c96e-4174-a60e-3f6e18f70d6c",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-a3617369-c7bf-4a34-ac1c-5e5cb1112976",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-774e2588-6434-4e18-9ee6-ec3b548383b3",
+      "objectAbsent": true
+    },
+    {
+      "name": "Local\\MQTTnet-Context-API-e88e7c4a-ec45-42df-a52a-1b89380c1667",
+      "objectAbsent": true
+    }
+  ],
+  "controllerAbsent": true,
+  "compilerCommandsSucceeded": 4,
+  "compilerCommandsFailed": 0,
+  "apiProcessesExecuted": 4,
+  "namedCompatibilityChecksPassed": 8,
+  "httpsDevCertificateFirstRunBannerObserved": false,
+  "sdkCertificateGenerationDisabled": true,
+  "releaseQualified": false,
+  "ownedWorkRetainedForSeparateCleanup": true
+}

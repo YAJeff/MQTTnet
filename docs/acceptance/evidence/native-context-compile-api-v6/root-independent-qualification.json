@@ -1,0 +1,35 @@
+{
+  "result": "PASS_SCOPED_NATIVE_CONTEXT_COMPILE_STRICT_API_OLD_BINARY_COMPATIBILITY_AND_CLEANUP",
+  "candidateSourceCommit": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
+  "targetFrameworks": [
+    "net8.0",
+    "net10.0"
+  ],
+  "compilerCommandsPassed": 4,
+  "strictAssemblyApiComparisons": 12,
+  "namedCompatibilityChecksPassed": 8,
+  "failures": 0,
+  "skipped": 0,
+  "privateJobObjectsFreshAbsent": 11,
+  "inputAndPreservationSealsVerifiedBeforeCleanup": 1555,
+  "sourceFilesVerified": 540,
+  "ownedWorkFilesAuditedBeforeSeparateDeletion": 929,
+  "retainedProducerSnapshotRowsVerified": 634,
+  "sixEmittedCandidateDllsRetainedAndHashVerified": true,
+  "preCleanupAudit": {
+    "path": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\root-independent-pre-cleanup-audit.json",
+    "sha256": "2324c627be9c30a2099e7cdfa1e35713e446f2545569ddc1b9c7263937d45705"
+  },
+  "postCleanup": {
+    "path": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\ROOT-POSTFLIGHT.json",
+    "sha256": "8c5488abb3da7f6d9df1693ff760727d0340985a2e7a4131430ad36589801d05"
+  },
+  "earlierActualFailuresPreserved": true,
+  "contextsAcquiredByCompatibilityProbes": 0,
+  "socketsOpenedByCompatibilityProbes": 0,
+  "actualTlsLifetimeQualified": false,
+  "mqttnetBrokerPinUpdated": false,
+  "nativeIngressAckQualified": false,
+  "horizontalProductionCapacityQualified": false,
+  "wholeReleaseQualified": false
+}
