@@ -1,0 +1,42 @@
+name: Public single-decode sealed triple benchmark
+on:
+  push:
+    branches: [qualification/public-single-decode-performance]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  performance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - uses: actions/download-artifact@v4
+        with:
+          name: strict-utf8-linux
+          run-id: 36843777947
+          github-token: ${{ github.token }}
+          path: optimized
+      - uses: actions/download-artifact@v4
+        with:
+          name: strict-utf8-linux
+          run-id: 36830835805
+          github-token: ${{ github.token }}
+          path: .github/qualified
+      - name: Measure three exact public client DLLs using one harness
+        shell: pwsh
+        run: ./.github/scripts/measure-utf8-triple.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-utf8-triple-performance
+          path: utf8-triple-performance
+          retention-days: 7
+          if-no-files-found: error

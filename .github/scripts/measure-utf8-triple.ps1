@@ -2,7 +2,7 @@ $ErrorActionPreference='Stop'
 $output=(New-Item -ItemType Directory -Force utf8-triple-performance).FullName
 $sources=@{
     baseline=@{source='798a0e2250f40a241e0c8d2e7c9a366051be1b97';directory='optimized/baseline';manifest='DLL-MANIFEST.json'}
-    qualified=@{source='184fdb4fb9f74dd41200a79a8f8f7ba9999c9084';directory='.github/qualified';manifest='DLL-MANIFEST.json'}
+    qualified=@{source='184fdb4fb9f74dd41200a79a8f8f7ba9999c9084';directory='.github/qualified';manifest='MANIFEST.json'}
     optimized=@{source='cc1373edcea2a7adf1a0709f891706f979833ce7';directory='optimized';manifest='DLL-MANIFEST.json'}
 }
 $identities=foreach($variant in @('baseline','qualified','optimized')){
@@ -46,4 +46,5 @@ $comparisons=foreach($tfm in @('net8.0','net10.0')){
 }
 @{source='cc1373edcea2a7adf1a0709f891706f979833ce7';identities=$identities;rounds=7;order='Rotating three-variant order, separate process each sample, minimum200ms warmup and300ms measurement per case';comparisons=$comparisons;samples=$samples;scope='In-process valid decoding only; shared runner/JIT variance; payload case still decodes short topic; no broker/CoreMQ capacity or universal performance-neutral claim'} | ConvertTo-Json -Depth 12 | Set-Content "$output/COMPARISON.json"
 dotnet --info | Set-Content "$output/dotnet-info.txt"
+
 
