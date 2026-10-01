@@ -38,6 +38,18 @@ def inventory(root):
              'sha256': digest(p)} for p in sorted(root.rglob('*')) if p.is_file()]
 
 
+def disk_bytes(root):
+    total = 0
+    for path in root.rglob('*'):
+        try:
+            if path.is_file():
+                total += path.stat().st_size
+        except FileNotFoundError:
+            # NuGet replaces transient extraction files while the monitor is reading.
+            continue
+    return total
+
+
 def download(url, target, expected, algorithm='sha256'):
     target.parent.mkdir(parents=True, exist_ok=True)
     with urllib.request.urlopen(url, timeout=30) as source, target.open('wb') as dest:
@@ -85,6 +97,7 @@ def run(command, stem, seconds, state):
          'memoryBytes': 2 * 1024**3, 'pidsLimit': 128, 'ownerToken': state['token']})
     subprocess.run(args, check=True, capture_output=True, timeout=20)
     failure = None
+    max_disk = 0
     try:
         with (receipts / (stem + '.stdout.log')).open('wb') as stdout, \
              (receipts / (stem + '.stderr.log')).open('wb') as stderr:
@@ -93,17 +106,23 @@ def run(command, stem, seconds, state):
             while process.poll() is None:
                 log_bytes = max((receipts / (stem + suffix)).stat().st_size
                                 for suffix in ['.stdout.log', '.stderr.log'])
-                disk_bytes = sum(p.stat().st_size for p in state['work'].parent.rglob('*') if p.is_file())
-                if time.monotonic() > deadline or log_bytes > MAX_LOG or disk_bytes > MAX_DISK:
+                used = disk_bytes(state['work'].parent)
+                max_disk = max(max_disk, used)
+                if time.monotonic() > deadline or log_bytes > MAX_LOG or used > MAX_DISK:
                     failure = 'Timeout or disk/log abort threshold'
                     subprocess.run(['docker', 'kill', container], capture_output=True, timeout=10)
                     break
                 time.sleep(.2)
             process.wait(timeout=10)
         raw = json.loads(subprocess.check_output(['docker', 'inspect', container], timeout=10))[0]
+        max_disk = max(max_disk, disk_bytes(state['work'].parent))
+        if max_disk > MAX_DISK:
+            failure = failure or 'Disk abort threshold exceeded'
         code = raw['State']['ExitCode']
         save(receipts / (stem + '.process.json'), {'exitCode': code, 'failure': failure,
-             'containerState': raw['State'], 'actualLimits': raw['HostConfig']})
+             'containerState': raw['State'], 'actualLimits': raw['HostConfig'],
+             'maxDiskObservedBytes': max_disk, 'diskAbortBytes': MAX_DISK,
+             'diskOvershootBytes': max(0, max_disk - MAX_DISK)})
         state['commands'].append({'stem': stem, 'exitCode': code})
         if failure or code != 0 or raw['State']['Running'] or raw['State']['OOMKilled']:
             raise RuntimeError('Qualification command failed: ' + stem)
@@ -461,16 +480,21 @@ def execute(args):
             lifetime(state, windows=True)
         success = True
     finally:
-        timer.cancel()
         if os.name != 'nt':
             for name in list(state['ownedContainers']):
                 subprocess.run(['docker', 'rm', '-f', name], check=True, capture_output=True, timeout=10)
         snapshot(state['stage'], receipts / 'final-build-evidence')
         save(receipts / 'OWNED-WORK-INVENTORY.json', inventory(work))
-        save(receipts / 'RESULT.json', {'checksPassed': success, 'independentRootAuditPending': True,
+        observed = disk_bytes(root)
+        save(receipts / 'RESULT.json', {'checksPassed': success and observed <= MAX_DISK, 'allPassed': None if success and observed <= MAX_DISK else False, 'independentRootAuditPending': True,
              'commands': state['commands'], 'ownerRuntimeStarted': False, 'workHeld': True,
              'source': '2a6cb80a7a0625967d0f06e83e15e4be03d9c503', 'mode': args.mode,
-             'slotSeconds': state['slot'], 'brokerPinChanged': False, 'packagePublication': False})
+             'slotSeconds': state['slot'], 'brokerPinChanged': False, 'packagePublication': False,
+             'ownedDiskObservedBytes': observed, 'diskAbortBytes': MAX_DISK,
+             'diskOvershootBytes': max(0, observed - MAX_DISK)})
+        timer.cancel()
+        if observed > MAX_DISK:
+            raise RuntimeError('Retained evidence exceeded owned disk abort threshold')
 
 
 def cleanup(args):
