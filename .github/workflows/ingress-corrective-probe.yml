@@ -1,0 +1,35 @@
+name: Exact ingress missing-capability probe
+on:
+  push:
+    branches: [qualification/ingress-corrective-4d73916b-v2]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: 4d73916be5f997c26ee9f14d2103d9a6ddd2a5c5
+          path: exact-source
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Compile and classify exact-source probes with hard process bounds
+        shell: pwsh
+        working-directory: exact-source
+        run: ../.github/scripts/ingress-corrective-probe.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ingress-corrective-4d73916b-v2
+          path: exact-source/ingress-red-receipts
+          retention-days: 7
+          if-no-files-found: error
