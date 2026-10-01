@@ -24,11 +24,12 @@ $bindings=@()
 Push-Location qualified-source
 try{
     if((git rev-parse HEAD) -ne $source){throw 'Wrong checkout'}
-    dotnet restore Source/MQTTnet.AspNetCore/MQTTnet.AspNetCore.csproj "-p:Version=$version" "-p:PackageVersion=$version" -p:AssemblyVersion=1.0.0.0 "-p:SourceRevisionId=$source" "-p:CustomAfterMicrosoftCommonTargets=$guard"
+    dotnet restore Source/MQTTnet.AspnetCore/MQTTnet.AspNetCore.csproj "-p:Version=$version" "-p:PackageVersion=$version" -p:AssemblyVersion=1.0.0.0 "-p:SourceRevisionId=$source" "-p:CustomAfterMicrosoftCommonTargets=$guard"
     if($LASTEXITCODE -ne 0){throw 'Restore failed'}
     foreach($id in $projects){
+        $directory=if($id -eq 'MQTTnet.AspNetCore'){'MQTTnet.AspnetCore'}else{$id}
         foreach($tfm in @('net8.0','net10.0')){
-            $bin=(New-Item -ItemType Directory -Force "Source/$id/bin/Release/$tfm").FullName
+            $bin=(New-Item -ItemType Directory -Force "Source/$directory/bin/Release/$tfm").FullName
             foreach($ext in @('dll','xml','pdb')){
                 $inputFile="$qualified/test-binaries/$tfm/$id.$ext"
                 if(!(Test-Path -LiteralPath $inputFile)){throw "Missing qualified $id.$ext"}
@@ -38,7 +39,8 @@ try{
         }
     }
     foreach($id in $projects){
-        dotnet pack "Source/$id/$id.csproj" -c Release --no-build --no-restore --output "$root/packages" "-p:Version=$version" "-p:PackageVersion=$version" -p:AssemblyVersion=1.0.0.0 "-p:SourceRevisionId=$source" "-p:CustomAfterMicrosoftCommonTargets=$guard"
+        $directory=if($id -eq 'MQTTnet.AspNetCore'){'MQTTnet.AspnetCore'}else{$id}
+        dotnet pack "Source/$directory/$id.csproj" -c Release --no-build --no-restore --output "$root/packages" "-p:Version=$version" "-p:PackageVersion=$version" -p:AssemblyVersion=1.0.0.0 "-p:SourceRevisionId=$source" "-p:CustomAfterMicrosoftCommonTargets=$guard"
         if($LASTEXITCODE -ne 0){throw "Pack failed for $id"}
     }
     git diff --exit-code
