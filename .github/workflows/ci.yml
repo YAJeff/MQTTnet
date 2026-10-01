@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches-ignore: [fix/incoming-negative-pubrec, fix/strict-mqtt-utf8, qualification/strict-utf8-performance]
+    branches-ignore: [fix/incoming-negative-pubrec, fix/strict-mqtt-utf8, qualification/strict-utf8-performance, qualification/strict-utf8-long-performance]
   pull_request:
 
 env:

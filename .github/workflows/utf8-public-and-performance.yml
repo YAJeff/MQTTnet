@@ -1,7 +1,7 @@
 name: UTF8 public proof and isolated performance
 on:
   push:
-    branches: [qualification/strict-utf8-performance]
+    branches: [qualification/strict-utf8-performance, qualification/strict-utf8-long-performance]
 permissions:
   contents: read
   actions: read
@@ -43,6 +43,7 @@ jobs:
           path: utf8-performance
           retention-days: 7
   public-linux:
+    if: github.ref == 'refs/heads/qualification/strict-utf8-performance'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

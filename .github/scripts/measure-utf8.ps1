@@ -39,5 +39,5 @@ $comparisons=foreach($tfm in @('net8.0','net10.0')){
         @{framework=$tfm;case=$name;baselineMedianOpsPerSecond=$bt;fixedMedianOpsPerSecond=$ft;throughputDeltaPercent=100*($ft/$bt-1);baselineMedianAllocatedBytesPerOp=(Median $b.allocatedBytesPerOperation);fixedMedianAllocatedBytesPerOp=(Median $f.allocatedBytesPerOperation)}
     }
 }
-@{baseline=$before.commit;fixed=$fixed.source;identities=$identities;rounds=7;order='Alternating baseline/fixed order, separate process each sample, 2000 warmup calls per case';comparisons=$comparisons;samples=$samples;scope='In-process valid string/property/MQTT packet decoding only; no wire/broker/CoreMQ capacity or universal performance-neutral claim';sharedRunnerVariance=$true} | ConvertTo-Json -Depth 10 | Set-Content utf8-performance/COMPARISON.json
+@{baseline=$before.commit;fixed=$fixed.source;identities=$identities;rounds=7;order='Alternating baseline/fixed order, separate process each sample, minimum 200ms warmup and 300ms measurement per case';comparisons=$comparisons;samples=$samples;scope='In-process valid string/property/MQTT packet decoding only; no wire/broker/CoreMQ capacity or universal performance-neutral claim';sharedRunnerVariance=$true} | ConvertTo-Json -Depth 10 | Set-Content utf8-performance/COMPARISON.json
 dotnet --info | Set-Content utf8-performance/dotnet-info.txt

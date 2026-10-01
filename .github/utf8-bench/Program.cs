@@ -51,12 +51,17 @@ Console.WriteLine(JsonSerializer.Serialize(new { runtime = System.Runtime.Intero
 
 void Measure(string name, int bytes, Action action)
 {
-    for (var i = 0; i < 2000; i++) action();
+    var warmup = Stopwatch.StartNew();
+    do { for (var i = 0; i < 1024; i++) action(); } while (warmup.ElapsedMilliseconds < 200);
     GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
-    var iterations = Math.Clamp(8 * 1024 * 1024 / bytes, 10000, 100000);
+    long iterations = 0;
     var allocated = GC.GetAllocatedBytesForCurrentThread();
     var start = Stopwatch.GetTimestamp();
-    for (var i = 0; i < iterations; i++) action();
+    do
+    {
+        for (var i = 0; i < 1024; i++) action();
+        iterations += 1024;
+    } while (Stopwatch.GetElapsedTime(start).TotalMilliseconds < 300);
     var elapsed = Stopwatch.GetElapsedTime(start).TotalSeconds;
     var allocation = GC.GetAllocatedBytesForCurrentThread() - allocated;
     results.Add(new { name, inputBytes = bytes, iterations, elapsedSeconds = elapsed,
