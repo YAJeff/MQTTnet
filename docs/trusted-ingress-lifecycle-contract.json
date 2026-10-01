@@ -1,0 +1,37 @@
+{
+  "status": "Final source-only native direction for host review; proposed surface unimplemented and tests unexecuted",
+  "base": "abfa18f51481d8e988689bdb9e0b597a1e45372b",
+  "identityDomains": {
+    "sourceOperation": "Immutable native-issued route/incarnation; stable across accepted memory/durable QoS2 retries, fresh after terminal packet-id reuse",
+    "sourceExecution": "Exact server instance, session generation, owner fence where present and connection attempt; revocable without deleting already committed host operation",
+    "hostPlan": "Immutable canonical publication/recipient/retained/expiry authority issued by exclusive host handler, privately bound to authenticated native context",
+    "recipientExecution": "Distinct immutable lease per recipient enqueue attempt; read-only RecipientExecution on enqueue callback and outcome, internal constructor and exact registry association, captured generation/attempt plus Quiesced task. Shared Session.Items and receiver ID are diagnostics only"
+  },
+  "nativeLifecycle": [
+    "Issue context privately, charge authority/task caps, apply permitted pre-acceptance interception, freeze copied canonical message, then invoke exclusive host acceptance outside locks.",
+    "Confirmed host result binds the exact frozen plan once. Rejected, uncertain or revoked result cannot become success through a later callback. QoS1 retransmission accounting remains separate from durable operation identity.",
+    "At retained write, recipient enqueue and success ACK, reserve exact execution under the synchronization that revokes it. Authorization check and mutation reservation must share a linearization boundary.",
+    "Revoke blocks future reservations. Asynchronously drain existing owned reservations; native Quiesced completes only when no new native mutation can start and prior reservations are terminal/reconciled. It does not claim that ignored-cancellation host code finished.",
+    "Activate successor only after relevant old mutation reservations quiesce. An unresolved drain timeout rejects/delays successor activation and triggers exact reservation recovery; no optimistic timeout-as-proof.",
+    "Observe every callback task. A cancelled callback still consumes its bounded callback slot until completion; its authority cannot reacquire execution permission. Retire operation authority only after terminal protocol/replay/Will handoff and no outstanding reservations or authorized recovery reference.",
+    "Callback-initiated Stop/Disconnect starts revocation and deferred drain; it must never self-await the current callback. No host await under native locks, deterministic lock ordering, explicit bounded incomplete-drain outcome."
+  ],
+  "qos2Windows": {
+    "memory": "After accepted PUBLISH/PUBREC, AwaitPubRel incarnation and one admission survive reconnect. Original source execution token remains revoked. Duplicate PUBLISH/PUBREL under successor use a new exact execution/ACK lease while preserving accepted identity. Completed retirement plus packet-id reuse issues new identity; never promote an old token.",
+    "durable": "Preserve existing exact owner/canonical transaction/journal-before-AwaitPubRel proof. Confirmed committed host plan survives attempt cancellation; uncertain native phase is resolved against its original issued operation, not reissued. PUBCOMP waits for exact Completed transition."
+  },
+  "retainedReplay": "Stable accepted record/revision snapshot semantics through both network and server subscribe paths. Replacement creates newer state for future replay; it never rewrites old canonical payload under old authority. Receiver takeover/cancellation revokes replay execution independently. No new source publication, retained write or recipient reselection during replay retry.",
+  "will": "Dedicated registration/incarnation and scheduler-owner execution, independent of disconnected sender token. Native reconnect/suppression/stop ownership invalidates stale claims; actual dispatch establishes expiry anchor.",
+  "trustedInjection": "Before-start origin registration returns opaque server-instance-bound capability. Strict overload validates exact registry membership, origin class and lifetime. A capability cannot claim network identity; foreign/null/revoked/publicly constructed context rejects. Legacy injection remains compatible only when strict policy is disabled.",
+  "canonicalPlan": "Alias-resolved topic, copied binary payload and ordered properties, absolute expiry anchor/deadline, retain/QoS flags, NoLocal/shared selection/subscription identifiers, exact frozen recipient identities and intended private-marker stripping. Any post-acceptance mutation rejects rather than silently refreezing or selecting a different target.",
+  "hardBounds": "Separate hard caps for source authorities, recipient attempts, mutation reservations and still-running callback tasks. Saturation rejects before side effect. Do not evict live records or forget ignored-cancellation tasks. Numeric defaults remain a host sizing decision; source preparation does not invent capacity.",
+  "distributedBoundary": "Native registry and reservation prove only this server's mutation ownership. Redis source/retained/outbox commits still require atomic host fences. Redis consumer checkpoint/refund epoch is not a native delivery fence. Host must define and test cross-process final enqueue/admission receipt and crash reconciliation before horizontal activation; no native+Redis transaction guarantee is proposed.",
+  "remainingDecisions": [
+    "Exact handler/result/capability registration type names and cap defaults",
+    "Host receiver authority to native exact recipient lease binding and final cross-process delivery failure window",
+    "Reentrant shutdown/deferred-drain completion surface and timeout reconciliation ownership",
+    "Strict forgery, post-acceptance mutation and saturated ignored-callback tests once API shape is agreed"
+  ],
+  "hostedRedPlan": "One <=10min separate Linux job, exact test SHA, focused named gap probes and legacy control, .NET8/10, seven-day receipts; validate exact missing-context failures instead of accepting arbitrary nonzero exit. Not dispatched during source-only preparation.",
+  "invariants": "No native implementation, local heavy run, dependency adoption, sealedabfa/47b6/a1d5907c mutation, publicPR2273/2274 change or broad MQTT5/capacity claim"
+}

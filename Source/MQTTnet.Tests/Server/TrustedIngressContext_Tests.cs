@@ -180,6 +180,67 @@ public sealed class TrustedIngressContext_Tests
     }
 
     [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Recipient_Takeover_Revokes_Exact_Execution_Before_Late_Enqueue(bool cleanSuccessor)
+    {
+        using var environment = new TestEnvironment(null, MqttProtocolVersion.V500) { IgnoreServerLogErrors = true };
+        var server = await environment.StartServer(o => o.WithPersistentSessions());
+        var firstAttempt = new TaskCompletionSource<Guid>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var secondAttempt = new TaskCompletionSource<Guid>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var connectionCount = 0;
+        server.ClientConnectedAsync += e =>
+        {
+            if (e.ClientId == "held-recipient")
+            {
+                if (Interlocked.Increment(ref connectionCount) == 1) firstAttempt.TrySetResult(e.ConnectionAttemptId);
+                else secondAttempt.TrySetResult(e.ConnectionAttemptId);
+            }
+            return Task.CompletedTask;
+        };
+        var oldReceiver = await environment.ConnectClient(o => o.WithClientId("held-recipient").WithCleanSession(false).WithSessionExpiryInterval(30));
+        var oldAttempt = await firstAttempt.Task.WaitAsync(Bound);
+        await oldReceiver.SubscribeAsync(new MqttTopicFilter { Topic = "context/recipient-held" });
+        var captured = new TaskCompletionSource<InterceptingClientApplicationMessageEnqueueEventArgs>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var outcome = new TaskCompletionSource<ApplicationMessageEnqueuedEventArgs>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = Signal();
+        server.InterceptingClientEnqueueAsync += async e =>
+        {
+            if (e.ApplicationMessage.Topic != "context/recipient-held") return;
+            captured.TrySetResult(e);
+            // An old receiving session's dictionary may be reused on reconnect;
+            // it is not permission to enqueue after this callback resumes.
+            await release.Task;
+        };
+        server.ApplicationMessageEnqueuedOrDroppedAsync += e =>
+        {
+            if (e.ApplicationMessage.Topic == "context/recipient-held") outcome.TrySetResult(e);
+            return Task.CompletedTask;
+        };
+        var injection = server.InjectApplicationMessage(new InjectedMqttApplicationMessage(
+            new MqttApplicationMessageBuilder().WithTopic("context/recipient-held").WithPayload("stale-recipient").WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce).Build()));
+        InterceptingClientApplicationMessageEnqueueEventArgs held;
+        try
+        {
+            held = await captured.Task.WaitAsync(Bound);
+            await environment.ConnectClient(o => o.WithClientId("held-recipient").WithCleanSession(cleanSuccessor).WithSessionExpiryInterval(30), Bound);
+            Assert.AreNotEqual(oldAttempt, await secondAttempt.Task.WaitAsync(Bound));
+        }
+        finally { release.TrySetResult(); }
+        await injection.WaitAsync(Bound);
+        var execution = RequireProperty(held, "RecipientExecution");
+        Assert.IsNotNull(execution);
+        Assert.AreEqual(oldAttempt, RequireProperty(execution, "ConnectionAttemptId"));
+        var quiesced = RequireProperty(execution, "Quiesced") as Task;
+        Assert.IsNotNull(quiesced);
+        await quiesced.WaitAsync(Bound);
+        var actual = await outcome.Task.WaitAsync(Bound);
+        Assert.AreSame(execution, RequireProperty(actual, "RecipientExecution"));
+        Assert.IsTrue(actual.IsDropped);
+        Assert.IsNull(actual.PublishPacket, "A revoked recipient must not allocate/admit the late packet.");
+    }
+
+    [TestMethod]
     public async Task Disabled_Mode_Legacy_Constructors_And_Injection_Still_Deliver()
     {
         var message = new MqttApplicationMessageBuilder().WithTopic("context/legacy").WithPayload("legacy").Build();

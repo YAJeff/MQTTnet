@@ -10,6 +10,7 @@
     "durable": "Existing fenced store fixture executes confirmed acceptance and PUBREC before missing-context assertion",
     "memoryReconnect": "PUBREC, disconnect, duplicate PUBLISH and PUBREL preserve one admission; original execution token must be revoked",
     "takeover": "Callback ignores cancellation behind barrier; successor connects, old result completes, exact native Quiesced task must finish before asserting zero stale retained/fanout effects",
+    "recipientTakeover": "Persistent-resume and clean-successor cases hold actual recipient callback across reconnect; exact RecipientExecution attempt and quiescence must correlate to dropped outcome without late packet allocation",
     "legacyControl": "Existing public constructors and disabled/default injection delivery stay usable"
   },
   "expectedAbfa": "Context probes are intended red due to missing public PublicationContext; legacy control is intended green. These are capability-gap probes, not upstream defect claims or strict-mode qualification.",
@@ -28,6 +29,6 @@
     "Run legacy constructor/injection control alone and require green; no full suite until a proposed native implementation exists",
     "After implementation, add registry spoof/foreign-server/revoked capability, callback-initiated stop, recipient takeover, explicit retained replacement and memory lease rebind/PUBREL wire barriers before fresh full suite/consumer qualification"
   ],
-  "remainingPreparation": "Strict-mode registration/capability forgery and source mutation rejection tests need finalized additive API. Recipient takeover and saturated-authority/ignored-callback cap barriers are specified but not yet written. No red-run receipt exists yet.",
+  "remainingPreparation": "Strict-mode registration/capability forgery and source mutation rejection tests need finalized additive API. Saturated-authority/ignored-callback cap barriers are specified but not yet written. No red-run receipt exists yet.",
   "scope": "Separate test branch only, sealed abfa/47b6/publicPR2273/publicPR2274/DEV2370 immutable"
 }
