@@ -7,6 +7,7 @@ using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using MQTTnet.Adapter;
+using MQTTnet.Certificates;
 using MQTTnet.Diagnostics.Logger;
 using MQTTnet.Formatter;
 using MQTTnet.Implementations;
@@ -167,6 +168,7 @@ public sealed class MqttTcpServerListener : IDisposable
     {
         Stream stream = null;
         EndPoint remoteEndPoint = null;
+        ICertificateContextLease certificateLease = null;
 
         try
         {
@@ -176,7 +178,21 @@ public sealed class MqttTcpServerListener : IDisposable
 
             clientSocket.NoDelay = _options.NoDelay;
             stream = clientSocket.GetStream();
-            var clientCertificate = _tlsOptions?.CertificateProvider?.GetCertificate();
+            var certificateProvider = _tlsOptions?.CertificateProvider;
+            SslStreamCertificateContext certificateContext = null;
+            X509Certificate2 clientCertificate;
+            if (certificateProvider is ICertificateContextProvider contextProvider)
+            {
+                certificateLease = contextProvider.AcquireCertificateContext()
+                    ?? throw new InvalidOperationException("The TLS context provider returned no material lease.");
+                certificateContext = certificateLease.CertificateContext
+                    ?? throw new InvalidOperationException("The TLS material lease returned no certificate context.");
+                clientCertificate = certificateContext.TargetCertificate;
+            }
+            else
+            {
+                clientCertificate = certificateProvider?.GetCertificate();
+            }
 
             if (clientCertificate != null)
             {
@@ -187,10 +203,14 @@ public sealed class MqttTcpServerListener : IDisposable
 
                 var sslStream = new SslStream(stream, false, _tlsOptions.RemoteCertificateValidationCallback);
 
+                // Assign before authentication so a failed handshake disposes the
+                // actual TLS stream before releasing the certificate material.
+                stream = sslStream;
                 await sslStream.AuthenticateAsServerAsync(
                     new SslServerAuthenticationOptions
                     {
-                        ServerCertificate = clientCertificate,
+                        ServerCertificate = certificateContext == null ? clientCertificate : null,
+                        ServerCertificateContext = certificateContext,
                         ClientCertificateRequired = _tlsOptions.ClientCertificateRequired,
                         EnabledSslProtocols = _tlsOptions.SslProtocol,
                         CertificateRevocationCheckMode = _tlsOptions.CheckCertificateRevocation ? X509RevocationMode.Online : X509RevocationMode.NoCheck,
@@ -245,12 +265,22 @@ public sealed class MqttTcpServerListener : IDisposable
         {
             try
             {
-                if (stream != null)
+                try
                 {
-                    await stream.DisposeAsync().ConfigureAwait(false);
+                    if (stream != null)
+                    {
+                        await stream.DisposeAsync().ConfigureAwait(false);
+                    }
+                }
+                finally
+                {
+                    clientSocket?.Dispose();
                 }
 
-                clientSocket?.Dispose();
+                // If stream/socket disposal faults, material is not released as
+                // though cleanup succeeded. The provider must bound and retain
+                // unresolved leases; no TLS quiescence guarantee is inferred.
+                certificateLease?.Dispose();
             }
             catch (Exception disposeException)
             {

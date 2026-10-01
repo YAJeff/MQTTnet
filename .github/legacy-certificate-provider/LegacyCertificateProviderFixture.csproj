@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AssemblyName>LegacyCertificateProviderFixture</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MQTTnet">
+      <HintPath>../legacy-abfa/test-binaries/$(TargetFramework)/MQTTnet.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
