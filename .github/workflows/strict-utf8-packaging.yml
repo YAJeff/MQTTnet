@@ -1,7 +1,7 @@
-name: Package qualified UTF8 DLLs only
+name: Package qualified single-decode UTF8 DLLs only
 on:
   push:
-    branches: [qualification/strict-utf8-packaging]
+    branches: [qualification/optimized-utf8-packaging]
 permissions:
   contents: read
   actions: read
@@ -15,7 +15,7 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
-          ref: 47b6eacea398b9097f4282e4a8de962f138eda0a
+          ref: a1d5907c4db520279d335651b74d093b17deac2f
           path: qualified-source
           persist-credentials: false
       - uses: actions/setup-dotnet@v4
@@ -31,6 +31,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: strict-utf8-packages
+          name: optimized-utf8-packages
           path: utf8-packages
           retention-days: 7

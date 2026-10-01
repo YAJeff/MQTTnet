@@ -1,10 +1,10 @@
 $ErrorActionPreference='Stop'
-$source='47b6eacea398b9097f4282e4a8de962f138eda0a'
-$version='5.2.0-local.utf8.47b6eace'
-$artifactDigest='3EBE76760D52C940DA386EDE2756D2CF8B812B0D48E308A0F4A61A83F20CBFC2'
+$source='a1d5907c4db520279d335651b74d093b17deac2f'
+$version='5.2.0-local.utf8.a1d5907c'
+$artifactDigest='DB461D3258C08E8A64BA3792C91781F4D0184314C5E42282B21787C70D3EB7ED'
 $root=(New-Item -ItemType Directory -Force utf8-packages).FullName
 $qualified=(New-Item -ItemType Directory -Force qualified-artifact).FullName
-curl --fail --silent --show-error --location --header "Authorization: Bearer $env:GITHUB_TOKEN" --header 'Accept: application/vnd.github+json' 'https://api.github.com/repos/YAJeff/MQTTnet/actions/artifacts/11146455508/zip' --output qualified-artifact.zip
+curl --fail --silent --show-error --location --header "Authorization: Bearer $env:GITHUB_TOKEN" --header 'Accept: application/vnd.github+json' 'https://api.github.com/repos/YAJeff/MQTTnet/actions/artifacts/11149102690/zip' --output qualified-artifact.zip
 if($LASTEXITCODE -ne 0){throw 'Qualified artifact download failed'}
 if((Get-FileHash qualified-artifact.zip).Hash -ne $artifactDigest){throw 'Qualified ZIP digest mismatch'}
 Expand-Archive -LiteralPath qualified-artifact.zip -DestinationPath $qualified
@@ -68,6 +68,10 @@ $receipts=foreach($package in $packages){
             $stream=$entry.Open();try{$hash=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($stream))}finally{$stream.Dispose()}
             $expected=@($manifest.dlls | Where-Object {$_.library -eq $id -and $_.framework -eq $tfm})[0]
             if($hash -ne $expected.sha256){throw 'Packaged DLL differs from tested DLL'}
+            $xmlEntry=$zip.GetEntry("lib/$tfm/$id.xml");if(!$xmlEntry){throw 'Missing qualified XML'}
+            $xmlStream=$xmlEntry.Open();try{$xmlHash=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($xmlStream))}finally{$xmlStream.Dispose()}
+            $expectedXml=@($bindings | Where-Object {$_.library -eq $id -and $_.framework -eq $tfm -and $_.file -eq "$id.xml"})[0]
+            if($xmlHash -ne $expectedXml.sha256){throw 'Packaged XML differs'}
             @{framework=$tfm;library=$id;sha256=$hash;assemblyVersion=$expected.assemblyVersion}
         }
         @{package=$id;file=$package.Name;sha256=(Get-FileHash $package.FullName).Hash;dlls=$dlls;dependencies=$deps}
@@ -85,5 +89,6 @@ foreach($symbol in $symbols){
         if($hash -ne $expected.sha256){throw 'Packaged PDB differs'}
     }}finally{$zip.Dispose()}
 }
-@{source=$source;version=$version;wrapper=$env:GITHUB_SHA;qualifiedRun=36827676935;qualifiedArtifact=11146455508;qualifiedZipSha256=$artifactDigest;qualifiedManifestSha256=(Get-FileHash "$root/QUALIFIED-DLL-MANIFEST.json").Hash;packages=$receipts;symbols=@($symbols | ForEach-Object {@{file=$_.Name;sha256=(Get-FileHash $_.FullName).Hash}});qualifiedSidecars=$bindings;compiled=$false;feedPublished=$false;coreMqChanged=$false;scope='Artifact-only packaging of six already qualified native DLLs; not CoreMQ adoption or runtime capacity';cost=@{publicStandardRunner=$true;expectedIncrementalComputeUsd=0;actualBillingUnavailable=$true;retentionDays=7;ongoingResources=0}} | ConvertTo-Json -Depth 10 | Set-Content "$root/PACKAGE-MANIFEST.json"
+@{source=$source;version=$version;wrapper=$env:GITHUB_SHA;qualifiedRun=36835922962;qualifiedArtifact=11149102690;qualifiedZipSha256=$artifactDigest;qualifiedManifestSha256=(Get-FileHash "$root/QUALIFIED-DLL-MANIFEST.json").Hash;packages=$receipts;symbols=@($symbols | ForEach-Object {@{file=$_.Name;sha256=(Get-FileHash $_.FullName).Hash}});qualifiedSidecars=$bindings;compiled=$false;feedPublished=$false;coreMqChanged=$false;scope='Artifact-only packaging of six already qualified optimized native DLLs; not CoreMQ adoption or runtime capacity';cost=@{publicStandardRunner=$true;expectedIncrementalComputeUsd=0;actualBillingUnavailable=$true;retentionDays=7;ongoingResources=0}} | ConvertTo-Json -Depth 10 | Set-Content "$root/PACKAGE-MANIFEST.json"
+@{source=$source;status='Pinned artifact graph metadata only; fresh consumer resolution not run';nativeQualificationSha256='CF33E528AA1FB57FC5277D54A3E6490D47D88ACF7055F04978238E3BBE4091AF';packages=@($receipts | ForEach-Object {@{id=$_.package;requiredVersion=$version;requiredPackageSha256=$_.sha256;dlls=$_.dlls}});dependencyRangeWarning='Generated nuspec dependency versions are minimum versions. Pin all three exact versions and verify all package/DLL hashes in a fresh consumer snapshot; minimum ranges alone do not establish a closed graph';currentCoreMqTupleChanged=$false} | ConvertTo-Json -Depth 10 | Set-Content "$root/PINNED-GRAPH.json"
 dotnet --info | Set-Content "$root/dotnet-info.txt"
