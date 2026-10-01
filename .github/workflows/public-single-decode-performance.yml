@@ -26,7 +26,7 @@ jobs:
           path: optimized
       - uses: actions/download-artifact@v4
         with:
-          name: strict-utf8-linux
+          name: utf8-public-linux
           run-id: 36830835805
           github-token: ${{ github.token }}
           path: .github/qualified
@@ -40,3 +40,4 @@ jobs:
           path: utf8-triple-performance
           retention-days: 7
           if-no-files-found: error
+
