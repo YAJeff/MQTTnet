@@ -1,0 +1,35 @@
+name: Exact ingress missing-capability probe
+on:
+  push:
+    branches: [qualification/ingress-red-f0e68682]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: f0e686821a76efc61dd9029b6e9ce12bf60c4150
+          path: exact-source
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Compile and classify exact-source probes with hard process bounds
+        shell: pwsh
+        working-directory: exact-source
+        run: ../.github/scripts/ingress-red-probe.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ingress-red-f0e68682
+          path: exact-source/ingress-red-receipts
+          retention-days: 7
+          if-no-files-found: error

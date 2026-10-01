@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches-ignore: [fix/incoming-negative-pubrec, test/trusted-ingress-context]
+    branches-ignore: [fix/incoming-negative-pubrec, test/trusted-ingress-context, qualification/ingress-red-f0e68682]
   pull_request:
 
 env:
@@ -133,3 +133,4 @@ jobs:
 
       - name: Publish nuget.org nugets
         run: dotnet nuget push ${{ github.workspace }}/nugets/**/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+
