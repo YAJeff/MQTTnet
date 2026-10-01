@@ -35,7 +35,7 @@ public sealed class StrictUtf8_Tests
     [DataRow("00")]
     public void Raw_User_Property_Value_Rejects_Invalid_Encoding_And_Null(string hex)
     {
-        var property = new byte[] { 0x26, 0, 1, (byte)'n', .. StringBytes(Convert.FromHexString(hex)) };
+        byte[] property = [0x26, 0, 1, (byte)'n', .. StringBytes(Convert.FromHexString(hex))];
         byte[] body = [0, 1, (byte)'a', (byte)property.Length, .. property];
         byte[] packet = [0x30, (byte)body.Length, .. body];
         Assert.ThrowsExactly<MqttProtocolViolationException>(() => MqttPacketSerializationHelper.DecodePacket(packet, MqttProtocolVersion.V500));
@@ -56,7 +56,7 @@ public sealed class StrictUtf8_Tests
         var reader = new MqttBufferReader();
         reader.SetBuffer(data, 0, data.Length);
         Assert.AreEqual(expected, reader.ReadString());
-        var property = new byte[] { 0x26, 0, 1, (byte)'n', .. data };
+        byte[] property = [0x26, 0, 1, (byte)'n', .. data];
         byte[] body = [0, 1, (byte)'a', (byte)(2 * property.Length), .. property, .. property];
         byte[] packet = [0x30, (byte)body.Length, .. body];
         var decoded = (MqttPublishPacket)MqttPacketSerializationHelper.DecodePacket(packet, MqttProtocolVersion.V500);

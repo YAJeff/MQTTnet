@@ -21,7 +21,8 @@ public sealed class StrictUtf8Wire_Tests
         var stream = client.GetStream();
         var id = nullCharacter ? new byte[] { 0 } : new byte[] { 0xC0, 0x80 };
         byte[] body = [0, 4, (byte)'M', (byte)'Q', (byte)'T', (byte)'T', 5, 2, 0, 30, 0, 0, (byte)id.Length, .. id];
-        await stream.WriteAsync(new byte[] { 0x10, (byte)body.Length, .. body }, timeout.Token);
+        byte[] connectPacket = [0x10, (byte)body.Length, .. body];
+        await stream.WriteAsync(connectPacket, timeout.Token);
         var reply = await ReadPacketOrClose(stream, timeout.Token);
         Assert.AreEqual(0, Volatile.Read(ref validations));
         if (reply.Length > 0)
@@ -54,7 +55,8 @@ public sealed class StrictUtf8Wire_Tests
         var value = nullCharacter ? new byte[] { 0 } : new byte[] { 0xC0, 0x80 };
         byte[] property = [0x26, 0, 1, (byte)'n', 0, (byte)value.Length, .. value];
         byte[] body = [0, 1, (byte)'a', 0, 1, (byte)property.Length, .. property];
-        await stream.WriteAsync(new byte[] { 0x32, (byte)body.Length, .. body }, timeout.Token);
+        byte[] publishPacket = [0x32, (byte)body.Length, .. body];
+        await stream.WriteAsync(publishPacket, timeout.Token);
         var reply = await ReadPacketOrClose(stream, timeout.Token);
         Assert.AreEqual(0, Volatile.Read(ref publications));
         if (reply.Length > 0)
