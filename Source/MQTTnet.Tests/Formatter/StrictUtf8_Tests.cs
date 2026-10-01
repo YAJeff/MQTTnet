@@ -74,7 +74,7 @@ public sealed class StrictUtf8_Tests
         var data = StringBytes(Encoding.UTF8.GetBytes(new string('a', ushort.MaxValue)));
         var reader = new MqttBufferReader();
         reader.SetBuffer(data, 0, data.Length);
-        Assert.AreEqual(ushort.MaxValue, reader.ReadString().Length);
+        Assert.AreEqual((int)ushort.MaxValue, reader.ReadString().Length);
         reader.SetBuffer(data, 0, data.Length - 1);
         Assert.ThrowsExactly<MqttProtocolViolationException>(() => reader.ReadString());
     }

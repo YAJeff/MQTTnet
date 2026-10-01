@@ -23,10 +23,11 @@ public sealed class StrictUtf8Wire_Tests
         byte[] body = [0, 4, (byte)'M', (byte)'Q', (byte)'T', (byte)'T', 5, 2, 0, 30, 0, 0, (byte)id.Length, .. id];
         await stream.WriteAsync(new byte[] { 0x10, (byte)body.Length, .. body }, timeout.Token);
         var reply = await ReadPacketOrClose(stream, timeout.Token);
+        Assert.AreEqual(0, Volatile.Read(ref validations));
         if (reply.Length > 0)
         {
-            Assert.AreEqual(0x20, reply[0]);
-            Assert.AreEqual(0x81, reply[3]);
+            Assert.AreEqual((byte)0x20, reply[0]);
+            Assert.AreEqual((byte)0x81, reply[3]);
             Assert.IsEmpty(await ReadPacketOrClose(stream, timeout.Token));
         }
         Assert.AreEqual(0, Volatile.Read(ref validations));
@@ -48,17 +49,18 @@ public sealed class StrictUtf8Wire_Tests
         byte[] connect = [0x10, 14, 0, 4, (byte)'M', (byte)'Q', (byte)'T', (byte)'T', 5, 2, 0, 30, 0, 0, 1, (byte)'a'];
         await stream.WriteAsync(connect, timeout.Token);
         var connAck = await ReadPacketOrClose(stream, timeout.Token);
-        Assert.AreEqual(0x20, connAck[0]);
-        Assert.AreEqual(0, connAck[3]);
+        Assert.AreEqual((byte)0x20, connAck[0]);
+        Assert.AreEqual((byte)0, connAck[3]);
         var value = nullCharacter ? new byte[] { 0 } : new byte[] { 0xC0, 0x80 };
         byte[] property = [0x26, 0, 1, (byte)'n', 0, (byte)value.Length, .. value];
         byte[] body = [0, 1, (byte)'a', 0, 1, (byte)property.Length, .. property];
         await stream.WriteAsync(new byte[] { 0x32, (byte)body.Length, .. body }, timeout.Token);
         var reply = await ReadPacketOrClose(stream, timeout.Token);
+        Assert.AreEqual(0, Volatile.Read(ref publications));
         if (reply.Length > 0)
         {
-            Assert.AreEqual(0xE0, reply[0]);
-            Assert.AreEqual(0x81, reply[2]);
+            Assert.AreEqual((byte)0xE0, reply[0]);
+            Assert.AreEqual((byte)0x81, reply[2]);
             Assert.IsEmpty(await ReadPacketOrClose(stream, timeout.Token));
         }
         Assert.AreEqual(0, Volatile.Read(ref publications));

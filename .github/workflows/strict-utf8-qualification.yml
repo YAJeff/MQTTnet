@@ -1,0 +1,73 @@
+name: Strict UTF8 qualification
+on:
+  push:
+    branches: [fix/strict-mqtt-utf8]
+permissions:
+  contents: read
+concurrency:
+  group: strict-utf8-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  TESTINGPLATFORM_TELEMETRY_OPTOUT: '1'
+jobs:
+  linux:
+    if: github.repository == 'YAJeff/MQTTnet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Build both targets, seal DLLs, prove unchanged baseline and run qualification
+        shell: pwsh
+        run: ./.github/scripts/qualify-strict-utf8.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: strict-utf8-linux
+          path: utf8-qualification
+          retention-days: 7
+          if-no-files-found: error
+  windows:
+    needs: linux
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - uses: actions/download-artifact@v4
+        with:
+          name: strict-utf8-linux
+          path: utf8-qualification
+      - name: Verify same DLLs and qualify Windows without rebuild
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $root='utf8-qualification'
+          $manifest=Get-Content "$root/DLL-MANIFEST.json" -Raw | ConvertFrom-Json
+          if($manifest.source -ne $env:GITHUB_SHA){throw 'Wrong source'}
+          foreach($entry in $manifest.dlls){if((Get-FileHash "$root/test-binaries/$($entry.framework)/$($entry.library).dll").Hash -ne $entry.sha256){throw 'DLL changed'}}
+          foreach($tfm in @('net8.0','net10.0')){
+            dotnet "$root/test-binaries/$tfm/MQTTnet.Tests.dll" --filter 'FullyQualifiedName~StrictUtf8' --report-trx --report-trx-filename "focused-windows-$tfm.trx" --results-directory "$root/windows-tests"
+            if($LASTEXITCODE -ne 0){throw 'Focused Windows failure'}
+          }
+          dotnet "$root/test-binaries/net8.0/MQTTnet.Tests.dll" --report-trx --report-trx-filename full-windows-net8.trx --results-directory "$root/windows-tests"
+          if($LASTEXITCODE -ne 0){throw 'Full Windows failure'}
+          dotnet --info | Set-Content "$root/windows-tests/dotnet-info.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: strict-utf8-windows-receipts
+          path: utf8-qualification/windows-tests
+          retention-days: 7
+          if-no-files-found: error
