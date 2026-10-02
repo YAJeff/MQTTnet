@@ -50,6 +50,13 @@ def disk_bytes(root):
     return total
 
 
+def owned_mount_identity(work):
+    owner = work.stat()
+    if owner.st_uid == 0 or owner.st_uid != os.getuid() or owner.st_gid != os.getgid():
+        raise RuntimeError('Owned mount must belong to the non-root qualification controller')
+    return owner, str(owner.st_uid) + ':' + str(owner.st_gid)
+
+
 def download(url, target, expected, algorithm='sha256'):
     target.parent.mkdir(parents=True, exist_ok=True)
     with urllib.request.urlopen(url, timeout=30) as source, target.open('wb') as dest:
@@ -117,10 +124,12 @@ def derive_source(stage, archive, receipt):
              'rows': rows, 'failure': failure, 'runtimeStarted': False})
 
 
-def run(command, stem, seconds, state):
+def run(command, stem, seconds, state, entrypoint=None):
     """Every dotnet command has a private Windows job or bounded Linux container."""
     receipts = state['receipts']
     if os.name == 'nt':
+        if entrypoint is not None:
+            raise RuntimeError('Linux permissions probe cannot run on Windows')
         import windows_process_support as jobs
         jobs.WHOLE_SECONDS = state['slot']
         result = jobs.run_job(jobs.api(), command, state['stage'], state['env'], seconds,
@@ -128,9 +137,10 @@ def run(command, stem, seconds, state):
         state['commands'].append(result)
         return
     container = 'mqttnet-context-' + uuid.uuid4().hex
+    mount_owner, user = owned_mount_identity(state['work'])
     # Immutable runtime-deps image; mounted SDK/feed staged and verified before this phase.
     mapped = [str(x).replace(str(state['work'].parent), '/job') for x in command]
-    args = ['docker', 'create', '--name', container, '--network', 'none',
+    args = ['docker', 'create', '--name', container, '--user', user, '--network', 'none',
             '--memory', str(2 * 1024**3), '--memory-swap', str(2 * 1024**3),
             '--pids-limit', '128', '--cpus', '2', '--cap-drop', 'ALL',
             '--security-opt', 'no-new-privileges', '--read-only',
@@ -140,11 +150,15 @@ def run(command, stem, seconds, state):
     for key, value in state['env'].items():
         if key in state['ownedEnvKeys']:
             args += ['-e', key + '=' + value.replace(str(state['work']), '/job/work')]
-    args += ['--entrypoint', '/job/work/toolchain/dotnet', state['image']] + mapped[1:]
+    if entrypoint not in (None, '/bin/sh'):
+        raise RuntimeError('Undeclared container entrypoint')
+    args += ['--entrypoint', entrypoint or '/job/work/toolchain/dotnet', state['image']] + mapped[1:]
     state['ownedContainers'].add(container)
     save(receipts / (stem + '.container.json'), {'name': container, 'argv': mapped,
          'timeoutSeconds': seconds, 'image': state['image'], 'network': 'none',
-         'memoryBytes': 2 * 1024**3, 'pidsLimit': 128, 'ownerToken': state['token']})
+         'memoryBytes': 2 * 1024**3, 'pidsLimit': 128, 'ownerToken': state['token'],
+         'ownedMountUid': mount_owner.st_uid, 'ownedMountGid': mount_owner.st_gid,
+         'requestedContainerUser': user})
     subprocess.run(args, check=True, capture_output=True, timeout=20)
     failure = None
     max_disk = 0
@@ -165,12 +179,15 @@ def run(command, stem, seconds, state):
                 time.sleep(.2)
             process.wait(timeout=10)
         raw = json.loads(subprocess.check_output(['docker', 'inspect', container], timeout=10))[0]
+        if raw['Config'].get('User') != user:
+            failure = failure or 'Actual container user differs from owned mount identity'
         max_disk = max(max_disk, disk_bytes(state['work'].parent))
         if max_disk > MAX_DISK:
             failure = failure or 'Disk abort threshold exceeded'
         code = raw['State']['ExitCode']
         save(receipts / (stem + '.process.json'), {'exitCode': code, 'failure': failure,
              'containerState': raw['State'], 'actualLimits': raw['HostConfig'],
+             'actualContainerUser': raw['Config'].get('User'),
              'maxDiskObservedBytes': max_disk, 'diskAbortBytes': MAX_DISK,
              'diskOvershootBytes': max(0, max_disk - MAX_DISK)})
         state['commands'].append({'stem': stem, 'exitCode': code})
@@ -190,10 +207,13 @@ def prepare(args):
     root = Path(args.job_root).resolve()
     if root.exists():
         raise RuntimeError('Job root must be new')
-    root.mkdir()
+    root.mkdir(mode=0o700)
     work = root / 'work'
-    work.mkdir()
-    save(root / 'OWNERSHIP.json', {'jobRoot': str(root), 'work': str(work), 'token': uuid.uuid4().hex})
+    work.mkdir(mode=0o700)
+    save(root / 'OWNERSHIP.json', {'jobRoot': str(root), 'work': str(work), 'token': uuid.uuid4().hex,
+         'controllerUid': os.getuid() if os.name != 'nt' else None,
+         'controllerGid': os.getgid() if os.name != 'nt' else None,
+         'ownedRootCreationMode': '0700', 'ownedWorkCreationMode': '0700'})
     toolchain = work / 'toolchain'
     toolchain.mkdir()
     rid = 'win-x64' if os.name == 'nt' else 'linux-x64'
@@ -284,6 +304,8 @@ def build(state):
     user_config = work / 'appdata/NuGet/NuGet.Config'
     user_config.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(config, user_config)
+    if os.name != 'nt':
+        prove_owned_permissions(state)
     flags = ['-c', 'Release', '-m:1', '-nodeReuse:false', '-p:BuildInParallel=false',
              '-p:UseSharedCompilation=false', '-p:GeneratePackageOnBuild=false', '-p:IncludeSymbols=false',
              '-p:UseAppHost=false', '-p:AssemblyVersion=1.0.0.0',
@@ -317,6 +339,38 @@ def build(state):
     save(receipts / 'PACKAGE-CLOSURE-RESULT.json', {'exact': True, 'packages': sorted(observed)})
     run([state['exe'], '--info'], 'sdk-info', 5, state)
     pin_configs(stage)
+
+
+def prove_owned_permissions(state):
+    """Before any dotnet command, observe the actual isolated UID/GID and private writes."""
+    import shlex
+    paths = [state['work'] / name for name in
+             ['', 'dotnet-home', 'tmp', 'packages', 'appdata', 'local-appdata', 'http-cache', 'plugin-cache']]
+    owner = str(os.getuid()) + ':' + str(os.getgid())
+    for path in paths:
+        info = path.stat()
+        if info.st_uid != os.getuid() or info.st_gid != os.getgid() or info.st_mode & 0o777 != 0o700:
+            raise RuntimeError('Private directory ownership/mode differs from declared controller identity')
+    token = '.mqttnet-permission-' + uuid.uuid4().hex
+    script = 'set -eu; id -u; id -g; for p in ' + ' '.join(shlex.quote(str(p)) for p in paths) + '; do '
+    script += 'd="$p/' + token + '"; test ! -e "$d"; test -w "$p"; test -x "$p"; '
+    script += '(umask 077; mkdir "$d"; printf owned > "$d/probe"); '
+    script += 'test "$(cat "$d/probe")" = owned; rm "$d/probe"; rmdir "$d"; '
+    script += 'printf "%s|" "$p"; stat -c "%u|%g|%a" "$p"; done'
+    run(['/bin/sh', '-c', script], 'owned-permissions', 5, state, entrypoint='/bin/sh')
+    lines = (state['receipts'] / 'owned-permissions.stdout.log').read_text().splitlines()
+    if len(lines) != len(paths) + 2 or lines[:2] != [str(os.getuid()), str(os.getgid())]:
+        raise RuntimeError('Isolated permissions probe identity/count mismatch')
+    rows = []
+    for path, line in zip(paths, lines[2:]):
+        observed_path, uid, gid, mode = line.split('|')
+        expected_path = str(path).replace(str(state['work'].parent), '/job')
+        if observed_path != expected_path or uid + ':' + gid != owner or mode != '700':
+            raise RuntimeError('Isolated private path readback differs')
+        rows.append({'path': observed_path, 'uid': uid, 'gid': gid, 'mode': mode, 'directoryAndFileWriteReadRemove': True})
+    save(state['receipts'] / 'OWNED-PERMISSIONS.json', {'containerUser': owner, 'rows': rows,
+         'dotnetStartedBeforeProbe': False, 'worldPermissionsAdded': False,
+         'globalPathsTouched': False, 'sourceRuntimeQualified': False})
 
 
 def snapshot(stage, destination):
@@ -505,8 +559,8 @@ def execute(args):
              'NUGET_HTTP_CACHE_PATH': str(work / 'http-cache'), 'NUGET_PLUGINS_CACHE_PATH': str(work / 'plugin-cache'),
              'NUGET_CERT_REVOCATION_MODE': 'offline', 'TEMP': str(work / 'tmp'), 'TMP': str(work / 'tmp')}
     env.update(owned)
-    for name in ['tmp', 'local-appdata', 'dotnet-home']:
-        (work / name).mkdir(exist_ok=True)
+    for name in ['tmp', 'local-appdata', 'dotnet-home', 'packages', 'appdata', 'http-cache', 'plugin-cache']:
+        (work / name).mkdir(mode=0o700, exist_ok=True)
     state = {'work': work, 'stage': work / 'source', 'receipts': receipts, 'env': env,
              'ownedEnvKeys': set(owned), 'commands': [], 'start': phase_start,
              'slot': slot,

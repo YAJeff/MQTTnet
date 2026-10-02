@@ -1,5 +1,5 @@
 {
-  "status": "SOURCE_RUNNER_AND_PINNED_CLOSURE_PREPARED_UNRUN_ROOT_REVIEW_REQUIRED",
+  "status": "SOURCE_HARNESS_V4_PRIVATE_OWNER_IDENTITY_AND_PREFLIGHT_PREPARED_UNRUN",
   "source": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
   "testSourceSha256": "58E6A7DBD6144E282EE60E14E093BD3F7B703B4FB9FFFDD3280B817C27D251FC",
   "compileApiQualifiedReceipt": {
@@ -66,7 +66,17 @@
     "externalProcessBoundSecondsPerMethod": 10,
     "serialOnly": true,
     "creation": "Ephemeral leaf/root/intermediate plus offline supplied chain in private test process; no Windows synthetic creation",
-    "legacyFixture": "Unchanged shim built against exact original abfa DLL for each TFM; actual references and candidate/fixture/test DLL hashes must be retained"
+    "legacyFixture": "Unchanged shim built against exact original abfa DLL for each TFM; actual references and candidate/fixture/test DLL hashes must be retained",
+    "privateOwnership": {
+      "uidGid": "Nonzero host controller UID/GID exactly equal owned mount owner; Docker --user exact UID:GID",
+      "privateRootAndWorkCreationMode": "0700",
+      "privateCliCacheTempDirectoryCreationMode": "0700",
+      "beforeFirstDotnet": "One five-second /bin/sh container using same user/caps/netnone/readonlybase/resource bounds; actual id/stat and private directory+file create/read/remove proof",
+      "actualConfigUserChecked": true,
+      "rootUserAllowed": false,
+      "worldModeRelaxation": false,
+      "sharedChownChmod": false
+    }
   },
   "windows": {
     "frameworks": [
@@ -112,7 +122,8 @@
     "LinuxLifetimeProcessMaxSecondsEach": 10,
     "WindowsApiGuardDotnetCommandMaxSeconds": 50,
     "linuxWorkflowJobHardMinutes": 25,
-    "windowsWorkflowJobHardMinutes": 10
+    "windowsWorkflowJobHardMinutes": 10,
+    "buildApiAllCommandMaxSecondsIncludingPermissions": 490
   },
   "qualificationRules": [
     "All exact row names/counts pass with zero skips/failures; nonzero exit or timeout always failure",
