@@ -1,10 +1,10 @@
 {
-  "version": 5,
+  "version": 6,
   "files": [
     {
       "path": "phase1.py",
-      "bytes": 37175,
-      "sha256": "1D2D443D42C5D25E5B1EB2C25019F53B430BBD020C5955E8454289D1AF27B29D"
+      "bytes": 37938,
+      "sha256": "CDFE30916A3FDF3323379BFC2BD603530BF5B2626C62FA452E98507F1FB8EA6B"
     },
     {
       "path": "Discover.cs",
@@ -13,8 +13,8 @@
     },
     {
       "path": "native-package-phase1.yml",
-      "bytes": 5073,
-      "sha256": "8FCFBC472F07690BF36ECC6D35952098504476CC49BC24E3F3F7FBCD3997DFB0"
+      "bytes": 5031,
+      "sha256": "732B6FC1285631EE2D4DE629BC13C7B77F366D9393D0DF9F92521F8B1A7353A0"
     },
     {
       "path": "SOURCELINK-PRODUCTION-CLOSURE.json",

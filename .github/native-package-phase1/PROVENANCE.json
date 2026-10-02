@@ -1,13 +1,13 @@
 {
-  "status": "V5_MINIMAL_INVENTORY_DISPOSITIONS_AND_ARCHIVE_RETENTION_SOURCE_ONLY_PENDING_ROOT_REVIEW",
+  "status": "V6_ARTIFACT_LAYOUT_SOURCE_ONLY_PENDING_ROOT_REVIEW",
   "canonicalSource": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
   "productionUnchangedFrom": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
   "existingHelperSource": "b96aad38298df5e37169c1f8e95e0d72f8e2ca67",
-  "phaseInputsSha256": "7DCA71E2928CD6944E7EE851D7EF5A4DECDD0AD4EF0CC9CB5BD75D91CE31F65D",
+  "phaseInputsSha256": "C5E273BCE65BDD1C26055A6C1D30A5EB61C0AAC8A3C3F77CB94BAC6E05D627D6",
   "ownerHandoffSha256": "A74ADEBA609CA7810F35F44EB04A8AB69C5D8A0DD2D33DD1B77C9E002CD314A7",
   "rootIndependentSourceReviewSha256": "94EA1FFDA450EE22C8CF2DAA56D2CCB8681146E5796B172AA9F887F0E630D4B4",
   "preservedV1PacketSha256": "982F27B2A87ADDA49EAB858CA0F05EC22D92A1952DC86AE56A141D0F86E8388F",
-  "scope": "Source-only proposed phase1.py/inventory/lock/provenance correction. No repositoryedit/commit/push/dispatch/runtime. Dormanttests/analyzers/nativecode/helper/workflow/gatebounds/pins/feedunchanged; Root review required before DEV queue.",
+  "scope": "Source-only artifact layout correction; retain validated original source bytes under receipts/source-packet using existing bounded copy/hash and same 600s clock/2GiB disk monitor. Remove checkout-root upload entry only. No repository edit, commit, push, runtime or dispatch.",
   "limits": "No compiler/restore/pack/test/runtime executed by owner; no feed or broker pin changes. Package-only consumer and full regression evidence remain later gates; Windows positive TLS remains unqualified.",
   "preservedV2Parent": "b842e2771903607d47cdda215665732f3bd673c3",
   "preservedV2HandoffSha256": "A74ADEBA609CA7810F35F44EB04A8AB69C5D8A0DD2D33DD1B77C9E002CD314A7",
@@ -43,5 +43,15 @@
     "originalArchiveBytes": 212730397,
     "originalArchiveSha256": "57B4D86585592B0C99D0B3F579ED6F175DCCA47CC6992787E0FCB6236FBC452A",
     "outcome": "FAIL inventory mapping; actualReleaseNet8=623/88; sixnon-Release sourceentries; producedrawpackagearchivesnotretained; Windowsskipped"
+  },
+  "preservedV5Parent": "d269ecdaec7f984cadc4b2c1015f4024b7be03bf",
+  "artifactLayoutCorrection": {
+    "originalRun": 36968862977,
+    "originalManifestMember": "_temp/native-package/transfer/TRANSFER.json",
+    "expectedManifestMember": "transfer/TRANSFER.json",
+    "preserveOriginalFailure": true,
+    "sourceEvidenceRemoved": false,
+    "nativeHelperUnchanged": true,
+    "limitsUnchanged": true
   }
 }

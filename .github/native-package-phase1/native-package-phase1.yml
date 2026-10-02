@@ -67,7 +67,6 @@ jobs:
             ${{ runner.temp }}/native-package/OWNERSHIP.json
             ${{ runner.temp }}/native-package/SOURCE-DERIVATION.json
             ${{ runner.temp }}/native-package/ISOLATION-POSTFLIGHT.json
-            .github/native-package-phase1
   windows:
     needs: linux
     if: github.repository == 'YAJeff/MQTTnet' && github.ref == 'refs/heads/feature/server-certificate-context-lease'

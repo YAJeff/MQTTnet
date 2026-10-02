@@ -468,6 +468,17 @@ def gate(args):
             'completed': False, 'nativeStarted': False, 'hardWatchdogExitCode': 124,
             'clockStartedBeforeInputChecks': True})
         validate_packet()
+        retained_source = receipts / 'source-packet'
+        for source_path in sorted(HERE.rglob('*')):
+            checkpoint()
+            if source_path.is_symlink(): raise RuntimeError('Source packet symlink rejected')
+            if source_path.is_file():
+                target = retained_source / source_path.relative_to(HERE)
+                bounded_copy(source_path, target)
+                if source_path.stat().st_size != target.stat().st_size or sha(source_path) != sha(target):
+                    raise RuntimeError('Retained source packet differs from validated original')
+        save(receipts / 'SOURCE-PACKET-RETENTION.json', {'files': bounded_inventory(retained_source),
+            'phaseBoundSeconds': 600, 'sameClockAndDiskMonitor': True})
         args.checkout = args.checkout.resolve()
         q = helper(args.checkout)
         original_read, original_run = q.read, q.run
