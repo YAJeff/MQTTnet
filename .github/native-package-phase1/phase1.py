@@ -7,6 +7,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import shutil
 import subprocess
 import threading
@@ -367,7 +368,14 @@ def package_members(stage, receipts):
                     if (project / 'README.md').is_file():
                         if 'README.md' not in names or member('README.md') != bounded_read(project / 'README.md'):
                             raise RuntimeError('Canonical README missing/different')
+                # Preserve original archive bytes even if later discovery fails.
+                # Copying/hash verification stays inside the existing phase bounds.
+                retained = receipts / 'produced-packages' / path.name
+                bounded_copy(path, retained)
+                if sha(retained) != sha(path): raise RuntimeError('Retained original package archive differs')
                 rows.append({'package': family, 'extension': extension, 'path': str(path), 'sha256': sha(path),
+                    'retainedArchivePath': str(retained), 'retainedArchiveSha256': sha(retained),
+                    'retainedArchiveBytes': retained.stat().st_size,
                     'members': members, 'exactNuspecContract': contract, 'nuspecXml': raw.decode('utf-8-sig')})
     save(receipts / 'PACKAGES.json', rows)
     bindings = []
@@ -385,6 +393,53 @@ def package_members(stage, receipts):
                 bindings.append({'tfm': tfm, 'family': family, 'path': str(target), 'sha256': sha(target),
                     'pdbPath': str(pdb), 'pdbSha256': sha(pdb)})
     save(receipts / 'PACKAGE-TEST-DLL-BINDINGS.json', bindings)
+
+
+def release_inventory(stage, inventory):
+    """Preserve all source records; prove only the exact six non-Release entries."""
+    specifications = {
+        'MQTTnet.Tests.ASP.MqttConnectionContextTest.TestEndpoint': ('Source/MQTTnet.Tests/ASP/MqttConnectionContextTest.cs', 'commented_out'),
+        'MQTTnet.Tests.ASP.MqttConnectionContextTest.TestParallelWrites': ('Source/MQTTnet.Tests/ASP/MqttConnectionContextTest.cs', 'commented_out'),
+        'MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Use_Disconnected_Socket': ('Source/MQTTnet.Tests/Internal/CrossPlatformSocket_Tests.cs', 'commented_out'),
+        'MQTTnet.Tests.Server.Load_Tests.Handle_100_000_Messages_In_Low_Level_Client': ('Source/MQTTnet.Tests/Server/Load_Tests.cs', 'debug_only'),
+        'MQTTnet.Tests.Server.Load_Tests.Handle_100_000_Messages_In_Receiving_Client': ('Source/MQTTnet.Tests/Server/Load_Tests.cs', 'debug_only'),
+        'MQTTnet.Tests.Server.Load_Tests.Handle_100_000_Messages_In_Server': ('Source/MQTTnet.Tests/Server/Load_Tests.cs', 'debug_only')}
+    records = [m for c in inventory['classes'] for m in c['methods']]
+    all_methods = {m['fullyQualifiedName']: m for m in records}
+    if len(records) != 629 or len(all_methods) != 629 or len(inventory['classes']) != 89:
+        raise RuntimeError('Original source inventory records removed/duplicated')
+    annotated = {name for name, method in all_methods.items() if 'compilationDisposition' in method}
+    if annotated != set(specifications): raise RuntimeError('Unexpected non-Release disposition set')
+    evidence = []
+    for name, (expected_path, expected_kind) in specifications.items():
+        disposition = all_methods[name]['compilationDisposition']
+        if (disposition['path'], disposition['kind'], disposition['releaseCompiled'], disposition['sourceCommit']) != (expected_path, expected_kind, False, SOURCE):
+            raise RuntimeError('Canonical disposition identity differs')
+        path = stage / expected_path
+        if not path.resolve().is_relative_to(stage.resolve()): raise RuntimeError('Disposition source escapes stage')
+        source = bounded_read(path)
+        if len(source) != disposition['sourceBytes'] or hashlib.sha256(source).hexdigest().upper() != disposition['sourceSha256']:
+            raise RuntimeError('Canonical disposition source hash differs')
+        lines = source.decode('utf-8').splitlines(keepends=True)
+        start, end = disposition['spanStartLine'], disposition['spanEndLine']
+        if start < 1 or end != start + 1 or end > len(lines): raise RuntimeError('Exact disposition span differs')
+        span = ''.join(lines[start - 1:end])
+        if span != disposition['spanText'] or hashlib.sha256(span.encode()).hexdigest().upper() != disposition['spanSha256']:
+            raise RuntimeError('Canonical source span bytes differ')
+        prefix = r'\s*//\s*' if expected_kind == 'commented_out' else r'\s*'
+        if not re.fullmatch(prefix + r'\[TestMethod\]\s*', lines[start - 1]) or not re.fullmatch(prefix + r'public async Task ' + re.escape(name.rsplit('.', 1)[1]) + r'\(\)\s*', lines[end - 1]):
+            raise RuntimeError('Exact original inactive attribute/declaration differs')
+        if expected_kind == 'debug_only':
+            guard = disposition['wholeFileGuard']
+            if guard != {'openLine': 1, 'openText': '#if DEBUG', 'closeLine': len(lines), 'closeText': '#endif'}:
+                raise RuntimeError('Whole-file DEBUG guard identity differs')
+            if lines[0].strip() != '#if DEBUG' or lines[-1].strip() != '#endif' or any(line.lstrip().startswith(('#else', '#elif')) for line in lines):
+                raise RuntimeError('DEBUG-only source compilation guard differs')
+        evidence.append({'fullyQualifiedName': name, 'disposition': disposition, 'canonicalSpanVerified': True})
+    expected = {name: method for name, method in all_methods.items() if name not in specifications}
+    if len(expected) != 623 or len({name.rsplit('.', 1)[0] for name in expected}) != 88:
+        raise RuntimeError('Exact Release expected source set differs')
+    return all_methods, expected, evidence
 
 
 def gate(args):
@@ -476,7 +531,10 @@ def gate(args):
         q.pin_configs(state['stage'])
         q.api_checks(state)
         source_inventory = read(HERE / 'CANONICAL-REGRESSION-INVENTORY.json')
-        expected = {m['fullyQualifiedName']: m for c in source_inventory['classes'] for m in c['methods']}
+        all_source_methods, expected, non_release = release_inventory(state['stage'], source_inventory)
+        save(receipts / 'CANONICAL-RELEASE-DISPOSITIONS.json', {'sourceMethods': 629, 'sourceClasses': 89,
+            'expectedReleaseMethods': 623, 'expectedReleaseClasses': 88, 'nonReleaseEntries': non_release,
+            'sourceRecordsRetained': True, 'dormantTestsActivated': False})
         for tfm in TFMS:
             output = receipts / (tfm + '-discovery.json')
             q.run([state['exe'], str(state['stage'] / 'qualification-probe/bin/Release' / tfm / 'CompileApiProbe.dll'),
@@ -484,8 +542,8 @@ def gate(args):
                 str(output)], tfm + '-discovery', 10, state)
             discovered = read(output)
             actual = {m['fullyQualifiedName']: m for m in discovered['methods']}
-            if len(actual) != 629 or set(actual) != set(expected): raise RuntimeError('Dropped/added method mapping')
-            if len({name.rsplit('.', 1)[0] for name in actual}) != 89: raise RuntimeError('Test class mapping differs')
+            if len(discovered['methods']) != 623 or len(actual) != 623 or set(actual) != set(expected): raise RuntimeError('Dropped/added Release method mapping')
+            if len({name.rsplit('.', 1)[0] for name in actual}) != 88: raise RuntimeError('Release test class mapping differs')
             for name, method in actual.items():
                 if method['dynamicData'] or method['ignored'] or len(method['staticRows']) != expected[name]['staticDataRows']:
                     raise RuntimeError('Row/ignore mapping differs: ' + name)
@@ -494,7 +552,9 @@ def gate(args):
                 expected_path = state['stage'] / 'qualification-probe/bin/Release' / tfm / (family + '.dll')
                 if loaded[family]['sha256'] != sha(expected_path): raise RuntimeError('Actual loaded native DLL differs')
             save(receipts / (tfm + '-METHOD-MAP.json'), {'metadataDiscoveryOnly': True, 'methods': list(actual.values()),
-                'methodCount': 629, 'classCount': 89, 'caseCount': sum(max(1, len(m['staticRows'])) for m in actual.values()),
+                'sourceMethodCount': len(all_source_methods), 'sourceClassCount': 89,
+                'nonReleaseSourceEntries': non_release, 'methodCount': 623, 'classCount': 88,
+                'caseCount': sum(max(1, len(m['staticRows'])) for m in actual.values()),
                 'testsInvoked': 0, 'loaded': discovered['loaded']})
         bounded_transfer(state)
         success = True

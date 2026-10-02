@@ -1,10 +1,10 @@
 {
-  "version": 4,
+  "version": 5,
   "files": [
     {
       "path": "phase1.py",
-      "bytes": 31986,
-      "sha256": "820B1E5D6B8ADBA54C4841716EEDF1AFD5A13DA0F6DCA9A7917C1A83F3ECAE29"
+      "bytes": 37175,
+      "sha256": "1D2D443D42C5D25E5B1EB2C25019F53B430BBD020C5955E8454289D1AF27B29D"
     },
     {
       "path": "Discover.cs",
@@ -23,8 +23,8 @@
     },
     {
       "path": "CANONICAL-REGRESSION-INVENTORY.json",
-      "bytes": 183286,
-      "sha256": "294CF4FA3E9365E8B746566A5A7BF09797B1BD31FB2A0674358967C7406CC1F2"
+      "bytes": 188094,
+      "sha256": "B16563DB1D841EFF2CE3055C7EA764239B7F241CAD56A1DC7D1351384F807CE0"
     },
     {
       "path": "CANONICAL-PACKAGE-REFERENCE-COMPARISON.json",

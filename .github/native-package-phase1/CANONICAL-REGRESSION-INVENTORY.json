@@ -18,14 +18,38 @@
           "line": 39,
           "staticDataRows": 0,
           "dynamicData": false,
-          "ignoreAttribute": false
+          "ignoreAttribute": false,
+          "compilationDisposition": {
+            "kind": "commented_out",
+            "releaseCompiled": false,
+            "sourceCommit": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
+            "path": "Source/MQTTnet.Tests/ASP/MqttConnectionContextTest.cs",
+            "sourceSha256": "F5AEE8207DFCC9360AA02DC1850BDA816D54C594125B8110A80BEFFD7F755FC3",
+            "sourceBytes": 5033,
+            "spanStartLine": 39,
+            "spanEndLine": 40,
+            "spanText": "    // [TestMethod]\n    // public async Task TestEndpoint()\n",
+            "spanSha256": "C05585E558CAF039E96945DA273DB903D374B491C52BAB331667EA39F4E28095"
+          }
         },
         {
           "fullyQualifiedName": "MQTTnet.Tests.ASP.MqttConnectionContextTest.TestParallelWrites",
           "line": 69,
           "staticDataRows": 0,
           "dynamicData": false,
-          "ignoreAttribute": false
+          "ignoreAttribute": false,
+          "compilationDisposition": {
+            "kind": "commented_out",
+            "releaseCompiled": false,
+            "sourceCommit": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
+            "path": "Source/MQTTnet.Tests/ASP/MqttConnectionContextTest.cs",
+            "sourceSha256": "F5AEE8207DFCC9360AA02DC1850BDA816D54C594125B8110A80BEFFD7F755FC3",
+            "sourceBytes": 5033,
+            "spanStartLine": 69,
+            "spanEndLine": 70,
+            "spanText": "    //[TestMethod]\n    //public async Task TestParallelWrites()\n",
+            "spanSha256": "E8408A2A683E09015A1DDCAD0321FB4A5216B3D5A5438915AEF9CD9A46CCD505"
+          }
         },
         {
           "fullyQualifiedName": "MQTTnet.Tests.ASP.MqttConnectionContextTest.TestLargePacket",
@@ -1817,7 +1841,19 @@
           "line": 48,
           "staticDataRows": 0,
           "dynamicData": false,
-          "ignoreAttribute": false
+          "ignoreAttribute": false,
+          "compilationDisposition": {
+            "kind": "commented_out",
+            "releaseCompiled": false,
+            "sourceCommit": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
+            "path": "Source/MQTTnet.Tests/Internal/CrossPlatformSocket_Tests.cs",
+            "sourceSha256": "33C03774A350B5FB568D50F333E81195B515C92CA1D41D83940DC4A44DD10B62",
+            "sourceBytes": 3043,
+            "spanStartLine": 48,
+            "spanEndLine": 49,
+            "spanText": "    // [TestMethod]\n    // public async Task Use_Disconnected_Socket()\n",
+            "spanSha256": "7E4B09A0C92D088EDB465F5536F8F7AC1D914450186C555C62294C5AF4C400F5"
+          }
         },
         {
           "fullyQualifiedName": "MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Set_Options",
@@ -3532,21 +3568,75 @@
           "line": 15,
           "staticDataRows": 0,
           "dynamicData": false,
-          "ignoreAttribute": false
+          "ignoreAttribute": false,
+          "compilationDisposition": {
+            "kind": "debug_only",
+            "releaseCompiled": false,
+            "sourceCommit": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
+            "path": "Source/MQTTnet.Tests/Server/Load_Tests.cs",
+            "sourceSha256": "FD2C8D8EA9F2407D184BF63EFAD1166B054B721BDAECAA17C9B885F0F02E580F",
+            "sourceBytes": 5062,
+            "spanStartLine": 15,
+            "spanEndLine": 16,
+            "spanText": "    [TestMethod]\n    public async Task Handle_100_000_Messages_In_Low_Level_Client()\n",
+            "spanSha256": "D25D8697B564055B738F976C13E73896E58AC28543206F134CADA1B610642D63",
+            "wholeFileGuard": {
+              "openLine": 1,
+              "openText": "#if DEBUG",
+              "closeLine": 159,
+              "closeText": "#endif"
+            }
+          }
         },
         {
           "fullyQualifiedName": "MQTTnet.Tests.Server.Load_Tests.Handle_100_000_Messages_In_Receiving_Client",
           "line": 76,
           "staticDataRows": 0,
           "dynamicData": false,
-          "ignoreAttribute": false
+          "ignoreAttribute": false,
+          "compilationDisposition": {
+            "kind": "debug_only",
+            "releaseCompiled": false,
+            "sourceCommit": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
+            "path": "Source/MQTTnet.Tests/Server/Load_Tests.cs",
+            "sourceSha256": "FD2C8D8EA9F2407D184BF63EFAD1166B054B721BDAECAA17C9B885F0F02E580F",
+            "sourceBytes": 5062,
+            "spanStartLine": 76,
+            "spanEndLine": 77,
+            "spanText": "    [TestMethod]\n    public async Task Handle_100_000_Messages_In_Receiving_Client()\n",
+            "spanSha256": "388BBBBE3B41E3263BF4D2BFF656379590D660AAC095170F7278042FD0FB14A0",
+            "wholeFileGuard": {
+              "openLine": 1,
+              "openText": "#if DEBUG",
+              "closeLine": 159,
+              "closeText": "#endif"
+            }
+          }
         },
         {
           "fullyQualifiedName": "MQTTnet.Tests.Server.Load_Tests.Handle_100_000_Messages_In_Server",
           "line": 119,
           "staticDataRows": 0,
           "dynamicData": false,
-          "ignoreAttribute": false
+          "ignoreAttribute": false,
+          "compilationDisposition": {
+            "kind": "debug_only",
+            "releaseCompiled": false,
+            "sourceCommit": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
+            "path": "Source/MQTTnet.Tests/Server/Load_Tests.cs",
+            "sourceSha256": "FD2C8D8EA9F2407D184BF63EFAD1166B054B721BDAECAA17C9B885F0F02E580F",
+            "sourceBytes": 5062,
+            "spanStartLine": 119,
+            "spanEndLine": 120,
+            "spanText": "    [TestMethod]\n    public async Task Handle_100_000_Messages_In_Server()\n",
+            "spanSha256": "9C2480F30A86B3AAA2747D4A912631891F188E9FD70904000EE6E27650A9BBCA",
+            "wholeFileGuard": {
+              "openLine": 1,
+              "openText": "#if DEBUG",
+              "closeLine": 159,
+              "closeText": "#endif"
+            }
+          }
         }
       ]
     },
@@ -5029,5 +5119,15 @@
     }
   ],
   "sourceInventoryNotRuntimeDiscovery": true,
-  "runtimeDiscoveryRequiredForAllRows": true
+  "runtimeDiscoveryRequiredForAllRows": true,
+  "releaseCompilationContract": {
+    "configuration": "Release",
+    "sourceMethods": 629,
+    "sourceClasses": 89,
+    "compiledExpectedMethods": 623,
+    "compiledExpectedClasses": 88,
+    "annotatedNonCompiledRecords": 6,
+    "preserveAllSourceRecords": true,
+    "noDormantActivationOrDeletion": true
+  }
 }
