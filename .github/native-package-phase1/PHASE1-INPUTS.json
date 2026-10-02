@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "files": [
     {
       "path": "phase1.py",
@@ -13,8 +13,8 @@
     },
     {
       "path": "native-package-phase1.yml",
-      "bytes": 4904,
-      "sha256": "DF9DD84EFA9591BB71FD03C43977ADD9AB932DFA196C9E0E0270B875E6FEF75E"
+      "bytes": 5073,
+      "sha256": "8FCFBC472F07690BF36ECC6D35952098504476CC49BC24E3F3F7FBCD3997DFB0"
     },
     {
       "path": "SOURCELINK-PRODUCTION-CLOSURE.json",

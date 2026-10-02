@@ -1,5 +1,10 @@
 name: Native exact package and metadata discovery first gate
 on:
+  push:
+    branches: [feature/server-certificate-context-lease]
+    paths:
+      - .github/native-package-phase1/**
+      - .github/workflows/native-package-phase1.yml
   workflow_dispatch:
 permissions:
   contents: read

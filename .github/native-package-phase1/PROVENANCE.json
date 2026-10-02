@@ -1,12 +1,30 @@
 {
-  "status": "ROOT_REVIEWED_V2_SOURCE_ONLY_EXECUTABLE_NOT_RUNTIME_QUALIFIED",
+  "status": "ROOT_AUTHORIZED_V3_NARROW_PUSH_TRIGGER_FIX_FIRST_GATE_AUTOQUEUES_ONCE",
   "canonicalSource": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
   "productionUnchangedFrom": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
   "existingHelperSource": "b96aad38298df5e37169c1f8e95e0d72f8e2ca67",
-  "phaseInputsSha256": "9509D73C7F93B8E33EF69381D95BABAD0A0785A827F089D8ECF09411DD8B7D49",
+  "phaseInputsSha256": "AD131F9D15F3F4C7DAD766CC0603C4636D604C4BAE637F06F7D007DF185A987C",
   "ownerHandoffSha256": "A74ADEBA609CA7810F35F44EB04A8AB69C5D8A0DD2D33DD1B77C9E002CD314A7",
   "rootIndependentSourceReviewSha256": "94EA1FFDA450EE22C8CF2DAA56D2CCB8681146E5796B172AA9F887F0E630D4B4",
   "preservedV1PacketSha256": "982F27B2A87ADDA49EAB858CA0F05EC22D92A1952DC86AE56A141D0F86E8388F",
-  "scope": "Only executable phase1 helpers/metadata/workflow. Original native production and qualification helpers unchanged. Official SourceLink archives acquired from pinned official URLs in future prepare, none committed. Root alone dispatches hosted first gate after remote source verification.",
-  "limits": "No compiler/restore/pack/test/runtime executed by owner; no feed or broker pin changes. Package-only consumer and full regression evidence remain later gates; Windows positive TLS remains unqualified."
+  "scope": "Only push-trigger filters, identical new workflow copy, phase input seals and provenance. Canonical production/helper bodies unchanged. Root-authorized functional trigger push queues bounded first gate; no default-branch promotion/feed/broker pins.",
+  "limits": "No compiler/restore/pack/test/runtime executed by owner; no feed or broker pin changes. Package-only consumer and full regression evidence remain later gates; Windows positive TLS remains unqualified.",
+  "preservedV2Parent": "b842e2771903607d47cdda215665732f3bd673c3",
+  "preservedV2HandoffSha256": "A74ADEBA609CA7810F35F44EB04A8AB69C5D8A0DD2D33DD1B77C9E002CD314A7",
+  "triggerCorrection": {
+    "newPushBranch": "feature/server-certificate-context-lease",
+    "newPushPaths": [
+      ".github/native-package-phase1/**",
+      ".github/workflows/native-package-phase1.yml"
+    ],
+    "oldPushPaths": [
+      "Source/**",
+      ".github/native-context/**"
+    ],
+    "oldManualDispatchRetained": true,
+    "jobBodiesLimitsPermissionsUnchanged": true,
+    "authorizedAutomaticFirstGate": true,
+    "ownerManualDispatch": false,
+    "noAutomaticRetries": true
+  }
 }

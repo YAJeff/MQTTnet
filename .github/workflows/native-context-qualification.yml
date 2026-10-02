@@ -2,6 +2,9 @@ name: Native certificate context qualification
 on:
   push:
     branches: [feature/server-certificate-context-lease]
+    paths:
+      - Source/**
+      - .github/native-context/**
   workflow_dispatch:
 permissions:
   contents: read
