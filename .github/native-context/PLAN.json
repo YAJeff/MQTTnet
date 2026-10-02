@@ -150,8 +150,8 @@
   "ownerRuntimeRuns": 0,
   "packageClosure": {
     "path": ".github/native-context/TEST-PACKAGE-CLOSURE.json",
-    "archiveCount": 31,
-    "basis": "Nearest compatible modern net/CoreApp group, else highest compatible netstandard; direct roots plus unified same-ID minimum dependency versions; both ILLink versions retained. Actual assets must match exactly; no unused fallback packages accepted."
+    "archiveCount": 24,
+    "basis": "Exact direct roots plus nearest compatible nuspec groups, with pinned SDK10.0.303 transitive packagesToPrune from preserved V5 dgspec/assets. System.ValueTuple4.6.1 remains an explicit direct dependency; eight framework-provided transitives removed from archive closure. Actual assets must match exactly; no unused fallback packages accepted."
   },
   "toolchain": {
     "sdk": "10.0.303",
