@@ -1,10 +1,12 @@
 {
-  "status": "SOURCE_HARNESS_V4_PRIVATE_OWNER_IDENTITY_AND_PREFLIGHT_PREPARED_UNRUN",
-  "source": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
-  "testSourceSha256": "58E6A7DBD6144E282EE60E14E093BD3F7B703B4FB9FFFDD3280B817C27D251FC",
+  "status": "SOURCE_HARNESS_V7_LEGACY_TEST_ISSUER_FIX_NEW_TEST_SOURCE_UNRUN",
+  "source": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
+  "testSourceSha256": "C5B148E11B7C78B5343658441033603B62AE1BF25A22D64598C8E46049717424",
   "compileApiQualifiedReceipt": {
     "path": "C:\\corevar\\output\\native-context-api-v6-root-run-20261001\\receipts\\root-independent-qualification.json",
-    "sha256": "9D6D01CD837A3E2A576D8D80EBBA3F739CD24BA10875C7EF67C0A7515FE12FBC"
+    "sha256": "9D6D01CD837A3E2A576D8D80EBBA3F739CD24BA10875C7EF67C0A7515FE12FBC",
+    "source": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
+    "qualifiesNewTestSource": false
   },
   "linux": {
     "frameworks": [
@@ -189,5 +191,14 @@
     "Owned work retained for artifact/audit; no host/global store/cache or broker pin/package feed edits",
     "GitHub retires ephemeral hosted runner; Root independently reviews all raw receipts; no cleanup-only success reinterpretation"
   ],
-  "lifetimeWindowsLimitation": "Guard-only Windows path. Successful Windows context/chain lifetime requires a separate reviewed store-isolated implementation; not introduced or claimed by this workflow."
+  "lifetimeWindowsLimitation": "Guard-only Windows path. Successful Windows context/chain lifetime requires a separate reviewed store-isolated implementation; not introduced or claimed by this workflow.",
+  "productionSourceUnchangedFrom": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
+  "testOnlyCorrection": {
+    "legacyOnlyIntermediateExtraStore": true,
+    "contextTestsExtraStoreEmpty": true,
+    "callbackRequiresNoSslPolicyErrors": true,
+    "chainDiagnostics": true,
+    "productionChanged": false,
+    "priorActualTlsFailurePreserved": true
+  }
 }

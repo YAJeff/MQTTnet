@@ -34,7 +34,7 @@ public sealed class CertificateContextLease_Tests
         var assembly = Assembly.LoadFrom(path);
         var provider = (ICertificateProvider)Activator.CreateInstance(assembly.GetType("MQTTnet.CompatibilityFixtures.LegacyCertificateProvider", true), material.Leaf);
         await using var fixture = new Listener(provider);
-        using var peer = await Peer.Connect(fixture.Port, material);
+        using var peer = await Peer.Connect(fixture.Port, material, legacyIntermediateKnownToClient: true);
         await peer.Ping();
         Assert.IsFalse(provider is ICertificateContextProvider);
     }
@@ -385,10 +385,11 @@ public sealed class CertificateContextLease_Tests
         public string LeafThumbprint { get; private set; }
         public string[] ChainThumbprints { get; private set; } = [];
         Peer(TcpClient tcp, SslStream stream) { _tcp = tcp; Stream = stream; }
-        public static async Task<Peer> Connect(int port, Material trust, string host = "localhost", SslProtocols protocol = SslProtocols.Tls12)
+        public static async Task<Peer> Connect(int port, Material trust, string host = "localhost", SslProtocols protocol = SslProtocols.Tls12, bool legacyIntermediateKnownToClient = false)
         {
             using var timeout = new CancellationTokenSource(Bound);
             using var root = X509Certificate2.CreateFromPem(trust.Root.ExportCertificatePem());
+            using var legacyIntermediate = legacyIntermediateKnownToClient ? X509Certificate2.CreateFromPem(trust.Intermediate.ExportCertificatePem()) : null;
             var tcp = new TcpClient();
             SslStream ssl = null;
             try
@@ -398,10 +399,12 @@ public sealed class CertificateContextLease_Tests
                 var peer = new Peer(tcp, ssl);
                 var policy = new X509ChainPolicy { TrustMode = X509ChainTrustMode.CustomRootTrust, RevocationMode = X509RevocationMode.NoCheck, DisableCertificateDownloads = true };
                 policy.CustomTrustStore.Add(root);
+                if (legacyIntermediate != null) policy.ExtraStore.Add(legacyIntermediate);
                 var options = new SslClientAuthenticationOptions { TargetHost = host, EnabledSslProtocols = protocol, CertificateChainPolicy = policy, RemoteCertificateValidationCallback = (_, certificate, chain, errors) =>
                 {
                     peer.LeafThumbprint = ((X509Certificate2)certificate).Thumbprint;
                     peer.ChainThumbprints = chain.ChainElements.Cast<X509ChainElement>().Select(e => e.Certificate.Thumbprint).ToArray();
+                    Console.WriteLine($"TLS_CERTIFICATE_VALIDATION|host={host}|errors={errors}|chainStatus={string.Join(",", chain.ChainStatus.Select(s => s.Status))}|chainThumbprints={string.Join(",", peer.ChainThumbprints)}");
                     return errors == SslPolicyErrors.None;
                 }};
                 await ssl.AuthenticateAsClientAsync(options, timeout.Token);

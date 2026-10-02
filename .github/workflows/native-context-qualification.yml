@@ -28,7 +28,7 @@ jobs:
           python-version: '3.13.7'
       - name: Export exact qualified source
         timeout-minutes: 1
-        run: git archive --format=zip --output="${{ runner.temp }}/source-2a6.zip" 2a6cb80a7a0625967d0f06e83e15e4be03d9c503
+        run: git archive --format=zip --output="${{ runner.temp }}/source-24208d37.zip" 24208d37d9bb9804f2c78b8d023ec1709d47e0f3
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
@@ -38,7 +38,7 @@ jobs:
           path: ${{ runner.temp }}/original-abfa
       - name: Stage hash-pinned distributions and offline dependency closure
         timeout-minutes: 6
-        run: python -B .github/native-context/qualify.py --mode prepare --job-root "${{ runner.temp }}/native-context" --source-zip "${{ runner.temp }}/source-2a6.zip" --baseline "${{ runner.temp }}/original-abfa"
+        run: python -B .github/native-context/qualify.py --mode prepare --job-root "${{ runner.temp }}/native-context" --source-zip "${{ runner.temp }}/source-24208d37.zip" --baseline "${{ runner.temp }}/original-abfa"
       - name: Compile tests and prove strict API and old-binary compatibility
         timeout-minutes: 11
         run: python -B .github/native-context/qualify.py --mode build-api --job-root "${{ runner.temp }}/native-context"

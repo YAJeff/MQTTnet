@@ -1,5 +1,5 @@
 {
-  "source": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
+  "source": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
   "files": [
     {
       "path": ".editorconfig",
@@ -2953,12 +2953,12 @@
     },
     {
       "path": "Source/MQTTnet.Tests/Server/CertificateContextLease_Tests.cs",
-      "bytes": 21623,
-      "sha256": "58E6A7DBD6144E282EE60E14E093BD3F7B703B4FB9FFFDD3280B817C27D251FC",
+      "bytes": 22187,
+      "sha256": "C5B148E11B7C78B5343658441033603B62AE1BF25A22D64598C8E46049717424",
       "layer": "native-overlay",
-      "gitBlobSha256": "58E6A7DBD6144E282EE60E14E093BD3F7B703B4FB9FFFDD3280B817C27D251FC",
-      "gitBlobBytes": 21623,
-      "qualifiedRawBytes": 21623,
+      "gitBlobSha256": "C5B148E11B7C78B5343658441033603B62AE1BF25A22D64598C8E46049717424",
+      "gitBlobBytes": 22187,
+      "qualifiedRawBytes": 22187,
       "stagingTransform": "identity"
     },
     {
@@ -5402,9 +5402,9 @@
       "stagingTransform": "lf_to_crlf"
     }
   ],
-  "sourceZip": "source-2a6.zip",
+  "sourceZip": "source-24208d37.zip",
   "qualificationHelpersSeparate": true,
-  "status": "DUAL_SEALED_EXACT_GIT_BLOB_TO_V6_QUALIFIED_RAW_BYTE_DERIVATION",
+  "status": "EXACT_GIT_BLOB_TO_SEALED_RAW_BYTES_TEST_ONLY_SUCCESSOR_RUNTIME_PENDING",
   "qualifiedRawSha256Field": "sha256",
   "allowedTransforms": [
     "identity",
@@ -5415,5 +5415,9 @@
     "identity": 17,
     "lfToCrlf": 523
   },
-  "rule": "Validate exact Git blob input SHA256 and length, apply only declared exact transform, validate original qualified raw SHA256 and length. Reject all other bytes; never trim whitespace or accept either hash as fallback."
+  "rule": "Validate exact Git input SHA256 and length, apply declared identity or LF-to-CRLF transform, validate sealed raw SHA256 and length. 539 files retain previously qualified hashes; only approved legacy-chain test successor has a fresh seal. No fallback or general normalization.",
+  "productionSourceUnchangedFrom": "2a6cb80a7a0625967d0f06e83e15e4be03d9c503",
+  "testOnlyDelta": [
+    "Source/MQTTnet.Tests/Server/CertificateContextLease_Tests.cs"
+  ]
 }

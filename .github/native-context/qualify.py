@@ -309,8 +309,8 @@ def build(state):
     flags = ['-c', 'Release', '-m:1', '-nodeReuse:false', '-p:BuildInParallel=false',
              '-p:UseSharedCompilation=false', '-p:GeneratePackageOnBuild=false', '-p:IncludeSymbols=false',
              '-p:UseAppHost=false', '-p:AssemblyVersion=1.0.0.0',
-             '-p:SourceRevisionId=2a6cb80a7a0625967d0f06e83e15e4be03d9c503',
-             '-p:Version=5.2.0-local.tlscontext.2a6cb80a', '-p:RestoreConfigFile=' + str(config),
+             '-p:SourceRevisionId=24208d37d9bb9804f2c78b8d023ec1709d47e0f3',
+             '-p:Version=5.2.0-local.tlscontext.24208d37', '-p:RestoreConfigFile=' + str(config),
              '-p:RestorePackagesPath=' + str(work / 'packages'), '-p:RestoreSources=' + str(work / 'feed')]
     commands = [('Source/MQTTnet.Tests/MQTTnet.Tests.csproj', 180, 'candidate-test-build', []),
                 ('.github/legacy-certificate-provider/LegacyCertificateProviderFixture.csproj', 90, 'old-provider-build', []),
@@ -507,7 +507,7 @@ def transfer(state):
             target = dest / path.relative_to(state['stage'])
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(path, target)
-    save(dest / 'TRANSFER.json', {'source': '2a6cb80a7a0625967d0f06e83e15e4be03d9c503', 'files': inventory(dest)})
+    save(dest / 'TRANSFER.json', {'source': '24208d37d9bb9804f2c78b8d023ec1709d47e0f3', 'files': inventory(dest)})
 
 
 def execute(args):
@@ -587,7 +587,7 @@ def execute(args):
         observed = disk_bytes(root)
         save(receipts / 'RESULT.json', {'checksPassed': success and observed <= MAX_DISK, 'allPassed': None if success and observed <= MAX_DISK else False, 'independentRootAuditPending': True,
              'commands': state['commands'], 'ownerRuntimeStarted': False, 'workHeld': True,
-             'source': '2a6cb80a7a0625967d0f06e83e15e4be03d9c503', 'mode': args.mode,
+             'source': '24208d37d9bb9804f2c78b8d023ec1709d47e0f3', 'mode': args.mode,
              'slotSeconds': state['slot'], 'brokerPinChanged': False, 'packagePublication': False,
              'ownedDiskObservedBytes': observed, 'diskAbortBytes': MAX_DISK,
              'diskOvershootBytes': max(0, observed - MAX_DISK)})
