@@ -52,7 +52,7 @@ def disk_bytes(root):
 
 def owned_mount_identity(work):
     owner = work.stat()
-    if owner.st_uid == 0 or owner.st_uid != os.getuid() or owner.st_gid != os.getgid():
+    if owner.st_uid == 0 or owner.st_gid == 0 or owner.st_uid != os.getuid() or owner.st_gid != os.getgid():
         raise RuntimeError('Owned mount must belong to the non-root qualification controller')
     return owner, str(owner.st_uid) + ':' + str(owner.st_gid)
 
