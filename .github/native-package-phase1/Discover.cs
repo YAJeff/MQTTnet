@@ -7,6 +7,8 @@ using System.Text.Json;
 
 static class PackageDiscovery
 {
+    private static readonly JsonSerializerOptions DiscoveryJsonOptions = new() { WriteIndented = true };
+
     public static void Run(string assemblyPath, string output)
     {
         var directory = Path.GetDirectoryName(Path.GetFullPath(assemblyPath))!;
@@ -43,7 +45,7 @@ static class PackageDiscovery
         var sourceRoot = Path.GetFullPath(Path.Combine(directory, "../../../../../")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         var symbols = VerifySymbols(directory, sourceRoot);
         File.WriteAllText(output, JsonSerializer.Serialize(new { discoveryKind = "MetadataOnlyNoTestsOrDataProvidersInvoked",
-            runtime = Environment.Version.ToString(), methods, loaded, symbols }, new JsonSerializerOptions { WriteIndented = true }));
+            runtime = Environment.Version.ToString(), methods, loaded, symbols }, DiscoveryJsonOptions));
         Console.WriteLine(JsonSerializer.Serialize(new { output, sha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(output))), methodCount = methods.Count }));
     }
     static object? Value(CustomAttributeTypedArgument arg) => arg.Value is IEnumerable<CustomAttributeTypedArgument> list
