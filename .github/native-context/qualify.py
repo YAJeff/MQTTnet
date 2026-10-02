@@ -67,6 +67,56 @@ def unzip(path, dest):
         archive.extractall(dest)
 
 
+def derive_source(stage, archive, receipt):
+    """Exact declared Git-blob to previously qualified raw-byte reconstruction."""
+    manifest = read(HERE / 'SOURCE-MANIFEST.json')
+    rows = []
+    status = 'FAILED'
+    failure = None
+    try:
+        with zipfile.ZipFile(archive) as source:
+            if source.comment.decode('ascii') != manifest['source']:
+                raise RuntimeError('Exported source commit comment differs')
+        if len(inventory(stage)) != len(manifest['files']) or len(manifest['files']) != 540:
+            raise RuntimeError('Exported source file count differs')
+        for record in manifest['files']:
+            path = stage / record['path']
+            if not path.resolve().is_relative_to(stage.resolve()):
+                raise RuntimeError('Source manifest path escapes stage')
+            original = path.read_bytes()
+            observed = hashlib.sha256(original).hexdigest().upper()
+            row = {'path': record['path'], 'gitBlobExpectedSha256': record['gitBlobSha256'],
+                   'gitBlobObservedSha256': observed, 'gitBlobObservedBytes': len(original),
+                   'transform': record['stagingTransform'], 'qualifiedRawExpectedSha256': record['sha256']}
+            rows.append(row)
+            if observed != record['gitBlobSha256'] or len(original) != record['gitBlobBytes']:
+                raise RuntimeError('Exact Git source bytes differ: ' + record['path'])
+            if record['stagingTransform'] == 'identity':
+                qualified = original
+            elif record['stagingTransform'] == 'lf_to_crlf':
+                if b'\r' in original:
+                    raise RuntimeError('Unexpected carriage return in canonical Git source')
+                qualified = original.replace(b'\n', b'\r\n')
+                if qualified.replace(b'\r\n', b'\n') != original:
+                    raise RuntimeError('Declared source transform is not exactly invertible')
+            else:
+                raise RuntimeError('Undeclared source transformation')
+            actual = hashlib.sha256(qualified).hexdigest().upper()
+            row.update(qualifiedRawObservedSha256=actual, qualifiedRawObservedBytes=len(qualified))
+            if actual != record['sha256'] or len(qualified) != record['qualifiedRawBytes']:
+                raise RuntimeError('Reconstruction differs from qualified raw source: ' + record['path'])
+            if qualified != original:
+                path.write_bytes(qualified)
+        status = 'PASS_EXACT_SOURCE_BYTES_ONLY_NOT_RUNTIME_QUALIFICATION'
+    except Exception as exception:
+        failure = str(exception)
+        raise
+    finally:
+        save(receipt, {'status': status, 'source': manifest['source'],
+             'sourceArchiveSha256': digest(archive), 'manifestSha256': digest(HERE / 'SOURCE-MANIFEST.json'),
+             'rows': rows, 'failure': failure, 'runtimeStarted': False})
+
+
 def run(command, stem, seconds, state):
     """Every dotnet command has a private Windows job or bounded Linux container."""
     receipts = state['receipts']
@@ -197,12 +247,7 @@ def prepare(args):
         stage = work / 'source'
         stage.mkdir()
         unzip(Path(args.source_zip), stage)
-        closure = read(HERE / 'SOURCE-MANIFEST.json')
-        for record in closure['files']:
-            if digest(stage / record['path']) != record['sha256'].upper():
-                raise RuntimeError('Frozen native source mismatch: ' + record['path'])
-        if len(inventory(stage)) != 540:
-            raise RuntimeError('Frozen source file count differs')
+        derive_source(stage, Path(args.source_zip), root / 'SOURCE-DERIVATION.json')
         global_json = read(stage / 'global.json')
         global_json['sdk'] = {'version': '10.0.303', 'rollForward': 'disable', 'allowPrerelease': False}
         save(stage / 'global.json', global_json)
