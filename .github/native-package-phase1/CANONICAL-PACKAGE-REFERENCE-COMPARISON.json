@@ -1,0 +1,40 @@
+{
+  "projectReferences": [
+    {
+      "project": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-regression-plan-20261001\\canonical-metadata\\Source\\MQTTnet\\MQTTnet.csproj",
+      "packageReferences": []
+    },
+    {
+      "project": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-regression-plan-20261001\\canonical-metadata\\Source\\MQTTnet.AspNetCore\\MQTTnet.AspNetCore.csproj",
+      "packageReferences": []
+    },
+    {
+      "project": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-regression-plan-20261001\\canonical-metadata\\Source\\MQTTnet.Server\\MQTTnet.Server.csproj",
+      "packageReferences": []
+    },
+    {
+      "project": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-regression-plan-20261001\\canonical-metadata\\Source\\MQTTnet.Tests\\MQTTnet.Tests.csproj",
+      "packageReferences": [
+        {
+          "Include": "Microsoft.IO.RecyclableMemoryStream",
+          "Version": "3.0.1"
+        },
+        {
+          "Include": "MSTest",
+          "Version": "4.0.2"
+        }
+      ]
+    }
+  ],
+  "conditionalSymbolReferences": [
+    {
+      "Include": "Microsoft.SourceLink.GitHub",
+      "Version": "8.0.0",
+      "PrivateAssets": "All"
+    }
+  ],
+  "condition": "IncludeSymbols == true",
+  "sourceLinkRootMatches": true,
+  "separateAdditionsOnly": 3,
+  "baseClosureUnchanged": 24
+}

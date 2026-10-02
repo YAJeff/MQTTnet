@@ -1,0 +1,213 @@
+[
+  {
+    "archive": "C:\\corevar\\output\\mqttnet-scalability-review\\incoming-qos2\\client-negative-pubrec\\final-abfa18f5\\qualification\\packages\\MQTTnet.5.2.0-local.incoming.abfa18f5.nupkg",
+    "sha256": "E2CA46A7CC447D08E7D2F3D8E4629E73A770C151199D9D00E59B49F1C400A457",
+    "nuspecXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<package xmlns=\"http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd\">\n  <metadata>\n    <id>MQTTnet</id>\n    <version>5.2.0-local.incoming.abfa18f5</version>\n    <authors>The contributors of MQTTnet</authors>\n    <license type=\"file\">LICENSE</license>\n    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>\n    <icon>nuget.png</icon>\n    <projectUrl>https://github.com/dotnet/MQTTnet</projectUrl>\n    <description>MQTTnet is a high performance .NET library for MQTT based communication. It provides a MQTT client and a MQTT server (broker) and supports v3.1.0, v3.1.1 and v5.0.0 of the MQTT protocol.</description>\n    <releaseNotes>* Client: Late acknowledgement packets (PUBACK, PUBCOMP, SUBACK, UNSUBACK) for canceled or timed-out requests no longer trigger a protocol violation and tear down the connection (#2078, #2079)\n* Client: Add support for SOCKS5 proxies (#2251, thanks to @koepalex)\n* Client: Fixed keep alive ping send timeout disconnect handling (#2253, thanks to @suhashollakc)\n* Server: Fixed exposing Topic Alias to clients (#2250, thanks to @suhashollakc)</releaseNotes>\n    <copyright>Copyright (c) .NET Foundation and Contributors</copyright>\n    <tags>MQTT Message Queue Telemetry Transport MQTTClient MQTTServer Server MQTTBroker Broker NETStandard IoT InternetOfThings Messaging Hardware Arduino Sensor Actuator M2M ESP Smart Home Cities Automation Xamarin Blazor</tags>\n    <repository type=\"git\" url=\"https://github.com/dotnet/MQTTnet.git\" branch=\"refs/heads/fix/incoming-negative-pubrec\" commit=\"abfa18f51481d8e988689bdb9e0b597a1e45372b\" />\n    <dependencies>\n      <group targetFramework=\"net10.0\" />\n      <group targetFramework=\"net8.0\" />\n    </dependencies>\n  </metadata>\n</package>",
+    "metadataGroups": [
+      {
+        "tag": "license",
+        "attrib": {
+          "type": "file"
+        },
+        "text": "LICENSE"
+      },
+      {
+        "tag": "icon",
+        "attrib": {},
+        "text": "nuget.png"
+      },
+      {
+        "tag": "repository",
+        "attrib": {
+          "type": "git",
+          "url": "https://github.com/dotnet/MQTTnet.git",
+          "branch": "refs/heads/fix/incoming-negative-pubrec",
+          "commit": "abfa18f51481d8e988689bdb9e0b597a1e45372b"
+        },
+        "text": null
+      },
+      {
+        "tag": "group",
+        "attrib": {
+          "targetFramework": "net10.0"
+        },
+        "text": null
+      },
+      {
+        "tag": "group",
+        "attrib": {
+          "targetFramework": "net8.0"
+        },
+        "text": null
+      }
+    ]
+  },
+  {
+    "archive": "C:\\corevar\\output\\mqttnet-scalability-review\\incoming-qos2\\client-negative-pubrec\\final-abfa18f5\\qualification\\packages\\MQTTnet.AspNetCore.5.2.0-local.incoming.abfa18f5.nupkg",
+    "sha256": "052C562F3A8C0372EA69BC23AFC818AFB6728A753116997F01B8C9E43656E128",
+    "nuspecXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<package xmlns=\"http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd\">\n  <metadata>\n    <id>MQTTnet.AspNetCore</id>\n    <version>5.2.0-local.incoming.abfa18f5</version>\n    <authors>The contributors of MQTTnet</authors>\n    <license type=\"file\">LICENSE</license>\n    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>\n    <icon>nuget.png</icon>\n    <projectUrl>https://github.com/dotnet/MQTTnet</projectUrl>\n    <description>MQTTnet is a high performance .NET library for MQTT based communication. It provides a MQTT client and a MQTT server (broker) and supports v3.1.0, v3.1.1 and v5.0.0 of the MQTT protocol.</description>\n    <releaseNotes>For release notes please go to MQTTnet release notes (https://www.nuget.org/packages/MQTTnet/).</releaseNotes>\n    <copyright>Copyright (c) .NET Foundation and Contributors</copyright>\n    <tags>MQTT Message Queue Telemetry Transport MQTTClient MQTTServer Server MQTTBroker Broker NETStandard IoT InternetOfThings Messaging Hardware Arduino Sensor Actuator M2M ESP Smart Home Cities Automation Xamarin Blazor</tags>\n    <repository type=\"git\" url=\"https://github.com/dotnet/MQTTnet.git\" branch=\"refs/heads/fix/incoming-negative-pubrec\" commit=\"abfa18f51481d8e988689bdb9e0b597a1e45372b\" />\n    <dependencies>\n      <group targetFramework=\"net10.0\">\n        <dependency id=\"MQTTnet.Server\" version=\"5.2.0-local.incoming.abfa18f5\" exclude=\"Build,Analyzers\" />\n        <dependency id=\"MQTTnet\" version=\"5.2.0-local.incoming.abfa18f5\" exclude=\"Build,Analyzers\" />\n      </group>\n      <group targetFramework=\"net8.0\">\n        <dependency id=\"MQTTnet.Server\" version=\"5.2.0-local.incoming.abfa18f5\" exclude=\"Build,Analyzers\" />\n        <dependency id=\"MQTTnet\" version=\"5.2.0-local.incoming.abfa18f5\" exclude=\"Build,Analyzers\" />\n      </group>\n    </dependencies>\n    <frameworkReferences>\n      <group targetFramework=\"net10.0\">\n        <frameworkReference name=\"Microsoft.AspNetCore.App\" />\n      </group>\n      <group targetFramework=\"net8.0\">\n        <frameworkReference name=\"Microsoft.AspNetCore.App\" />\n      </group>\n    </frameworkReferences>\n  </metadata>\n</package>",
+    "metadataGroups": [
+      {
+        "tag": "license",
+        "attrib": {
+          "type": "file"
+        },
+        "text": "LICENSE"
+      },
+      {
+        "tag": "icon",
+        "attrib": {},
+        "text": "nuget.png"
+      },
+      {
+        "tag": "repository",
+        "attrib": {
+          "type": "git",
+          "url": "https://github.com/dotnet/MQTTnet.git",
+          "branch": "refs/heads/fix/incoming-negative-pubrec",
+          "commit": "abfa18f51481d8e988689bdb9e0b597a1e45372b"
+        },
+        "text": null
+      },
+      {
+        "tag": "group",
+        "attrib": {
+          "targetFramework": "net10.0"
+        },
+        "text": "\n        "
+      },
+      {
+        "tag": "dependency",
+        "attrib": {
+          "id": "MQTTnet.Server",
+          "version": "5.2.0-local.incoming.abfa18f5",
+          "exclude": "Build,Analyzers"
+        },
+        "text": null
+      },
+      {
+        "tag": "dependency",
+        "attrib": {
+          "id": "MQTTnet",
+          "version": "5.2.0-local.incoming.abfa18f5",
+          "exclude": "Build,Analyzers"
+        },
+        "text": null
+      },
+      {
+        "tag": "group",
+        "attrib": {
+          "targetFramework": "net8.0"
+        },
+        "text": "\n        "
+      },
+      {
+        "tag": "dependency",
+        "attrib": {
+          "id": "MQTTnet.Server",
+          "version": "5.2.0-local.incoming.abfa18f5",
+          "exclude": "Build,Analyzers"
+        },
+        "text": null
+      },
+      {
+        "tag": "dependency",
+        "attrib": {
+          "id": "MQTTnet",
+          "version": "5.2.0-local.incoming.abfa18f5",
+          "exclude": "Build,Analyzers"
+        },
+        "text": null
+      },
+      {
+        "tag": "group",
+        "attrib": {
+          "targetFramework": "net10.0"
+        },
+        "text": "\n        "
+      },
+      {
+        "tag": "frameworkReference",
+        "attrib": {
+          "name": "Microsoft.AspNetCore.App"
+        },
+        "text": null
+      },
+      {
+        "tag": "group",
+        "attrib": {
+          "targetFramework": "net8.0"
+        },
+        "text": "\n        "
+      },
+      {
+        "tag": "frameworkReference",
+        "attrib": {
+          "name": "Microsoft.AspNetCore.App"
+        },
+        "text": null
+      }
+    ]
+  },
+  {
+    "archive": "C:\\corevar\\output\\mqttnet-scalability-review\\incoming-qos2\\client-negative-pubrec\\final-abfa18f5\\qualification\\packages\\MQTTnet.Server.5.2.0-local.incoming.abfa18f5.nupkg",
+    "sha256": "D882B6727099305145430AF9DDFC0D0F8DAD5CC2C702545340A12DE09F3F5647",
+    "nuspecXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<package xmlns=\"http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd\">\n  <metadata>\n    <id>MQTTnet.Server</id>\n    <version>5.2.0-local.incoming.abfa18f5</version>\n    <authors>The contributors of MQTTnet</authors>\n    <license type=\"file\">LICENSE</license>\n    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>\n    <icon>nuget.png</icon>\n    <projectUrl>https://github.com/dotnet/MQTTnet</projectUrl>\n    <description>This is the server implementation of MQTTnet.</description>\n    <copyright>Copyright (c) .NET Foundation and Contributors</copyright>\n    <tags>MQTT Message Queue Telemetry Transport MQTTClient MQTTServer Server MQTTBroker Broker NETStandard IoT InternetOfThings Messaging Hardware Arduino Sensor Actuator M2M ESP Smart Home Cities Automation Xamarin Blazor</tags>\n    <repository type=\"git\" url=\"https://github.com/dotnet/MQTTnet.git\" branch=\"refs/heads/fix/incoming-negative-pubrec\" commit=\"abfa18f51481d8e988689bdb9e0b597a1e45372b\" />\n    <dependencies>\n      <group targetFramework=\"net10.0\">\n        <dependency id=\"MQTTnet\" version=\"5.2.0-local.incoming.abfa18f5\" exclude=\"Build,Analyzers\" />\n      </group>\n      <group targetFramework=\"net8.0\">\n        <dependency id=\"MQTTnet\" version=\"5.2.0-local.incoming.abfa18f5\" exclude=\"Build,Analyzers\" />\n      </group>\n    </dependencies>\n  </metadata>\n</package>",
+    "metadataGroups": [
+      {
+        "tag": "license",
+        "attrib": {
+          "type": "file"
+        },
+        "text": "LICENSE"
+      },
+      {
+        "tag": "icon",
+        "attrib": {},
+        "text": "nuget.png"
+      },
+      {
+        "tag": "repository",
+        "attrib": {
+          "type": "git",
+          "url": "https://github.com/dotnet/MQTTnet.git",
+          "branch": "refs/heads/fix/incoming-negative-pubrec",
+          "commit": "abfa18f51481d8e988689bdb9e0b597a1e45372b"
+        },
+        "text": null
+      },
+      {
+        "tag": "group",
+        "attrib": {
+          "targetFramework": "net10.0"
+        },
+        "text": "\n        "
+      },
+      {
+        "tag": "dependency",
+        "attrib": {
+          "id": "MQTTnet",
+          "version": "5.2.0-local.incoming.abfa18f5",
+          "exclude": "Build,Analyzers"
+        },
+        "text": null
+      },
+      {
+        "tag": "group",
+        "attrib": {
+          "targetFramework": "net8.0"
+        },
+        "text": "\n        "
+      },
+      {
+        "tag": "dependency",
+        "attrib": {
+          "id": "MQTTnet",
+          "version": "5.2.0-local.incoming.abfa18f5",
+          "exclude": "Build,Analyzers"
+        },
+        "text": null
+      }
+    ]
+  }
+]

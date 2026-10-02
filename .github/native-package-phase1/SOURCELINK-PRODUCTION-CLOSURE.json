@@ -1,0 +1,640 @@
+{
+  "status": "SOURCE_ONLY_OFFICIAL_ARCHIVES_NO_INSTALL_RESTORE_RUNTIME",
+  "root": "Microsoft.SourceLink.GitHub/8.0.0",
+  "dependencySelection": "All nuspec groups, minimum inclusive versions; exact closure sealed for later assets verification",
+  "archives": [
+    {
+      "id": "Microsoft.SourceLink.GitHub",
+      "version": "8.0.0",
+      "officialUrl": "https://api.nuget.org/v3-flatcontainer/microsoft.sourcelink.github/8.0.0/microsoft.sourcelink.github.8.0.0.nupkg",
+      "responseUrl": "https://api.nuget.org/v3-flatcontainer/microsoft.sourcelink.github/8.0.0/microsoft.sourcelink.github.8.0.0.nupkg",
+      "archivePath": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-phase1-20261001\\official-sourcelink-acquisition\\microsoft.sourcelink.github.8.0.0.nupkg",
+      "bytes": 330089,
+      "sha256": "84D4E4A4A7422D8E6422E3A6CE70F5998FA945D2743CABB61F2A725E883DBDBD",
+      "sha512": "1A46485ED34D76994C0EB761600400519EDCBFF97181F1BFF2A2666D432BD912527E82A267C8A9C13497417C6DC4C503FE63672EEA20C21FDFA857716E26DB9B",
+      "nuspecSha256": "4CE7964C29CC84EC5BF7C06BECD95112F8FDBCEEB67CA3D84BC44AD7090BC0D4",
+      "dependenciesAllGroups": [
+        {
+          "id": "Microsoft.SourceLink.Common",
+          "range": "8.0.0",
+          "selectedMinimumVersion": "8.0.0"
+        },
+        {
+          "id": "Microsoft.Build.Tasks.Git",
+          "range": "8.0.0",
+          "selectedMinimumVersion": "8.0.0"
+        }
+      ],
+      "members": [
+        {
+          "path": "_rels/.rels",
+          "bytes": 521,
+          "sha256": "5330E8D9BD6D08C55BBA233263245677304074DDCB3A563F4F9FA916E010F03B"
+        },
+        {
+          "path": "Microsoft.SourceLink.GitHub.nuspec",
+          "bytes": 1133,
+          "sha256": "4CE7964C29CC84EC5BF7C06BECD95112F8FDBCEEB67CA3D84BC44AD7090BC0D4"
+        },
+        {
+          "path": "Icon.png",
+          "bytes": 7006,
+          "sha256": "3356B59B6D9C24DB3A22398C0FB3430724052FE75AE5E8430EE8EDE2FB713356"
+        },
+        {
+          "path": "tools/net472/cs/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16304,
+          "sha256": "91BD5C8BA4A76929DA2071E467EE1DCA8B7B5DC30F73A2F4DB558F8F8DC382D1"
+        },
+        {
+          "path": "tools/net472/ja/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16936,
+          "sha256": "CBE565A4712B89ED813D19A84C16D8B42B0984E0B74CD3C4AA4D6B0048CC6260"
+        },
+        {
+          "path": "tools/net472/Microsoft.SourceLink.GitHub.dll",
+          "bytes": 36896,
+          "sha256": "6AA574237EC227A10FFB6B7B5627C2BF10BF2ECCEB925D551159910B5962CF80"
+        },
+        {
+          "path": "tools/net472/de/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16304,
+          "sha256": "F80FADD2D3093B9AA7B735BFC2929FC62937AE56357F6204ECFA211D1E8F284C"
+        },
+        {
+          "path": "tools/net472/ko/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16928,
+          "sha256": "6CBDAC00DD6B499B04FE863EB24C99935166C1D02AB4226CC85FF5C81499A86F"
+        },
+        {
+          "path": "tools/net472/es/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16320,
+          "sha256": "893A35DF4A5DCB50E7E3EE7ED5F2731A972EBE53457FFD5B4E952BD09B894588"
+        },
+        {
+          "path": "tools/net472/pl/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16928,
+          "sha256": "BD1872B31C4B32ADFF801C1494072662403F2EF36394A7AF676334FA7B756101"
+        },
+        {
+          "path": "tools/net472/fr/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "0A8A11380D09DACD0925FB37197637AF225E6B1F389B4A7917E00A43586F3714"
+        },
+        {
+          "path": "tools/net472/pt-BR/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "E493C19F615F507AEE1309F7D6721B1872BC8E1440BA96595682807925D16E32"
+        },
+        {
+          "path": "tools/net472/it/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "73E45DC6568288D15EEC7C80CE992B7B5159A7CC76D2F29C14C7F7D3E623FF2D"
+        },
+        {
+          "path": "tools/net472/ru/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16928,
+          "sha256": "C21D54347BC1D1E3A15ED63DBE0D8160BFAFBC28C6916A263856A6989BCEE587"
+        },
+        {
+          "path": "tools/net472/tr/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16304,
+          "sha256": "13B561CD26DDF625F131478798D5134100C7B10A009547C00424C460AB858B87"
+        },
+        {
+          "path": "tools/net472/zh-Hans/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "F61A544A3C785B4FAF1FD13280C8691CAC25724423497528E6E75976E0F65E17"
+        },
+        {
+          "path": "tools/net472/zh-Hant/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "F8A4CFDA2E144AEE29F55180BE037BC5A66ED70BC58902EE299497575BE03217"
+        },
+        {
+          "path": "tools/core/es/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "2AE6FB270B0F1E83E6E25171A098EA0D08A742AEC5423E22957EDD331B31DC3B"
+        },
+        {
+          "path": "tools/core/ko/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16832,
+          "sha256": "AF3C2C2C758F96C9A15793DDD3DB01A5ACAD0A2E3C9349E5B3D0F03BED27AB3B"
+        },
+        {
+          "path": "tools/core/tr/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "A76F918C6BDE5065F70F8489AFAFDF9A9BE0012D8C995107D6AC3C4192DE5DA1"
+        },
+        {
+          "path": "tools/core/Microsoft.SourceLink.GitHub.dll",
+          "bytes": 35872,
+          "sha256": "45AE5E7E07B60D3F0D500041833D9A294926B689ED6CE6088804C6C020BC6A95"
+        },
+        {
+          "path": "tools/core/fr/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "3CF7477D5A8104F03D7D93E004306280F86E9453079833DBDF757F66C99B40A4"
+        },
+        {
+          "path": "tools/core/pl/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16832,
+          "sha256": "C6D938EB030DE4A31E27AB5C691EC373C6891024CA584265B1B747B8E5737F10"
+        },
+        {
+          "path": "tools/core/zh-Hans/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "B5BC76B1C11A908CE80E1040ABC7982F53106252C25970C2C05A94201BE53B36"
+        },
+        {
+          "path": "tools/core/it/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16424,
+          "sha256": "A43D71F2EB45F9C6D3774363BC835C8F8CF9452D31D66940118A2D37B44C7BAD"
+        },
+        {
+          "path": "tools/core/pt-BR/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "3A6DBF51478642D82BE5081E4024481CDCEE85A8853CAF14F360F61DBBF5883C"
+        },
+        {
+          "path": "tools/core/zh-Hant/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16432,
+          "sha256": "54DF1F928676952E674B97A3A7CE044E11D7E162DEC025BB7D33181E51257DAF"
+        },
+        {
+          "path": "tools/core/cs/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16416,
+          "sha256": "DD61B5DB61A133E19754E9FE6E88275226CC0246644B6940CC6847F55A11C0DD"
+        },
+        {
+          "path": "tools/core/ja/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16928,
+          "sha256": "F7B7BDACECF085FD7E1B16F01106F6555F300B7045DC290DE659BFDD84464B11"
+        },
+        {
+          "path": "tools/core/ru/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16936,
+          "sha256": "0DDE556320521E72D5BB5D964F7165AD106ACD7103028723169EC47CA084A273"
+        },
+        {
+          "path": "tools/core/de/Microsoft.SourceLink.GitHub.resources.dll",
+          "bytes": 16424,
+          "sha256": "45FD656E55427F16F5543AE0AF72E43CA2BD9C6272ABBE6D37CEEA19812899FD"
+        },
+        {
+          "path": "build/Microsoft.SourceLink.GitHub.props",
+          "bytes": 362,
+          "sha256": "6625231658B424E76DD01BA887058E5155E897E3C89F79F14B78733255F7D5A8"
+        },
+        {
+          "path": "build/Microsoft.SourceLink.GitHub.targets",
+          "bytes": 3848,
+          "sha256": "1F55AEE598E9B23AB293A8FA2E9C34BEDC19D765951E4E2877A976899C3DB579"
+        },
+        {
+          "path": "buildMultiTargeting/Microsoft.SourceLink.GitHub.props",
+          "bytes": 295,
+          "sha256": "2DDB662297EBFB51E70BC61CA7695DC62124A1EDD342C82E87E6302CC03F016C"
+        },
+        {
+          "path": "buildMultiTargeting/Microsoft.SourceLink.GitHub.targets",
+          "bytes": 297,
+          "sha256": "61AF182D230365161E831FC573EAA7A2C9EA413E01CA2C446E3AA623E3EE37A1"
+        },
+        {
+          "path": "[Content_Types].xml",
+          "bytes": 660,
+          "sha256": "48932217F6F9988299BB4D07BDA87E14F4A459B922B09B975F1AEF23E1BA1F14"
+        },
+        {
+          "path": "package/services/metadata/core-properties/9370d0ba181b45adb2a98ad31481d36a.psmdcp",
+          "bytes": 708,
+          "sha256": "EEC55F32283DD871707D52DE122DAD0471ADCDC801E9A64CF78B11481C3D1D80"
+        },
+        {
+          "path": ".signature.p7s",
+          "bytes": 24210,
+          "sha256": "F9CFCA21B5506C6DDB8134B59E07573CC90D7F4149750C6A40A194933C68703C"
+        }
+      ]
+    },
+    {
+      "id": "Microsoft.SourceLink.Common",
+      "version": "8.0.0",
+      "officialUrl": "https://api.nuget.org/v3-flatcontainer/microsoft.sourcelink.common/8.0.0/microsoft.sourcelink.common.8.0.0.nupkg",
+      "responseUrl": "https://api.nuget.org/v3-flatcontainer/microsoft.sourcelink.common/8.0.0/microsoft.sourcelink.common.8.0.0.nupkg",
+      "archivePath": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-phase1-20261001\\official-sourcelink-acquisition\\microsoft.sourcelink.common.8.0.0.nupkg",
+      "bytes": 318281,
+      "sha256": "01F52A95E544A96B8713BCF684D8B038B9EAB81277B6E62D6E4746329A473977",
+      "sha512": "E1C18C1A5A3C83C1215AFF7348D6CA4731161F59EF2AAF286910BA7FF3984CA131B04E2F6BD3AE765367039E7489D30EAA298B06616CF9E013D86F5AEFB4023D",
+      "nuspecSha256": "223166BF724E5D50ED4D81407CF98B61BC9474DEE38677A9AB349932701E9BB1",
+      "dependenciesAllGroups": [],
+      "members": [
+        {
+          "path": "_rels/.rels",
+          "bytes": 521,
+          "sha256": "FB5687AF37480D7A42B97B266220FA66AF6BC4BB670C229C8637008D9465D657"
+        },
+        {
+          "path": "Microsoft.SourceLink.Common.nuspec",
+          "bytes": 953,
+          "sha256": "223166BF724E5D50ED4D81407CF98B61BC9474DEE38677A9AB349932701E9BB1"
+        },
+        {
+          "path": "Icon.png",
+          "bytes": 7006,
+          "sha256": "3356B59B6D9C24DB3A22398C0FB3430724052FE75AE5E8430EE8EDE2FB713356"
+        },
+        {
+          "path": "tools/net472/Microsoft.SourceLink.Common.dll",
+          "bytes": 27168,
+          "sha256": "116ED445FD48C8A54562BF8A6B17615C483488A9F62E94B8E5D7EC4BD755531E"
+        },
+        {
+          "path": "tools/net472/cs/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "4EB2910544327E799C24DE09BA1DF4BCFC33068CCB5E4B9329A4CBCEEEB532A9"
+        },
+        {
+          "path": "tools/net472/ja/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16408,
+          "sha256": "2BFDDCD9416295303D191AA4D43AEED0AE8B8EFCF3EE98AAF6BF0B745BD5F671"
+        },
+        {
+          "path": "tools/net472/de/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16432,
+          "sha256": "029F1D0098C3FB683F98D4C4A7E0F6CD47D360C161FFB85DE3731A9086332759"
+        },
+        {
+          "path": "tools/net472/ko/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16424,
+          "sha256": "772FEB99F039A09A6628DB3F29E6C3FB100D39E331EEF92288E34FBBB848E560"
+        },
+        {
+          "path": "tools/net472/es/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16432,
+          "sha256": "D63CFB7DF2B5DDBAE96B5FEBD44678E81C518159EDE3D16BDE3CE7A2B0BB60AF"
+        },
+        {
+          "path": "tools/net472/pl/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16424,
+          "sha256": "973ED80E7B6324130EBBB7D20F356DDB552642BFCC2FF4BDAF20428D4C7C34A3"
+        },
+        {
+          "path": "tools/net472/fr/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16432,
+          "sha256": "A7AE737F6A76F59BA535ADDA2C6A80CEBB3C74707E4FEFC5B36ACBDC02A669DD"
+        },
+        {
+          "path": "tools/net472/pt-BR/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "830C8727201758C2A7AC4877DF42637B3D4A102D2C6B3CC099C2A1F6DC8BD307"
+        },
+        {
+          "path": "tools/net472/it/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "D23180A6F0E47E28492B8F9454182E51D473EDE53818348195B5720A53B95662"
+        },
+        {
+          "path": "tools/net472/ru/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "BF5BE8AAD326E7AFD6D17CCBAA306EEC5AC93B6645ECDC8F3D5BF1F358D7789C"
+        },
+        {
+          "path": "tools/net472/tr/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 15896,
+          "sha256": "D059D566BA978D012D758965CF1A28E9DF6DD8E0A4914614DA8B23FB3076647E"
+        },
+        {
+          "path": "tools/net472/zh-Hans/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 15904,
+          "sha256": "35107E43A262F26B397110119DFE291E043F1AE26E69351D4BFE8BB107EAF209"
+        },
+        {
+          "path": "tools/net472/zh-Hant/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 15896,
+          "sha256": "A1796997B3C85B6DC560F4405455DD0571EA7EC9041692D3A5328C16A2629A17"
+        },
+        {
+          "path": "tools/core/tr/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 15904,
+          "sha256": "139AB024892FA9CD9A2EEC41D4A5E5C7BA2DC1867E18B91EF625EC24B1971E6E"
+        },
+        {
+          "path": "tools/core/Microsoft.SourceLink.Common.dll",
+          "bytes": 26144,
+          "sha256": "7DF139C4969A6B46963042F1C4813A58850A8B2CE5F3F661F647CCEA095C125D"
+        },
+        {
+          "path": "tools/core/es/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "48C62D289FFA9D07C7C6C79B6D692A7021E6CCB9CDB2BF5BA259BD5E28A87871"
+        },
+        {
+          "path": "tools/core/ko/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "2D765F78858AAA6FA4A14612964C3D32FAE4905A2708B74763B2E51B1F818554"
+        },
+        {
+          "path": "tools/core/zh-Hans/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 15808,
+          "sha256": "3C877807A369262AD6053D02AA28559642ADE214439D5E963429B8D8790FEA68"
+        },
+        {
+          "path": "tools/core/fr/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "B4ED4A7476A1339C24964BD59E3809D54364C899A0D0B10C5A65D21984C7CEA7"
+        },
+        {
+          "path": "tools/core/pl/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "D9D9733FC5187137A6FC5DFB183FC5E593E648E62FA9AB00621935BF6CA791B9"
+        },
+        {
+          "path": "tools/core/zh-Hant/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 15920,
+          "sha256": "0566B84E3579D9492329AB16480ECB1FE743EB3E01D1FE9A1E1AEA699B7A3840"
+        },
+        {
+          "path": "tools/core/cs/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "CC4AE4A0CC9CB5169FB773C48215B3024EFE3A5AF32C5FAB50002B9B1F3DC90E"
+        },
+        {
+          "path": "tools/core/it/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "D3FC58AC74CF2C0A52EC0A120D2D575FE3B94F2132D9756324F7C58FBEED4977"
+        },
+        {
+          "path": "tools/core/pt-BR/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "0A68B6DE4B104B6AEA7ABFC4B13FC7999D84188096C39AFE567906F1D813A7C8"
+        },
+        {
+          "path": "tools/core/de/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "E2B0AC3CDB2C70A9F716CB1F1D6EC30985562D7C6974EF8562D0EFF519F74C93"
+        },
+        {
+          "path": "tools/core/ja/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "9794A7F16421C878A5D94F34DDD2E5BC2436E4D9B6539FA8A6C3B2D1A86302B8"
+        },
+        {
+          "path": "tools/core/ru/Microsoft.SourceLink.Common.resources.dll",
+          "bytes": 16416,
+          "sha256": "6499FB75389399BD375D3308C64F4D36FB7971EDF0F30C5DB3ED73BCA118222C"
+        },
+        {
+          "path": "build/Microsoft.SourceLink.Common.props",
+          "bytes": 1428,
+          "sha256": "2AFD4618069EF32C4B9C2DD836182842F73044B9CBF29E2D36158BAF03875255"
+        },
+        {
+          "path": "build/Microsoft.SourceLink.Common.targets",
+          "bytes": 4319,
+          "sha256": "CA8B8CD0DBBBF71B4514161DA8267B36E6D569D2ACE8A0EBDAD05D36A968EE61"
+        },
+        {
+          "path": "build/InitializeSourceControlInformation.targets",
+          "bytes": 2593,
+          "sha256": "75AB2A42444513F851783E7246AB1F880FE2F3DA31050C34BEB440695EBE80F4"
+        },
+        {
+          "path": "buildMultiTargeting/Microsoft.SourceLink.Common.props",
+          "bytes": 295,
+          "sha256": "2DDB662297EBFB51E70BC61CA7695DC62124A1EDD342C82E87E6302CC03F016C"
+        },
+        {
+          "path": "buildMultiTargeting/Microsoft.SourceLink.Common.targets",
+          "bytes": 693,
+          "sha256": "7772A6BE7674689F4FC8E4E8692DCBE0C30E189B4646A0AF24ABCCB82CE0B1DE"
+        },
+        {
+          "path": "[Content_Types].xml",
+          "bytes": 660,
+          "sha256": "48932217F6F9988299BB4D07BDA87E14F4A459B922B09B975F1AEF23E1BA1F14"
+        },
+        {
+          "path": "package/services/metadata/core-properties/74f7ecb920204c51b1357804b35b38b5.psmdcp",
+          "bytes": 709,
+          "sha256": "1129F00F2B8BAC89E7F381246B779EE0F99C7A89DF97C62AF79DCB1AA17661A7"
+        },
+        {
+          "path": ".signature.p7s",
+          "bytes": 24209,
+          "sha256": "7C57369DB177E068DD95CAEE8FA7B548B1E94AC908B590C6DFFC292C57092115"
+        }
+      ]
+    },
+    {
+      "id": "Microsoft.Build.Tasks.Git",
+      "version": "8.0.0",
+      "officialUrl": "https://api.nuget.org/v3-flatcontainer/microsoft.build.tasks.git/8.0.0/microsoft.build.tasks.git.8.0.0.nupkg",
+      "responseUrl": "https://api.nuget.org/v3-flatcontainer/microsoft.build.tasks.git/8.0.0/microsoft.build.tasks.git.8.0.0.nupkg",
+      "archivePath": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-phase1-20261001\\official-sourcelink-acquisition\\microsoft.build.tasks.git.8.0.0.nupkg",
+      "bytes": 463717,
+      "sha256": "BD7EBF90F8A3F2F340BBC7FBAEBBC71E13EB369876D0872E7E6AC1819371A500",
+      "sha512": "0E4EECD441C4FB05E17AAAE4D63A75E43779E8DEF8EADDD95C4171F690B7DFE622E06E765DC74EBD21AD28427E271D14AD0BB2AF2E29BF13724E819F618DD188",
+      "nuspecSha256": "52B879B0E737CEB2F9D21BD3985524962F39D40A9C02D0895FA99132E317C3EC",
+      "dependenciesAllGroups": [],
+      "members": [
+        {
+          "path": "_rels/.rels",
+          "bytes": 519,
+          "sha256": "4A54F3662A3399DFB3110623D463537BDDC49AEF8584F3EE21EC082A1AF2ACD6"
+        },
+        {
+          "path": "Microsoft.Build.Tasks.Git.nuspec",
+          "bytes": 955,
+          "sha256": "52B879B0E737CEB2F9D21BD3985524962F39D40A9C02D0895FA99132E317C3EC"
+        },
+        {
+          "path": "Icon.png",
+          "bytes": 7006,
+          "sha256": "3356B59B6D9C24DB3A22398C0FB3430724052FE75AE5E8430EE8EDE2FB713356"
+        },
+        {
+          "path": "tools/net472/ja/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18992,
+          "sha256": "B5D41FF04DE46E5F9DBD5991BB6E2FF34DF0F981C7D085ABF4C2FF95F254DD0A"
+        },
+        {
+          "path": "tools/net472/Microsoft.Build.Tasks.Git.dll",
+          "bytes": 74792,
+          "sha256": "C57C33B430BFB58A28AD7883005F513B384653FEF396EC5C88602FFE7FEA5B7F"
+        },
+        {
+          "path": "tools/net472/cs/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18464,
+          "sha256": "9B30A72DC5362335FDAC949B9E30A29EDCCE8E004A20C99890CDAE98747573BF"
+        },
+        {
+          "path": "tools/net472/ko/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18864,
+          "sha256": "A99C3F939CC4F763ECC6C4EF764C4065EA34A01F7726ED2FE93D139433AE1662"
+        },
+        {
+          "path": "tools/net472/de/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18352,
+          "sha256": "0EC6013107BB9E2EADD2D50BFD26505CD51419E874F61A128EEC845B40D78E1B"
+        },
+        {
+          "path": "tools/net472/pl/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18992,
+          "sha256": "6F9146BBD3F20DB8B0FAFB841627A4C9EC7A1E8A4E8F4D11E6022A2A76E80A82"
+        },
+        {
+          "path": "tools/net472/es/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18352,
+          "sha256": "2455848B6925CADAA448C9A87C452770AE1325089ECDE0A3101E0C64D588F91C"
+        },
+        {
+          "path": "tools/net472/pt-BR/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18352,
+          "sha256": "30C5D26DED72DD0C74C103E80E06FBC5B0344420319EB8A7D2E08E2738A38BB4"
+        },
+        {
+          "path": "tools/net472/fr/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18464,
+          "sha256": "0B61A6A11CB1548A7634CB7B5024E7FB9121E45361910BF3E8C906F032518271"
+        },
+        {
+          "path": "tools/net472/ru/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 19376,
+          "sha256": "FFB3E2E8D6CCEA0605FB28A5045188702E780DBCC2744CA578889646008D710D"
+        },
+        {
+          "path": "tools/net472/it/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18480,
+          "sha256": "9930FB98006911EB7FA38695D27EB97591C98050B33F216033BDE52C7EF3ACFF"
+        },
+        {
+          "path": "tools/net472/tr/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18464,
+          "sha256": "29DA72B504BBAE03F3C7E7699E38B4E89835744D82341F1A92E0A75D7A7A20D7"
+        },
+        {
+          "path": "tools/net472/zh-Hans/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 17856,
+          "sha256": "3B80F17174F332AA87CC06AB4F432329C645E770BDBB04427FA6F4D5478D93C5"
+        },
+        {
+          "path": "tools/net472/zh-Hant/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 17960,
+          "sha256": "84A0A36AFC6E8F604220F0ED28C6E6F2AA6FFE750B76234C1BF1A2D044BD4C64"
+        },
+        {
+          "path": "tools/net472/System.Collections.Immutable.dll",
+          "bytes": 193664,
+          "sha256": "69E57AC412200E47FE7B5F933A30C594E1FC1517498C88920AABC702F5EA00A7"
+        },
+        {
+          "path": "tools/core/ko/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18864,
+          "sha256": "AC9A529D84EFBFB775DDEA92483A598D6B1597D4CC442FBA926E576610B6A849"
+        },
+        {
+          "path": "tools/core/tr/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18472,
+          "sha256": "4BADAD7D3C2E13895555B872D4408B4880C6FD3F5922B7E6D38D80917AB212F9"
+        },
+        {
+          "path": "tools/core/Microsoft.Build.Tasks.Git.dll",
+          "bytes": 74272,
+          "sha256": "DE29395639C76D730AFB19090B3ED756510616E0883D83DE67466DA8F63AA241"
+        },
+        {
+          "path": "tools/core/es/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18480,
+          "sha256": "0A0BD747436C84E8CCC823A853289109FFF71AD14C1A798376C301B018126604"
+        },
+        {
+          "path": "tools/core/pl/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18984,
+          "sha256": "237B383BB8EBF3F32B5EF0E968C3E70CD51F26BAF7E81FEEFE8296806C1E468A"
+        },
+        {
+          "path": "tools/core/zh-Hans/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 17952,
+          "sha256": "B6FC567B19890B6C8E0C6FF74D48E5207C01A90CC01C81BABEB91172700A3751"
+        },
+        {
+          "path": "tools/core/fr/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18352,
+          "sha256": "E0398C0EB19C7AC3F1229D3F093844C9A78EEF1D90737D0ABE84BCD40FF57DD0"
+        },
+        {
+          "path": "tools/core/pt-BR/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18464,
+          "sha256": "038018E4623CB7138EDE3F5D90BA8432F3B7E9424CDE0F527A87CDD71F4850BE"
+        },
+        {
+          "path": "tools/core/zh-Hant/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 17856,
+          "sha256": "795FCA0D0A595005DD9BC30F67A8E6088FC524DD3D11EB5EEAB20083A4636666"
+        },
+        {
+          "path": "tools/core/cs/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18352,
+          "sha256": "24D916FB7BF0575A4F0F7A07724D594C421937510EDAEC19CF8C42ED2A9A2C33"
+        },
+        {
+          "path": "tools/core/it/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18472,
+          "sha256": "37DF0510D137677E5A0926A4B4134BA339E13B9113D8C73591F0822FA88934F0"
+        },
+        {
+          "path": "tools/core/ru/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 19488,
+          "sha256": "7093A110C36B6376B612EB16CEC754801898458FF320B53D949B1FEE4580A06B"
+        },
+        {
+          "path": "tools/core/de/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18464,
+          "sha256": "8E269DF3256667FF68CCC40613B54E9A380E0D83FA57265E6CAC25874F96DC74"
+        },
+        {
+          "path": "tools/core/ja/Microsoft.Build.Tasks.Git.resources.dll",
+          "bytes": 18976,
+          "sha256": "736BB77F41F1F1B8DF4B3B2A78F29D3872A218BC6D149BE7CC3DAE03090A8F0F"
+        },
+        {
+          "path": "build/Microsoft.Build.Tasks.Git.targets",
+          "bytes": 3262,
+          "sha256": "40A9CBE6953117D9AEF3069464BF64A8D0AA08DC48E460BA0CDFE9603DFFD911"
+        },
+        {
+          "path": "build/Microsoft.Build.Tasks.Git.props",
+          "bytes": 665,
+          "sha256": "961813251F47A85A0928FCF33A8018CA6FDF9F3D122D8C790A2799255D690ABD"
+        },
+        {
+          "path": "buildMultiTargeting/Microsoft.Build.Tasks.Git.props",
+          "bytes": 295,
+          "sha256": "2DDB662297EBFB51E70BC61CA7695DC62124A1EDD342C82E87E6302CC03F016C"
+        },
+        {
+          "path": "buildMultiTargeting/Microsoft.Build.Tasks.Git.targets",
+          "bytes": 297,
+          "sha256": "61AF182D230365161E831FC573EAA7A2C9EA413E01CA2C446E3AA623E3EE37A1"
+        },
+        {
+          "path": "[Content_Types].xml",
+          "bytes": 660,
+          "sha256": "73DB8AA033F777AEA5E31416D074F0963F3BA89DDAFC220DEA673992E727E9CB"
+        },
+        {
+          "path": "package/services/metadata/core-properties/cf61fb586b5f4224a0878268b94bec2c.psmdcp",
+          "bytes": 711,
+          "sha256": "6BAF19E28E86261E645D1DD2E70DEED05E17AF396B638472F678D832973F7B92"
+        },
+        {
+          "path": ".signature.p7s",
+          "bytes": 24210,
+          "sha256": "D75E2221020D15C83187545A300F83A230009963F3DC640053F7DF3FC0675FC5"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5033 @@
+{
+  "source": "24208d37d9bb9804f2c78b8d023ec1709d47e0f3",
+  "classes": [
+    {
+      "path": "Source/MQTTnet.Tests/ASP/MqttConnectionContextTest.cs",
+      "bytes": 5033,
+      "sha256": "F5AEE8207DFCC9360AA02DC1850BDA816D54C594125B8110A80BEFFD7F755FC3",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.ASP.MqttConnectionContextTest.TestCorruptedConnectPacket",
+          "line": 20,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.ASP.MqttConnectionContextTest.TestEndpoint",
+          "line": 39,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.ASP.MqttConnectionContextTest.TestParallelWrites",
+          "line": 69,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.ASP.MqttConnectionContextTest.TestLargePacket",
+          "line": 89,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.ASP.MqttConnectionContextTest.TestReceivePacketAsyncThrowsWhenReaderCompleted",
+          "line": 104,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/ASP/ReaderExtensionsTest.cs",
+      "bytes": 1510,
+      "sha256": "0F3874004A1805C7C47F8E9B66564CE51BD5374F54B8AAE9042987EA85318CD8",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.ASP.ReaderExtensionsTest.TestTryDeserialize",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Clients/LowLevelMqttClient/LowLevelMqttClient_Tests.cs",
+      "bytes": 6811,
+      "sha256": "2C6CFD6D6D476AE28F3DD4799A540380F095FFA7654EC7D8EB8660DA0483A62A",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.LowLevelMqttClient.LowLevelMqttClient_Tests.Authenticate",
+          "line": 19,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.LowLevelMqttClient.LowLevelMqttClient_Tests.Connect_And_Disconnect",
+          "line": 38,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.LowLevelMqttClient.LowLevelMqttClient_Tests.Connect_To_Not_Existing_Broker",
+          "line": 51,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.LowLevelMqttClient.LowLevelMqttClient_Tests.Connect_To_Wrong_Host",
+          "line": 63,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.LowLevelMqttClient.LowLevelMqttClient_Tests.Loose_Connection",
+          "line": 75,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.LowLevelMqttClient.LowLevelMqttClient_Tests.Maintain_IsConnected_Property",
+          "line": 111,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.LowLevelMqttClient.LowLevelMqttClient_Tests.Subscribe",
+          "line": 151,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Clients/MqttClient/MqttClient_Connection_Tests.cs",
+      "bytes": 10986,
+      "sha256": "2888A2EB621B4E3D01D439CD06BC9D97BAE2CF808F1AF22B72D906A874E0BE7B",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.Connect_To_Invalid_Server_Port_Not_Opened",
+          "line": 20,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.Connect_To_Invalid_Server_Wrong_IP",
+          "line": 31,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.Connect_To_Invalid_Server_Wrong_Protocol",
+          "line": 42,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.ConnectTimeout_Throws_Exception",
+          "line": 52,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.Disconnect_Clean",
+          "line": 80,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.Disconnect_Clean_With_Custom_Reason",
+          "line": 106,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.Disconnect_Clean_With_User_Properties",
+          "line": 132,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.Use_Enhanced_Authentication",
+          "line": 191,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.No_Unobserved_Exception",
+          "line": 228,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.Return_Non_Success",
+          "line": 256,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Connection_Tests.Throw_Proper_Exception_When_Not_Connected",
+          "line": 281,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Clients/MqttClient/MqttClient_Tests.cs",
+      "bytes": 36992,
+      "sha256": "A535C03EBA93ADF8382E9049FBC6187CCB3D529579194F5EC0E91BE40ECF2022",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Concurrent_Processing",
+          "line": 28,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Connect_Disconnect_Connect",
+          "line": 70,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Connect_Multiple_Times_Should_Fail",
+          "line": 84,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Disconnect_Event_Contains_Exception",
+          "line": 100,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Ensure_Queue_Drain",
+          "line": 128,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Fire_Disconnected_Event_On_Server_Shutdown",
+          "line": 167,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Frequent_Connects",
+          "line": 188,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Invalid_Connect_Throws_Exception",
+          "line": 233,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.No_Payload",
+          "line": 252,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.NoConnectedHandler_Connect_DoesNotThrowException",
+          "line": 289,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.NoDisconnectedHandler_Disconnect_DoesNotThrowException",
+          "line": 300,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.PacketIdentifier_In_Publish_Result",
+          "line": 313,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Preserve_Message_Order",
+          "line": 339,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Preserve_Message_Order_With_Delayed_Acknowledgement",
+          "line": 382,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Publish_QoS_0_Over_Period_Exceeding_KeepAlive",
+          "line": 431,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.KeepAlive_Ping_Send_Timeout_Raises_Disconnected",
+          "line": 461,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Publish_QoS_1_In_ApplicationMessageReceiveHandler",
+          "line": 489,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Publish_With_Correct_Retain_Flag",
+          "line": 531,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Reconnect",
+          "line": 562,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Reconnect_From_Disconnected_Event",
+          "line": 583,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Reconnect_While_Server_Offline",
+          "line": 622,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Send_Manual_Ping",
+          "line": 658,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Send_Reply_For_Any_Received_Message",
+          "line": 668,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Send_Reply_In_Message_Handler",
+          "line": 712,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Send_Reply_In_Message_Handler_For_Same_Client",
+          "line": 757,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Set_ClientWasConnected_On_ClientDisconnect",
+          "line": 791,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Set_ClientWasConnected_On_ServerDisconnect",
+          "line": 809,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Subscribe_In_Callback_Events",
+          "line": 828,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Subscribe_With_QoS2",
+          "line": 866,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Cancelled_Publish_Does_Not_Disconnect_Client",
+          "line": 911,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClient.MqttClient_Tests.Concurrent_Publish_From_Multiple_Threads",
+          "line": 957,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Clients/MqttClientOptionsBuilder_Tests.cs",
+      "bytes": 731,
+      "sha256": "15A96E242E704273EA4FC45EF003BA326DBCB86D54156F776B804D99E338CF02",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Clients.MqttClientOptionsBuilder_Tests.WithConnectionUri_Credential_Test",
+          "line": 11,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Diagnostics/Logger_Tests.cs",
+      "bytes": 2035,
+      "sha256": "BEF388AC1516C7C46FA9707DC69903ECB9FD2F1C36F4F301F3F8F50E151DF399",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Diagnostics.Logger_Tests.Log_Without_Source",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Diagnostics.Logger_Tests.Root_Log_Messages",
+          "line": 29,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Diagnostics.Logger_Tests.Use_Custom_Log_Id",
+          "line": 47,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Diagnostics/PacketInspection_Tests.cs",
+      "bytes": 1520,
+      "sha256": "F3D06E16AB77AD854DFE38E1CD97D4181644E3F9F2D4FA3CF15D475648A674BA",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Diagnostics.PacketInspection_Tests.Inspect_Client_Packets",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Diagnostics/SourceLogger_Tests.cs",
+      "bytes": 837,
+      "sha256": "E5A09BE32C139142FE5E1251765E745949ACA0299D582598658A64D8051B7C3E",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Diagnostics.SourceLogger_Tests.Log_With_Source",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Exceptions/MqttProtocolViolationException_Tests.cs",
+      "bytes": 809,
+      "sha256": "9E54950D74B7F34E2FF43889066D8CCFF80EDF2FC860FE7D1900A6FA90CCEE7C",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Exceptions.MqttProtocolViolationException_Tests.No_For_Max_Large_Variable_Byte_Integer",
+          "line": 12,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Exceptions.MqttProtocolViolationException_Tests.Throw_Exception_For_Too_Large_Variable_Byte_Integer",
+          "line": 18,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Extensions/MqttTopicTemplate_Tests.cs",
+      "bytes": 8776,
+      "sha256": "20AA44127F12D26450B3CE6FA3FB66CB2DFF87794DD4AA3A1115BEBD2EAED18F",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.AcceptsEmptyValue",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.AcceptsValidTopics",
+          "line": 21,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.BasicOps",
+          "line": 33,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.BasicOpsWithHash",
+          "line": 48,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.CanonicalPrefixFilter",
+          "line": 58,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.CanonicalPrefixFilterSimple1",
+          "line": 82,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.CanonicalPrefixFilterSimple2",
+          "line": 95,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.CanonicalPrefixFilterSimple3",
+          "line": 107,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.CanonicalPrefixFilterSimple4",
+          "line": 120,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.CanonicalPrefixFilterSimple5",
+          "line": 133,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.CanonicalPrefixFilterSimple6",
+          "line": 146,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.DynamicRoutingSupport",
+          "line": 159,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.IgnoresEmptyParameters",
+          "line": 172,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.RejectsEmptyTemplate",
+          "line": 179,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.RejectsNullTemplate",
+          "line": 185,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.RejectsReservedChars1",
+          "line": 191,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.RejectsReservedChars2",
+          "line": 201,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.RejectsReservedChars3",
+          "line": 211,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.SendAndSubscribeSupport",
+          "line": 221,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.SendAndSubscribeSupport2",
+          "line": 237,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.SubscriptionSupport",
+          "line": 244,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.MqttTopicTemplate_Tests.SubscriptionSupport2",
+          "line": 253,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Extensions/Rpc_Tests.cs",
+      "bytes": 10097,
+      "sha256": "59B454B7C2C217400A1904CD4FE6EC4BC21AFA3FCFCE66FD3FF66840450C7EB8",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_MQTT_V5_Mixed_Clients",
+          "line": 19,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_Parameters_Propagated_Correctly",
+          "line": 41,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_With_QoS_0",
+          "line": 65,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_With_QoS_0_MQTT_V5",
+          "line": 71,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_With_QoS_0_MQTT_V5_Use_ResponseTopic",
+          "line": 77,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_With_QoS_1",
+          "line": 83,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_With_QoS_1_MQTT_V5",
+          "line": 89,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_With_QoS_1_MQTT_V5_Use_ResponseTopic",
+          "line": 95,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_With_QoS_2",
+          "line": 101,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_With_QoS_2_MQTT_V5",
+          "line": 107,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Success_With_QoS_2_MQTT_V5_Use_ResponseTopic",
+          "line": 113,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Timeout",
+          "line": 120,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_Timeout_MQTT_V5_Mixed_Clients",
+          "line": 135,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Execute_With_Custom_Topic_Names",
+          "line": 158,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Extensions.Rpc_Tests.Use_Factory",
+          "line": 172,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Factory/MqttFactory_Tests.cs",
+      "bytes": 2350,
+      "sha256": "476F5216934250BE5B7FB5993EBB6D4973E3EAC07B2D4F1A8995BA36DBBB5AC7",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Factory.MqttFactory_Tests.Create_ApplicationMessageBuilder",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Factory.MqttFactory_Tests.Create_ClientOptionsBuilder",
+          "line": 22,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Factory.MqttFactory_Tests.Create_ServerOptionsBuilder",
+          "line": 31,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Factory.MqttFactory_Tests.Create_SubscribeOptionsBuilder",
+          "line": 40,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Factory.MqttFactory_Tests.Create_UnsubscribeOptionsBuilder",
+          "line": 49,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Factory.MqttFactory_Tests.Create_TopicFilterBuilder",
+          "line": 58,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Factory.MqttFactory_Tests.Create_MqttServer",
+          "line": 67,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Factory.MqttFactory_Tests.Create_MqttClient",
+          "line": 76,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Factory.MqttFactory_Tests.Create_LowLevelMqttClient",
+          "line": 85,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttBufferReader_Tests.cs",
+      "bytes": 12062,
+      "sha256": "34B3DEC6E62925C713DE41D43303C40C7972D1589D20B2DC637F8A65409406F2",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttBufferReader_Tests.Fire_Exception_If_Not_Enough_Data",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttBufferReader_Tests.Fire_Exception_If_Not_Enough_Data_With_Longer_Buffer",
+          "line": 32,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttBufferReader_Tests.Is_EndOfStream_Without_Buffer",
+          "line": 50,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttBufferReader_Tests.Read_Remaining_Data_From_Larger_Buffer",
+          "line": 59,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttBufferReader_Tests.Read_Various_Positions_and_Offsets",
+          "line": 78,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttBufferReader_Tests.Report_Correct_Length_For_Full_Buffer",
+          "line": 244,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttBufferReader_Tests.Report_Correct_Length_For_Partial_End_Buffer",
+          "line": 256,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttBufferReader_Tests.Report_Correct_Length_For_Partial_Start_Buffer",
+          "line": 270,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttPacketSerialization_V3_Binary_Tests.cs",
+      "bytes": 18519,
+      "sha256": "F7A0F2F56B649FDEC2A1E446E6AE3E0D66AD37A246CD29650F394253D3464D9B",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV310_MqttConnAckPacket",
+          "line": 21,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttConnAckPacket",
+          "line": 32,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttConnectPacket",
+          "line": 44,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttConnectPacketWithWillMessage",
+          "line": 59,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttPubAckPacket",
+          "line": 79,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttPubCompPacket",
+          "line": 90,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttPublishPacket",
+          "line": 101,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttPublishPacket_DupFalse",
+          "line": 117,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttPublishPacket_Qos1",
+          "line": 130,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttPublishPacket_Qos2",
+          "line": 144,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttPublishPacket_Qos3",
+          "line": 159,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttPubRecPacket",
+          "line": 174,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttPubRelPacket",
+          "line": 185,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttSubAckPacket",
+          "line": 196,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttSubscribePacket",
+          "line": 214,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttUnsubAckPacket",
+          "line": 231,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DeserializeV311_MqttUnsubscribePacket",
+          "line": 242,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.DetectVersionFromMqttConnectPacket",
+          "line": 257,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.Serialize_LargePacket",
+          "line": 294,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV310_MqttConnAckPacket",
+          "line": 339,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV310_MqttConnectPacket",
+          "line": 350,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttConnAckPacket",
+          "line": 365,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttConnectPacket",
+          "line": 377,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttConnectPacketWithWillMessage",
+          "line": 392,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttDisconnectPacket",
+          "line": 412,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttPingReqPacket",
+          "line": 418,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttPingRespPacket",
+          "line": 424,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttPubAckPacket",
+          "line": 430,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttPubCompPacket",
+          "line": 441,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttPublishPacket",
+          "line": 452,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttPubRecPacket",
+          "line": 468,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttPubRelPacket",
+          "line": 479,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttSubAckPacket",
+          "line": 490,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttSubscribePacket",
+          "line": 508,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttUnsubAckPacket",
+          "line": 523,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Binary_Tests.SerializeV311_MqttUnsubscribePacket",
+          "line": 534,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttPacketSerialization_V3_Tests.cs",
+      "bytes": 21623,
+      "sha256": "B7D5FBD14878685843F2B1E05FAE1533D28A12D39C33C757D1ECC2DDDA2F66C7",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttAuthPacket_V311",
+          "line": 18,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttConnAckPacket_V311",
+          "line": 25,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttConnAckPacket_V310",
+          "line": 76,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttConnectPacket_V311",
+          "line": 127,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttDisconnectPacket_V311",
+          "line": 190,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttPingReqPacket_V311",
+          "line": 211,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttPingRespPacket_V311",
+          "line": 221,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttPubAckPacket_V311",
+          "line": 231,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttPubCompPacket_V311",
+          "line": 250,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttPublishPacket_V311",
+          "line": 270,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttPubRecPacket_V311",
+          "line": 309,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttPubRelPacket_V311",
+          "line": 329,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttSubAckPacket_V311",
+          "line": 349,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttSubscribePacket_V311",
+          "line": 369,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttUnsubAckPacket_V311",
+          "line": 403,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V3_Tests.Serialize_Full_MqttUnsubscribePacket_V311",
+          "line": 422,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttPacketSerialization_V5_Tests.cs",
+      "bytes": 20694,
+      "sha256": "5D2B2B64868CA0DA3951904E06DD537BE6B4D5CB43B326068C6DC32717D2FF9C",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Empty_Auth_Packet_Is_Success",
+          "line": 17,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttAuthPacket_V500",
+          "line": 27,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttConnAckPacket_V500",
+          "line": 48,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttConnectPacket_V500",
+          "line": 99,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttDisconnectPacket_V500",
+          "line": 162,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttPingReqPacket_V500",
+          "line": 183,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttPingRespPacket_V500",
+          "line": 193,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttPubAckPacket_V500",
+          "line": 203,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttPubCompPacket_V500",
+          "line": 222,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttPublishPacket_V500",
+          "line": 241,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttPubRecPacket_V500",
+          "line": 280,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttPubRelPacket_V500",
+          "line": 299,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttSubAckPacket_V500",
+          "line": 318,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttSubscribePacket_V500",
+          "line": 338,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttUnsubAckPacket_V500",
+          "line": 372,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketSerialization_V5_Tests.Serialize_Full_MqttUnsubscribePacket_V500",
+          "line": 392,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttPacketWriter_Tests.cs",
+      "bytes": 3159,
+      "sha256": "7F2133BDA8E16F474E2F22BCBC4532543D17364259C66293C917F0072A6DD132",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketWriter_Tests.Reset_After_Usage",
+          "line": 10,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketWriter_Tests.Use_All_Data_Types",
+          "line": 26,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketWriter_Tests.Throw_If_String_Too_Long",
+          "line": 50,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttPacketWriter_Tests.Write_And_Read_Multiple_Times",
+          "line": 61,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttV5PublishPropertyValidation_Tests.cs",
+      "bytes": 1480,
+      "sha256": "63D8FF2664A72AD8D78762AAA9EA94567271556B77BFA4A707A4E32890FDAEEE",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttV5PublishPropertyValidation_Tests.Publish_Rejects_Duplicate_Singleton_Property",
+          "line": 14,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttV5PublishPropertyValidation_Tests.Publish_Allows_Repeated_Subscription_Identifiers_And_User_Properties",
+          "line": 29,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttV5SubscribeIdentifier_Tests.cs",
+      "bytes": 2558,
+      "sha256": "86BD648FFE6ECD26365B4FDE09B6CDF458F7704C7CE30EE058560F0909FEBB07",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttV5SubscribeIdentifier_Tests.Reject_Invalid_Subscription_Identifier",
+          "line": 16,
+          "staticDataRows": 4,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttV5SubscribeIdentifier_Tests.Accept_Valid_Subscription_Identifier",
+          "line": 29,
+          "staticDataRows": 4,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttV5SubscribeIdentifier_Tests.Accept_Same_Identifier_In_Separate_Subscribe_Packets",
+          "line": 43,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttV5SubscribeIdentifier_Tests.Accept_Repeated_Subscription_Identifiers_In_Publish",
+          "line": 54,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Formatter/MqttWillTopicValidation_Tests.cs",
+      "bytes": 3156,
+      "sha256": "34948F65917CCAE6AA0BCE10FFEF1F593435BBE7A71C1658C63F6C6DF2C4C32F",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttWillTopicValidation_Tests.Reject_Invalid_Will_Topic",
+          "line": 17,
+          "staticDataRows": 8,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttWillTopicValidation_Tests.Accept_Valid_Will_Topic",
+          "line": 35,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Formatter.MqttWillTopicValidation_Tests.Server_Rejects_Wildcard_Will_Before_Accepting_Connection",
+          "line": 52,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/AsyncEvent_Tests.cs",
+      "bytes": 3532,
+      "sha256": "F2FF411F7B926A1E4136E74CC176CE525189232637289D2169D7BE67D297ACB8",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncEvent_Tests.Attach_and_Detach_Sync_And_Async_EventHandler",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncEvent_Tests.Attach_EventHandler",
+          "line": 37,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncEvent_Tests.Attach_Sync_And_Async_EventHandler",
+          "line": 49,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncEvent_Tests.Detach_EventHandler",
+          "line": 62,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncEvent_Tests.Has_Handlers",
+          "line": 75,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncEvent_Tests.No_Handlers",
+          "line": 84,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncEvent_Tests.Remove_Handlers",
+          "line": 92,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/AsyncLock_Tests.cs",
+      "bytes": 7703,
+      "sha256": "42C6FF4EDEE9D90CA7A01B22D53B773E0870ADD9B9E516F0DBC519B1C5770778",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncLock_Tests.Cancellation_Of_Awaiter",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncLock_Tests.Lock_10_Parallel_Tasks_With_Dispose_Doesnt_Lockup",
+          "line": 99,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncLock_Tests.Lock_Parallel_Tasks",
+          "line": 142,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncLock_Tests.Lock_Serial_Calls",
+          "line": 171,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncLock_Tests.Test_Cancellation",
+          "line": 188,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncLock_Tests.Test_Cancellation_With_Later_Access",
+          "line": 203,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncLock_Tests.Use_After_Cancellation",
+          "line": 231,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/AsyncQueue_Tests.cs",
+      "bytes": 3572,
+      "sha256": "4AFEFF13CF8FC1CF86F6062731F78A307B8C1E312CDD99F67B78C41098098D66",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncQueue_Tests.Preserve_Order",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncQueue_Tests.Count",
+          "line": 26,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncQueue_Tests.Cancellation",
+          "line": 41,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncQueue_Tests.Process_Async",
+          "line": 55,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncQueue_Tests.Process_Async_With_Initial_Delay",
+          "line": 82,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncQueue_Tests.Dequeue_Sync",
+          "line": 112,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncQueue_Tests.Clear",
+          "line": 125,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/AsyncSignal_Tests.cs",
+      "bytes": 3697,
+      "sha256": "A4B548DF25D485E9225ADFF91F75666CF20081E1E10895C98223236E51A2965E",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncSignal_Tests.Cancel_If_No_Signal",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncSignal_Tests.Dispose_Properly",
+          "line": 28,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncSignal_Tests.Reset_Signal",
+          "line": 51,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncSignal_Tests.Signal",
+          "line": 79,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.AsyncSignal_Tests.Fail_For_Two_Waiters",
+          "line": 103,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/BlockingQueue_Tests.cs",
+      "bytes": 3582,
+      "sha256": "02F2E641C73C9B2BF63467CF917B5BD6AAEE5172D34C152D7FE935ADA93E02BC",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.BlockingQueue_Tests.Preserve_Order",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.BlockingQueue_Tests.Remove_First_Items",
+          "line": 28,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.BlockingQueue_Tests.Clear_Items",
+          "line": 44,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.BlockingQueue_Tests.Wait_For_Item",
+          "line": 59,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.BlockingQueue_Tests.Wait_For_Items",
+          "line": 85,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.BlockingQueue_Tests.Use_Disposed_Queue",
+          "line": 110,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/CrossPlatformSocket_Tests.cs",
+      "bytes": 3043,
+      "sha256": "33C03774A350B5FB568D50F333E81195B515C92CA1D41D83940DC4A44DD10B62",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Connect_Send_Receive",
+          "line": 16,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Try_Connect_Invalid_Host",
+          "line": 34,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Use_Disconnected_Socket",
+          "line": 48,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Set_Options",
+          "line": 66,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/MqttPacketBusItem_Tests.cs",
+      "bytes": 4912,
+      "sha256": "B51F220DF6C540502C49C4D2D2C56A05A5ECC0B2675F61C75F35F42F281081E4",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBusItem_Tests.Failure_Without_Waiter_Does_Not_Raise_Unobserved_Exception",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBusItem_Tests.Failure_Propagates_To_Existing_And_Late_Waiters",
+          "line": 65,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBusItem_Tests.Failure_Does_Not_Change_An_Already_Completed_Item",
+          "line": 83,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBusItem_Tests.Fire_Completed_Event",
+          "line": 124,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBusItem_Tests.Wait_Packet_Bus_Item_After_Already_Canceled",
+          "line": 140,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Internal/MqttPacketBus_Tests.cs",
+      "bytes": 7196,
+      "sha256": "C815956AC05C92E517AD6AEE75C2C24BBE43C5B9BA9D44DFC5D550D16FF8D52B",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBus_Tests.Blocked_Data_Does_Not_Block_Control_And_Resumes_On_Signal",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBus_Tests.Blocked_Data_Wait_Is_Cancellable",
+          "line": 33,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBus_Tests.Alternate_Priorities",
+          "line": 45,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBus_Tests.Await_Single_Packet",
+          "line": 77,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBus_Tests.Export_Packets_Without_Dequeue",
+          "line": 113,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBus_Tests.Fill_From_Different_Task",
+          "line": 136,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.MqttPacketBus_Tests.Wait_With_Empty_Bus",
+          "line": 165,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MQTTv5/Client_Tests.cs",
+      "bytes": 13768,
+      "sha256": "8961EA267201841F0C6DD8853CD153CD1B650436EFC34ED8D5EBAF4FFA19E35B",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Connect",
+          "line": 20,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Connect_And_Disconnect",
+          "line": 28,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Connect_With_New_Mqtt_Features",
+          "line": 38,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Publish_And_Receive_New_Properties",
+          "line": 81,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Publish_QoS_0",
+          "line": 126,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Publish_QoS_0_LargeBuffer",
+          "line": 139,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Publish_QoS_1",
+          "line": 153,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Publish_QoS_1_LargeBuffer",
+          "line": 166,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Publish_QoS_2",
+          "line": 180,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Publish_QoS_2_LargeBuffer",
+          "line": 193,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Publish_With_Properties",
+          "line": 207,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Publish_With_RecyclableMemoryStream",
+          "line": 233,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Subscribe",
+          "line": 269,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Subscribe_And_Publish",
+          "line": 293,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Client_Tests.Unsubscribe",
+          "line": 319,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MQTTv5/Server_Tests.cs",
+      "bytes": 7766,
+      "sha256": "CEB9448918908338B8D912C2DFF65B35AAA60A1D9240434F6F1DF8FDC13FFE54",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Server_Tests.Will_Message_Send",
+          "line": 17,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Server_Tests.Validate_IsSessionPresent",
+          "line": 44,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Server_Tests.Connect_with_Undefined_SessionExpiryInterval",
+          "line": 79,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Server_Tests.Reconnect_with_different_SessionExpiryInterval",
+          "line": 116,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MQTTv5.Server_Tests.Disconnect_with_Reason",
+          "line": 166,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttApplicationMessageBuilder_Tests.cs",
+      "bytes": 5068,
+      "sha256": "0664A4A8458B60CCCDF8AE955E8440B6FEC0A9731B492B54E95BD634365D04A3",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageBuilder_Tests.CreateApplicationMessage_TopicOnly",
+          "line": 19,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageBuilder_Tests.CreateApplicationMessage_TimeStampPayload",
+          "line": 28,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageBuilder_Tests.CreateApplicationMessage_StreamPayload",
+          "line": 38,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageBuilder_Tests.CreateApplicationMessage_Retained",
+          "line": 50,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageBuilder_Tests.CreateApplicationMessage_QosLevel2",
+          "line": 59,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageBuilder_Tests.CreateApplicationMessage_UserProperty_ReadOnlyMemoryValue",
+          "line": 68,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageBuilder_Tests.CreateApplicationMessage_UserProperty_ArraySegmentValue",
+          "line": 84,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageBuilder_Tests.WriteUserProperty_FromBinaryBuffer_EqualsStringEncoding",
+          "line": 100,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttApplicationMessageValidator_Tests.cs",
+      "bytes": 1643,
+      "sha256": "83483BAED811A8C1955E9C2E1CE652F6A85C71A4EF02EF3573B0BC8B99789DBA",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageValidator_Tests.Succeed_When_Using_TopicAlias_And_MQTT_311",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageValidator_Tests.Succeed_When_Using_TopicAlias_And_MQTT_500",
+          "line": 21,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageValidator_Tests.Succeed_When_Using_UserProperties_And_MQTT_500",
+          "line": 27,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttApplicationMessageValidator_Tests.Succeed_When_Using_WillUserProperties_And_MQTT_311",
+          "line": 35,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttClientOptionsValidator_Tests.cs",
+      "bytes": 2189,
+      "sha256": "C5922A0AEF29E9C3BE01381D399ED23349207AC460249B2768E91F512864597E",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttClientOptionsValidator_Tests.Succeed_When_Using_UserProperties_And_MQTT_500",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttClientOptionsValidator_Tests.Succeed_When_Using_WillUserProperties_And_MQTT_311",
+          "line": 20,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttClientOptionsValidator_Tests.Succeed_When_Using_WillUserProperties_And_MQTT_500",
+          "line": 27,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttClientOptionsValidator_Tests.Throw_When_Using_UserProperties_And_MQTT_311",
+          "line": 33,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttClientOptionsValidator_Tests.Throw_When_Using_WithRequestResponseInformation_And_MQTT_311",
+          "line": 40,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttClientOptionsValidator_Tests.Throw_When_Using_WithRequestResponseInformation_And_MQTT_500",
+          "line": 47,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttPacketIdentifierProvider_Tests.cs",
+      "bytes": 941,
+      "sha256": "C2020660CD769A3AA03EEE88CDD829C6B18B2C4942458489E6072B4F9A8680BB",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttPacketIdentifierProvider_Tests.Reset",
+          "line": 11,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttPacketIdentifierProvider_Tests.ReachBoundaries",
+          "line": 21,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttPacketWriter_Tests.cs",
+      "bytes": 904,
+      "sha256": "AE1E078302E7EEBDADB8C3ECFC9B64538904BAE3ABC22C23ED3F0A62796C02BE",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttPacketWriter_Tests.WritePacket",
+          "line": 18,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttTcpChannel_Tests.cs",
+      "bytes": 3394,
+      "sha256": "D849452F9FBA2C394A6453BC5FD8E806AAE89AAE4C258EAA95FE1BC26A758E41",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTcpChannel_Tests.Certificate_Validation_Uses_Default_Handler_When_No_Custom_Handler",
+          "line": 18,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTcpChannel_Tests.Dispose_Channel_While_Used",
+          "line": 33,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttTopicValidatorSubscribe_Tests.cs",
+      "bytes": 1432,
+      "sha256": "AD0902DA0411A47686E074758B757D38B791225C58E611728362E7B4D6F7FB2C",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidatorSubscribe_Tests.Valid_Topic",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidatorSubscribe_Tests.Valid_Topic_Plus_In_Between",
+          "line": 20,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidatorSubscribe_Tests.Valid_Topic_Plus_Last_Char",
+          "line": 26,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidatorSubscribe_Tests.Valid_Topic_Hash_Last_Char",
+          "line": 32,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidatorSubscribe_Tests.Valid_Topic_Only_Hash",
+          "line": 38,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidatorSubscribe_Tests.Invalid_Topic_Hash_In_Between",
+          "line": 44,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidatorSubscribe_Tests.Invalid_Topic_Empty",
+          "line": 50,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/MqttTopicValidator_Tests.cs",
+      "bytes": 1038,
+      "sha256": "1F9B9C86FB274784CDD99CBE18493AFE0CDF3EA9B96F64BA04B2E204F9839DF7",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidator_Tests.Invalid_Topic_Empty",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidator_Tests.Invalid_Topic_Hash",
+          "line": 20,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidator_Tests.Invalid_Topic_Plus",
+          "line": 26,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicValidator_Tests.Valid_Topic",
+          "line": 32,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Protocol_Tests.cs",
+      "bytes": 1434,
+      "sha256": "44E80C36F2A62E253C1FD3B1AAF0F468E4732B6BDEA8E667A7DA00CCA1BB67BC",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Protocol_Tests.Encode_Four_Byte_Integer",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Protocol_Tests.Encode_Two_Byte_Integer",
+          "line": 34,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/RoundtripTime_Tests.cs",
+      "bytes": 1715,
+      "sha256": "8F3959C512B5A01C5D31004CA30DC01B1107AD5FD4FFB391BC90166B99318264",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.RoundtripTime_Tests.Round_Trip_Time",
+          "line": 18,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Assigned_Client_ID_Tests.cs",
+      "bytes": 2879,
+      "sha256": "675AD7702B77E248A6BC9921887EF88AAEBED2C138DEDD4CB787EFE1ABE1BF22",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Assigned_Client_ID_Tests.Connect_With_No_Client_Id",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Assigned_Client_ID_Tests.Connect_With_Client_Id",
+          "line": 21,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/CertificateContextLease_Tests.cs",
+      "bytes": 22187,
+      "sha256": "C5B148E11B7C78B5343658441033603B62AE1BF25A22D64598C8E46049717424",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Windows_Synthetic_Context_Is_Rejected_Before_Create",
+          "line": 21,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Legacy_Binary_Provider_Still_Serves_Tls",
+          "line": 28,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Explicit_Context_Serves_Supplied_Intermediate",
+          "line": 42,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Wrong_Trust_Or_Hostname_Rejects",
+          "line": 58,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Configured_Protocol_Is_Not_Overridden_By_Context",
+          "line": 73,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Required_Client_Certificate_Is_Not_Bypassed",
+          "line": 83,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Rotation_Preserves_Handshake_And_Existing_Connection_Snapshot",
+          "line": 100,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Failed_Handshake_Releases_Material_After_Transport_Close",
+          "line": 126,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Invalid_Capability_Does_Not_Fall_Back_To_Leaf_Or_Plaintext",
+          "line": 139,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Missing_Or_Faulted_Handler_Releases_Exactly_One_Lease",
+          "line": 160,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Legacy_Null_Certificate_Keeps_Plaintext_Behavior",
+          "line": 173,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Owned_Handler_Shutdown_Releases_After_Stream_Teardown",
+          "line": 183,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Unknown_Lease_Release_Remains_Bounded_And_Closes_Admission",
+          "line": 199,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/ClientNegativePubRec_Tests.cs",
+      "bytes": 10127,
+      "sha256": "A55785CB556D5D5FF272478840A446AE81679485F41014856D5C1F90AA7E8824",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ClientNegativePubRec_Tests.Negative_PubRec_Completes_With_Original_Properties_Without_PubRel",
+          "line": 19,
+          "staticDataRows": 7,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ClientNegativePubRec_Tests.Nonnegative_Wire_PubRec_Still_Sends_PubRel",
+          "line": 73,
+          "staticDataRows": 4,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ClientNegativePubRec_Tests.Negative_PubRec_Result_Does_Not_Require_PubComp_And_Wins_Over_Obsolete_PubComp",
+          "line": 105,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ClientNegativePubRec_Tests.Duplicate_Negative_PubRec_Without_Awaiter_Does_Not_Send_PubRel",
+          "line": 119,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/ConnectionAttemptClosure_Tests.cs",
+      "bytes": 7276,
+      "sha256": "A5DDC9E9ED3210FFDFAD3DF6A0655FF6851CC62701F3289C6AAF77F52935C92E",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ConnectionAttemptClosure_Tests.Failed_Load_Exposes_Exact_Confirmed_Or_Faulted_Transport_Close",
+          "line": 19,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ConnectionAttemptClosure_Tests.Transport_Close_Joins_Existing_Wire_Write_And_Fences_Late_Writes",
+          "line": 49,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Connection_Tests.cs",
+      "bytes": 2576,
+      "sha256": "2DA4EA9F00F41FD7F4ED918C0B2C997B6602B555671C6CDA5A927E5DFC149AEB",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Connection_Tests.Close_Idle_Connection_On_Connect",
+          "line": 16,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Connection_Tests.Send_Garbage",
+          "line": 43,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Cross_Version_Tests.cs",
+      "bytes": 2504,
+      "sha256": "9DCF2E3A65285BFC3190CD912C8C3F487F28CBEC742B1C185363D90A486023C6",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Cross_Version_Tests.Send_V311_Receive_V500",
+          "line": 10,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Cross_Version_Tests.Send_V500_Receive_V311",
+          "line": 32,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/DisconnectSessionExpiry_Tests.cs",
+      "bytes": 6758,
+      "sha256": "2A0F195620C3253741B440608C44AD66F3D34723C245934EB7279887482612E0",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DisconnectSessionExpiry_Tests.Disconnect_Replaces_Connect_Expiry",
+          "line": 16,
+          "staticDataRows": 4,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DisconnectSessionExpiry_Tests.Resumed_Session_Uses_Latest_Connect_Expiry",
+          "line": 50,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DisconnectSessionExpiry_Tests.Explicit_Zero_Survives_Disconnect_Roundtrip",
+          "line": 79,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DisconnectSessionExpiry_Tests.Default_Disconnect_Omits_Expiry",
+          "line": 89,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DisconnectSessionExpiry_Tests.Optional_Exception_Expiry_Preserves_Absence",
+          "line": 101,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DisconnectSessionExpiry_Tests.Explicit_Zero_Options_Include_Expiry",
+          "line": 108,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DisconnectSessionExpiry_Tests.Duplicate_Expiry_Is_Rejected_Even_When_First_Is_Zero",
+          "line": 119,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DisconnectSessionExpiry_Tests.Zero_Connect_Expiry_Cannot_Be_Extended_On_Disconnect",
+          "line": 126,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/DurableSessionPersistence_Tests.cs",
+      "bytes": 39015,
+      "sha256": "F380E2410A68A8F0D4AB6957D389F1C7D995DDEB919FA8C4B5D217D5A373EEE4",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Another_Live_Server_Resumes_Original_Transaction_And_Fences_Old_Wire",
+          "line": 24,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.PubComp_Waits_For_PubRel_Send_Completion_Instead_Of_Being_Lost",
+          "line": 105,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Prewire_And_Terminal_Commits_Are_Awaited_And_Identifier_Remains_Reserved",
+          "line": 131,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Already_Retired_Only_Authorizes_Terminal_Release",
+          "line": 160,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.PubRec_Commits_Phase_Or_Negative_Terminal_Outcome",
+          "line": 185,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.New_Session_Imports_Original_Identifier_Phase_And_Subscriptions_Without_Subscribe_Events",
+          "line": 213,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Delayed_Disconnection_Commit_Cannot_Remove_Replacement_Connection_Or_Session",
+          "line": 238,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Unconfirmed_Prewire_Result_Produces_No_Channel_Write_Or_Identifier_Release",
+          "line": 281,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Duplicate_Durable_Handle_Is_Backpressure_Without_Changing_Original_Admission",
+          "line": 315,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Wire_Request_Intent_And_Attempt_Identity_Survive_Shared_Filter_Rewrite",
+          "line": 328,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.New_Empty_Volatile_Session_Can_Opt_Out_Without_Missing_Context_Fallback",
+          "line": 379,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Resumed_Session_With_Zero_Expiry_Cannot_Opt_Out",
+          "line": 393,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Invalid_Import_Fails_Before_Tracking_Is_Installed",
+          "line": 402,
+          "staticDataRows": 5,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Durable_Retained_Matches_Keep_Subscription_Identifiers_Without_Duplicate_Delivery",
+          "line": 427,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Shared_Filter_Extension_Can_Handle_Subscription_Without_Native_Installation",
+          "line": 446,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Lost_Terminal_Reply_Resolves_Bounded_Retirement_On_Restore",
+          "line": 467,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.DurableSessionPersistence_Tests.Expired_Durable_Generation_Does_Not_Restage_Old_Native_Queued_Receipt",
+          "line": 487,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/EnqueueCorrelation_Tests.cs",
+      "bytes": 24918,
+      "sha256": "601EA7FC64A5E2E1FCDFD0667FD1D47B2A34BEC02B73EFB85DAA4A42D9A5057B",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Overlapping_Admissions_Of_Same_Message_Preserve_Exact_State",
+          "line": 18,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Disposed_Captured_Session_Does_Not_Become_Replacement_Session",
+          "line": 52,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Rejected_Or_Throwing_Interceptor_Has_Correlated_Dropped_Outcome",
+          "line": 83,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Outcome_Callback_Is_Outside_Gate_And_Can_Follow_Eviction",
+          "line": 112,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Existing_Event_Constructors_Retain_Null_Metadata",
+          "line": 139,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Retained_Subscription_Paths_Report_Exact_Session_And_State",
+          "line": 154,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Native_Dispatch_Outcome_Can_Complete_After_Ack_With_Exact_Context",
+          "line": 203,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Recovery_Overflow_Reports_Exact_Removed_Publish_And_Retains_Others",
+          "line": 241,
+          "staticDataRows": 4,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Disposal_Invalidates_Exact_Session_Once_Including_Empty_Session",
+          "line": 299,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Recovery_Invalidation_Then_Late_Overwrite_Keep_Original_Admission_State",
+          "line": 338,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Late_Ack_Callback_For_Same_Receipt_Does_Not_Terminate_New_Admission",
+          "line": 382,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EnqueueCorrelation_Tests.Direct_State_Survives_Recovery_And_Rejected_Retry_Does_Not_Replace_It",
+          "line": 424,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Events_Tests.cs",
+      "bytes": 6029,
+      "sha256": "5BB357C63E6484ADE2BAE65664F94002AB237308123B6D25DE34E59E1FDC7133",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Events_Tests.Fire_Client_Connected_Event",
+          "line": 16,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Events_Tests.Fire_Client_Disconnected_Event",
+          "line": 42,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Events_Tests.Fire_Client_Subscribed_Event",
+          "line": 70,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Events_Tests.Fire_Client_Unsubscribed_Event",
+          "line": 96,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Events_Tests.Fire_Application_Message_Received_Event",
+          "line": 121,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Events_Tests.Fire_Started_Event",
+          "line": 147,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Events_Tests.Fire_Stopped_Event",
+          "line": 167,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/EvictedPublishTracking_Tests.cs",
+      "bytes": 4419,
+      "sha256": "3BAB2BE31EDA49CF9C895F35896CE975F1E3305B9C0EF00EE5073BE057BBB59E",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.EvictedPublishTracking_Tests.Eviction_Removes_Only_The_Queued_Packet_From_Recovery",
+          "line": 21,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/ExternalWillOwnership_Tests.cs",
+      "bytes": 14468,
+      "sha256": "C9F526F8DF106B13C9B39135A66C83399F1FD2861613507B5818A150CD5553CD",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ExternalWillOwnership_Tests.Will_Expiry_Presence_Survives_Wire_And_Snapshot",
+          "line": 20,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ExternalWillOwnership_Tests.Snapshot_Owns_All_Will_Fields_And_Buffers",
+          "line": 38,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ExternalWillOwnership_Tests.Exact_Attempt_Ownership_Controls_Native_Dispatch",
+          "line": 73,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ExternalWillOwnership_Tests.Shutdown_Does_Not_Publish_Externally_Owned_Will",
+          "line": 104,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ExternalWillOwnership_Tests.No_Will_Is_Explicit_And_Cannot_Be_Claimed",
+          "line": 121,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ExternalWillOwnership_Tests.Host_Preparation_Is_Before_ConnAck_And_Ownership_Activation",
+          "line": 132,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ExternalWillOwnership_Tests.Failed_Preparation_Does_Not_Accept_Connection_Or_Arm_New_Will",
+          "line": 154,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ExternalWillOwnership_Tests.Ownership_Is_Per_Attempt_And_Does_Not_Suppress_Successor",
+          "line": 178,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ExternalWillOwnership_Tests.Timed_Out_Owner_Cannot_Claim_Will_Later",
+          "line": 200,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/General.cs",
+      "bytes": 30699,
+      "sha256": "8BA6AC09A0059393405D97F98238A009649BDB3126260BE876C31F1F4DA1F54F",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Client_Disconnect_Without_Errors",
+          "line": 21,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Collect_Messages_In_Disconnected_Session",
+          "line": 48,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Disconnect_Client_with_Reason",
+          "line": 80,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Do_Not_Send_Retained_Messages_For_Denied_Subscription",
+          "line": 130,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Expose_Local_And_Remote_Endpoint",
+          "line": 180,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Handle_Clean_Disconnect",
+          "line": 201,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Handle_Lots_Of_Parallel_Retained_Messages",
+          "line": 239,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Intercept_Application_Message",
+          "line": 300,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Intercept_Message",
+          "line": 329,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Intercept_Undelivered",
+          "line": 359,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.No_Messages_If_No_Subscription",
+          "line": 383,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Persist_Retained_Message",
+          "line": 416,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Publish_After_Client_Connects",
+          "line": 438,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Publish_At_Least_Once_0x01",
+          "line": 479,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Publish_At_Most_Once_0x00",
+          "line": 485,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Publish_Exactly_Once_0x02",
+          "line": 491,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Publish_From_Server",
+          "line": 497,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Publish_Multiple_Clients",
+          "line": 526,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Remove_Session",
+          "line": 565,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Same_Client_Id_Connect_Disconnect_Event_Order",
+          "line": 582,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Same_Client_Id_Refuse_Connection",
+          "line": 667,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Send_Long_Body",
+          "line": 764,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Set_Subscription_At_Server",
+          "line": 809,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Shutdown_Disconnects_Clients_Gracefully",
+          "line": 845,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Stop_And_Restart",
+          "line": 869,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Use_Admissible_Credentials",
+          "line": 896,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.General_Tests.Use_Empty_Client_ID",
+          "line": 915,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/HotSwapCerts_Tests.cs",
+      "bytes": 13876,
+      "sha256": "F935354CB06250DD4CFF07F72D1479F7C3F9B80EAC839186A02C37F7DCA40560",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.HotSwapCerts_Tests.ClientCertChangeWithoutServerUpdateFailsReconnect",
+          "line": 23,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.HotSwapCerts_Tests.ClientCertChangeWithServerUpdateAcceptsReconnect",
+          "line": 45,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.HotSwapCerts_Tests.ServerCertChangeWithClientCertUpdateAllowsReconnect",
+          "line": 69,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.HotSwapCerts_Tests.ServerCertChangeWithoutClientCertUpdateFailsReconnect",
+          "line": 91,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/IncomingQos2Persistence_Tests.cs",
+      "bytes": 44337,
+      "sha256": "BEF33E8B8B465A696BC4ED1B99B0DD577E7C1064931EAE5EB6C6E7352DF18E79",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Memory_Reconnect_Deduplicates_Lost_PubRec_And_Allows_Reuse",
+          "line": 18,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Cross_Server_Resume_Binds_One_Journal_And_Retires_Before_Reuse",
+          "line": 44,
+          "staticDataRows": 5,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Acceptance_And_Terminal_Commit_Are_Actual_Wire_Barriers",
+          "line": 97,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Sequential_Ids_Do_Not_Consume_Lifetime_Live_Capacity",
+          "line": 124,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Conflicting_Active_Identifier_Cannot_Dispatch_Again",
+          "line": 152,
+          "staticDataRows": 7,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Original_Expiry_Presence_And_Deadline_Reach_Journal",
+          "line": 184,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Clean_Start_Discards_Memory_Receive_State",
+          "line": 210,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Unconfirmed_Resolve_Cannot_Invoke_Acceptance_Or_Send_PubRec",
+          "line": 221,
+          "staticDataRows": 7,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Stale_Acceptance_Cannot_Commit_Or_Acknowledge_After_Other_Server_Claims_Owner",
+          "line": 252,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Expired_Memory_Session_Does_Not_Deduplicate_A_New_Session",
+          "line": 275,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.External_Will_Disposition_Commits_Before_Expiry_Zero_Retirement",
+          "line": 287,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Unconfirmed_Will_Disposition_Prevents_Retirement",
+          "line": 319,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Memory_Explicit_Zero_Expiry_Does_Not_Dispatch",
+          "line": 336,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Unconfirmed_Phase_Commit_Does_Not_Advance_Wire",
+          "line": 348,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Queued_Predecessor_PubRec_Is_Not_Sent_On_Replacement_Connection",
+          "line": 367,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Timed_Out_Acceptance_Observes_Late_Fault_Without_Wire_Progress",
+          "line": 388,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Intercepted_Negative_PubRec_Retires_Exact_Publication_Before_Immediate_Reuse",
+          "line": 413,
+          "staticDataRows": 4,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Suppressed_Negative_PubRec_Preserves_Acceptance_For_Reconnect",
+          "line": 444,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Negative_PubRec_Is_Frozen_And_Waits_For_Durable_Retirement",
+          "line": 471,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Unconfirmed_Negative_PubRec_Retirement_Closes_Without_Acknowledgement",
+          "line": 501,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Delayed_Negative_PubRec_Cannot_Retire_Reused_Identifier",
+          "line": 513,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Mqtt311_PubRec_Without_A_Wire_Reason_Does_Not_Retire_Early",
+          "line": 547,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.IncomingQos2Persistence_Tests.Negative_PubRec_With_Changed_Identifier_Cannot_Retire_Publication",
+          "line": 558,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Injection_Tests.cs",
+      "bytes": 18160,
+      "sha256": "D0D37AAFA260FC9285542F61D1C6D0DBB399F630FB8465E3BEC95607754A9ECD",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Injection_Tests.Enqueue_Application_Message_At_Session_Level",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Injection_Tests.Enqueue_Application_Message_At_Session_Level_QueueOverflow_DropNewMessageStrategy",
+          "line": 48,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Injection_Tests.Enqueue_Application_Message_At_Session_Level_QueueOverflow_DropOldestQueuedMessageStrategy",
+          "line": 126,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Injection_Tests.Deliver_Application_Message_At_Session_Level",
+          "line": 203,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Injection_Tests.Deliver_Application_Message_At_Session_Level_QueueOverflow_DropNewMessageStrategy",
+          "line": 236,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Injection_Tests.Deliver_Application_Message_At_Session_Level_QueueOverflow_DropOldestQueuedMessageStrategy",
+          "line": 322,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Injection_Tests.Inject_ApplicationMessage_At_Server_Level",
+          "line": 408,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Injection_Tests.Intercept_Injected_Application_Message",
+          "line": 431,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Keep_Alive_Tests.cs",
+      "bytes": 2404,
+      "sha256": "653200B8F969B685A742FC4F5964F9F8F8454D58C6AD1952B2E2B8084DE67C04",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.KeepAlive_Tests.Disconnect_Client_DueTo_KeepAlive",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Load_Tests.cs",
+      "bytes": 5062,
+      "sha256": "FD2C8D8EA9F2407D184BF63EFAD1166B054B721BDAECAA17C9B885F0F02E580F",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Load_Tests.Handle_100_000_Messages_In_Low_Level_Client",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Load_Tests.Handle_100_000_Messages_In_Receiving_Client",
+          "line": 76,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Load_Tests.Handle_100_000_Messages_In_Server",
+          "line": 119,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/MqttRetainedMessageManager_Tests.cs",
+      "bytes": 689,
+      "sha256": "B59960906F22BDD904D801E9DEC5BB47D4C35F70A813984AB94294EAE3948AE5",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttRetainedMessageManager_Tests.MqttRetainedMessageManager_GetUndefinedTopic",
+          "line": 9,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/MqttSessionAcknowledgement_Tests.cs",
+      "bytes": 4652,
+      "sha256": "5A2B5ED6C72F682BD6BC0A1F822B177FF6A7B7F30E4C670F9AA30A95CAB734CC",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSessionAcknowledgement_Tests.Legacy_Overload_Preserves_Identifier_Only_Consumption",
+          "line": 41,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSessionAcknowledgement_Tests.Qos_Aware_Overload_Rejects_Unknown_And_Wrong_Type_Acknowledgements",
+          "line": 59,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSessionAcknowledgement_Tests.Both_Overloads_Consume_An_Exchange_Only_Once",
+          "line": 75,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/MqttSubscriptionsManager_Tests.cs",
+      "bytes": 8196,
+      "sha256": "61AB48BD06A835851D49DFDE92CEF624E693B6D52D3BDE1793F24A1A852A20E1",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeAndUnsubscribeSingle",
+          "line": 25,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeDifferentQoSSuccess",
+          "line": 44,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeSingleNoSuccess",
+          "line": 62,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeSingleSuccess",
+          "line": 75,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeTwoTimesSuccess",
+          "line": 91,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeWildcard1",
+          "line": 111,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeWildcard2",
+          "line": 127,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeWildcard3",
+          "line": 143,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeWildcard4",
+          "line": 157,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.MqttSubscriptionsManager_Tests.MqttSubscriptionsManager_SubscribeWildcard5",
+          "line": 169,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/No_Local_Tests.cs",
+      "bytes": 1538,
+      "sha256": "A777A7BBA6FED6911BDF80E22A5D252E3CDA8747C67C7FAAA8B7B70CA15B8A78",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.No_Local_Tests.Subscribe_With_No_Local",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.No_Local_Tests.Subscribe_Without_No_Local",
+          "line": 19,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/NonEvictingEnqueue_Tests.cs",
+      "bytes": 14327,
+      "sha256": "A3FA9F93233E71E110812E742EA883958F091A67ABB401C8FC00F862833DDFB0",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingEnqueue_Tests.Full_Queue_Rejection_Preserves_Contents_Identifiers_And_Tracking",
+          "line": 20,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingEnqueue_Tests.Rejection_Does_Not_Create_Unobserved_Overflow_Failures",
+          "line": 66,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingEnqueue_Tests.Concurrent_Producers_Cannot_Both_Claim_One_Slot",
+          "line": 100,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingEnqueue_Tests.Admission_And_Recovery_Do_Not_Lose_A_Tracked_Message",
+          "line": 138,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingEnqueue_Tests.Admission_And_Disposal_Have_No_Partial_Admission",
+          "line": 166,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingEnqueue_Tests.Control_And_Health_Packets_Bypass_Full_Data_Queue",
+          "line": 189,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingEnqueue_Tests.Legacy_Eviction_Notification_Runs_Outside_Admission_Gate",
+          "line": 204,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingEnqueue_Tests.Recovery_Overwrite_Notifications_Run_Outside_Admission_Gate",
+          "line": 222,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingEnqueue_Tests.Null_Message_Is_Rejected_Before_Mutation",
+          "line": 263,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/NonEvictingReplay_Tests.cs",
+      "bytes": 4481,
+      "sha256": "28E46F23BA80873ACABC1124C17BE346061BEBA2456AFC03048EAC940BF6934B",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.NonEvictingReplay_Tests.Retry_After_Connected_Callback_Preserves_Every_Message",
+          "line": 14,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/OrderedSessionRecovery_Tests.cs",
+      "bytes": 15709,
+      "sha256": "A7CE7978917D52DB6C833FD3BA5D4159B052FC75D7032A706F77A5A4E715E871",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OrderedSessionRecovery_Tests.Persisted_Sequence_Precedes_Later_Native_Suffix_On_Wire",
+          "line": 21,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OrderedSessionRecovery_Tests.Awaiting_Recovery_Owner_Does_Not_Block_Another_Client_Connection",
+          "line": 88,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OrderedSessionRecovery_Tests.Commit_Is_Callback_Free_And_Reclaims_Exact_Original_Token_After_Handler",
+          "line": 126,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OrderedSessionRecovery_Tests.Failed_Owner_After_Commit_Preserves_Installed_State_And_Stale_Abort_Cannot_Unpause_Successor",
+          "line": 166,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OrderedSessionRecovery_Tests.Abort_Before_Commit_Preserves_Original_Queue_And_Identifier",
+          "line": 188,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OrderedSessionRecovery_Tests.Started_Transactions_Retain_Original_Phase_Outside_Unsent_Capacity",
+          "line": 206,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OrderedSessionRecovery_Tests.Recovery_Owner_Is_Exclusive",
+          "line": 232,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OrderedSessionRecovery_Tests.Activation_Pauses_Admission_And_Waits_For_Actual_Previous_Owner_Exit",
+          "line": 239,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/OutgoingSessionResume_Tests.cs",
+      "bytes": 25673,
+      "sha256": "77C49CB0DFA9BDE9DD250EF02720E1A351EEDFCA707A6A97B7DB9D1A4CD24239",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OutgoingSessionResume_Tests.Repeated_Resume_Preserves_Original_Identifier_Phase_And_Admission_State",
+          "line": 24,
+          "staticDataRows": 6,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OutgoingSessionResume_Tests.Pending_PubRel_Resumes_As_Control_With_Smaller_Receive_Window",
+          "line": 96,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OutgoingSessionResume_Tests.Takeover_Fences_Delayed_Old_Publish_Without_Reassigning_Identifier",
+          "line": 121,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OutgoingSessionResume_Tests.Received_PubRec_With_Suppressed_PubRel_Resumes_PubRel",
+          "line": 171,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OutgoingSessionResume_Tests.Stale_Wire_Generation_Cannot_Retire_Resumed_Exchange",
+          "line": 201,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OutgoingSessionResume_Tests.Started_Publish_Does_Not_Compete_With_Unsent_Backlog_Capacity",
+          "line": 232,
+          "staticDataRows": 4,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OutgoingSessionResume_Tests.Takeover_Joins_Actual_Channel_Write_Before_Recovery",
+          "line": 265,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OutgoingSessionResume_Tests.Identifier_Exhaustion_Is_Backpressure_And_Terminal_Ack_Releases_Reservation",
+          "line": 304,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.OutgoingSessionResume_Tests.Identifier_Wrap_Skips_Original_Reservations_After_Recovery",
+          "line": 331,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Publishing_Tests.cs",
+      "bytes": 5185,
+      "sha256": "490F9E610AE1AA3233531A1391ECE8A9F677AC72F982F3A0F2ACB839C8B569D7",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Publishing_Tests.Disconnect_While_Publishing",
+          "line": 17,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Publishing_Tests.Return_NoMatchingSubscribers_When_Not_Subscribed",
+          "line": 33,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Publishing_Tests.Return_Success_When_Subscribed",
+          "line": 52,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Publishing_Tests.Intercept_Client_Enqueue",
+          "line": 71,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Publishing_Tests.Intercept_Client_Enqueue_Multiple_Clients_Subscribed_Messages_Are_Filtered",
+          "line": 103,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/QoS_Tests.cs",
+      "bytes": 5869,
+      "sha256": "75429E689E6E29D9BFA3A76161E9F9412F014ED247E4368F710F0774B47A048F",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.QoS_Tests.Fire_Event_On_Client_Acknowledges_QoS_0",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.QoS_Tests.Fire_Event_On_Client_Acknowledges_QoS_1",
+          "line": 40,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.QoS_Tests.Fire_Event_On_Client_Acknowledges_QoS_2",
+          "line": 69,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.QoS_Tests.Preserve_Message_Order_For_Queued_Messages",
+          "line": 106,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/ReceiveMaximum_Tests.cs",
+      "bytes": 21668,
+      "sha256": "BC2AB58AD68C670EB5C53BFE56991A3BC219B8FF2D0887EA2F0EA9252435C53A",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Publish_Waits_For_Final_Acknowledgement",
+          "line": 18,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Error_Acknowledgement_Releases_Quota",
+          "line": 52,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Receive_Maximum_Is_Per_Connection_And_Capped",
+          "line": 79,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Unknown_And_Duplicate_PubAck_Do_Not_Release_Quota",
+          "line": 107,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Unknown_And_Duplicate_Qos2_Acknowledgements_Do_Not_Release_Quota",
+          "line": 132,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.PubComp_Does_Not_Release_Quota_Until_PubRel_Is_Sent",
+          "line": 165,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Control_Responses_Progress_At_Zero_Quota",
+          "line": 210,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Retained_Messages_Use_Quota",
+          "line": 225,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Reconnect_Resets_Quota_And_Drains_Offline_Messages",
+          "line": 258,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Blocked_Publishes_Remain_In_The_Configured_Queue",
+          "line": 280,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Mqtt_311_Is_Not_Quota_Limited",
+          "line": 299,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Suppressed_Publish_Does_Not_Consume_Quota",
+          "line": 312,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Error_PubComp_Releases_Quota",
+          "line": 335,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.ReceiveMaximum_Tests.Failed_Send_Closes_Connection_Instead_Of_Stalling_Quota",
+          "line": 351,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Retain_As_Published_Tests.cs",
+      "bytes": 1576,
+      "sha256": "413E77DBB51E9FDD68F47514D83A4E36B22BB8B13F5719F832AF1E060F380AC4",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retain_As_Published_Tests.Subscribe_With_Retain_As_Published",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retain_As_Published_Tests.Subscribe_Without_Retain_As_Published",
+          "line": 19,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Retain_Handling_Tests.cs",
+      "bytes": 2254,
+      "sha256": "F37F32F7A31B847B1BA6641270F02AFAA7E28B76DED411DB5DC05D3BFE55965C",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retain_Handling_Tests.Send_At_Subscribe",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retain_Handling_Tests.Do_Not_Send_On_Subscribe",
+          "line": 20,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retain_Handling_Tests.Send_At_Subscribe_If_New_Subscription_Only",
+          "line": 26,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Retained_Messages_Tests.cs",
+      "bytes": 10602,
+      "sha256": "F3CDC79A6840A214785584787D7001BB01590E6B03BED8170ED258B67FE1C626",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Clear_Retained_Message_With_Empty_Payload",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Clear_Retained_Message_With_Null_Payload",
+          "line": 38,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Downgrade_QoS_Level",
+          "line": 61,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.No_Upgrade_QoS_Level",
+          "line": 89,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Receive_No_Retained_Message_After_Subscribe",
+          "line": 117,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Receive_Retained_Message_After_Subscribe",
+          "line": 136,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Receive_Retained_Messages_From_Higher_Qos_Level",
+          "line": 157,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Retained_Messages_Flow",
+          "line": 186,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Server_Reports_Retained_Messages_Supported_V3",
+          "line": 216,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Server_Reports_Retained_Messages_Supported_V5",
+          "line": 233,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Retained_Messages_Tests.Skip_Enqueue_Of_Retained_Message",
+          "line": 249,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Security_Tests.cs",
+      "bytes": 5922,
+      "sha256": "DBE02DE0B1F5B14B0E212A94869D07FCD74FA710291242AC4449F5E96AD25FCD",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Security_Tests.Deny_Connection",
+          "line": 16,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Security_Tests.Do_Not_Affect_Authorized_Clients",
+          "line": 36,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Security_Tests.Handle_Wrong_Password",
+          "line": 110,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Security_Tests.Handle_Wrong_UserName",
+          "line": 116,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Security_Tests.Handle_Wrong_UserName_And_Password",
+          "line": 122,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Security_Tests.Use_Username_Null_Password_Empty",
+          "line": 128,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Server_Reference_Tests.cs",
+      "bytes": 1323,
+      "sha256": "0469E019F0D96B3775DA12A44E1D4DCC88D994F00C7745F3634EB7A7AB35FCE2",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Server_Reference_Tests.Server_Reports_With_Reference_Server",
+          "line": 15,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Session_Tests.cs",
+      "bytes": 12717,
+      "sha256": "22E30DB37C18C5F3DA51BA7B8BA6BC179AF9AD141D1E247CA43528267FDEEC09",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Clean_Session_Persistence",
+          "line": 17,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Do_Not_Use_Expired_Session",
+          "line": 66,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Fire_Deleted_Event",
+          "line": 86,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Get_Session_Items_In_Status",
+          "line": 111,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Handle_Parallel_Connection_Attempts",
+          "line": 134,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Retry_If_Not_PubAck",
+          "line": 173,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Session_Takeover",
+          "line": 209,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Set_Session_Item",
+          "line": 238,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Use_Clean_Session",
+          "line": 293,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Session_Tests.Will_Message_Is_Sent_On_Takeover",
+          "line": 311,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Shared_Subscriptions_Tests.cs",
+      "bytes": 1703,
+      "sha256": "2AA04CC3117F8B2DD540822D39EAA1A8F974940909C3F2BC79F8E3FA84B0A3E3",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Shared_Subscriptions_Tests.Server_Reports_Shared_Subscriptions_Not_Supported",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Shared_Subscriptions_Tests.Subscription_Of_Shared_Subscription_Is_Denied",
+          "line": 27,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Status_Tests.cs",
+      "bytes": 6767,
+      "sha256": "F9677BDB3186D22D0D77616F3AE34477853504FB7199FC7BA6EFFB135A06346C",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Status_Tests.Disconnect_Client",
+          "line": 16,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Status_Tests.Keep_Persistent_Session_Version311",
+          "line": 42,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Status_Tests.Keep_Persistent_Session_Version500",
+          "line": 74,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Status_Tests.Show_Client_And_Session_Statistics",
+          "line": 108,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Status_Tests.Track_Sent_Application_Messages",
+          "line": 140,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Status_Tests.Track_Sent_Packets",
+          "line": 159,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Subscribe_Tests.cs",
+      "bytes": 13774,
+      "sha256": "731D33B5A82EE8CABE7650C2991390317DB205AE91C47C5E4A410422767FD780",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Subscription_Roundtrip",
+          "line": 21,
+          "staticDataRows": 16,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Deny_Invalid_Topic",
+          "line": 62,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Intercept_Subscribe_With_User_Properties",
+          "line": 87,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Disconnect_While_Subscribing",
+          "line": 108,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Enqueue_Message_After_Subscription",
+          "line": 124,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Intercept_Subscription",
+          "line": 146,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Response_Contains_Equal_Reason_Codes",
+          "line": 187,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Subscribe_Lots_In_Multiple_Requests",
+          "line": 205,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Subscribe_Lots_In_Single_Request",
+          "line": 246,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Subscribe_Multiple_In_Multiple_Request",
+          "line": 284,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Subscribe_Multiple_In_Single_Request",
+          "line": 320,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscribe_Tests.Subscribe_Unsubscribe",
+          "line": 352,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Subscription_Identifier_Tests.cs",
+      "bytes": 3859,
+      "sha256": "8ABDFDA43783EDE8D690D5290DAA24E7743B6297F5D1CC3471F4967E0ED83267",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscription_Identifier_Tests.Server_Reports_Subscription_Identifiers_Supported",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscription_Identifier_Tests.Subscribe_With_Subscription_Identifier",
+          "line": 27,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Subscription_Identifier_Tests.Subscribe_With_Multiple_Subscription_Identifiers",
+          "line": 52,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Subscription_TopicHash_Tests.cs",
+      "bytes": 19982,
+      "sha256": "BEA2A4D610D738BDFFA9CA5E13CA46F7366A1DF765C002117E4A14B7F74BB158",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Check_Hash_Bucket_Depth",
+          "line": 21,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Check_Selected_Topic_Hashes",
+          "line": 73,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_LongTopic_DetectMultiLevelWildcard",
+          "line": 91,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_LongTopic_DetectSingleLevelWildcard",
+          "line": 105,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_LongTopic_MultiWildcard",
+          "line": 118,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_LongTopic_NoWildCard",
+          "line": 192,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_LongTopic_SingleWildCard",
+          "line": 239,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_MultiWildCard",
+          "line": 310,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_NoWildCard",
+          "line": 345,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_Search_MultiWildcard",
+          "line": 380,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_Search_NoWildcard",
+          "line": 389,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_Search_SingleWildcard",
+          "line": 428,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.SubscriptionTopicHashTests.Match_Hash_Test_SingleWildCard",
+          "line": 437,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Tls_Tests.cs",
+      "bytes": 6847,
+      "sha256": "5B75129A26BF352FF6CA77CF38382768A2DE03A197C457898F54C149F289E393",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Tls_Tests.Tls_Swap_Test",
+          "line": 44,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Topic_Alias_Tests.cs",
+      "bytes": 2452,
+      "sha256": "9C577FE4A30E0350FB7320A47B05E234904DAD143B15F53CC1EAFE3A2B8DC361",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Topic_Alias_Tests.Server_Reports_Topic_Alias_Supported",
+          "line": 14,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Topic_Alias_Tests.Publish_With_Topic_Alias",
+          "line": 30,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Unsubscribe_Tests.cs",
+      "bytes": 1965,
+      "sha256": "81B2C121B57AAB66F86DF685C44218C576908F693E3DE515B8339144FF63BE2A",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Unsubscribe_Tests.Disconnect_While_Unsubscribing",
+          "line": 17,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Unsubscribe_Tests.Intercept_Unsubscribe_With_User_Properties",
+          "line": 34,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/User_Properties_Tests.cs",
+      "bytes": 2019,
+      "sha256": "EB57F7B1FED495847EA8462A207FF330DFB579DA308F7ECF99818CB867E0812F",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Feature_Tests.Use_User_Properties",
+          "line": 19,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Wildcard_Subscription_Available_Tests.cs",
+      "bytes": 1613,
+      "sha256": "FCFBB035FF42B5C6A5974621DE3015EC170FD920128544B1C163DA3CC48C8E0C",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Wildcard_Subscription_Available_Tests.Server_Reports_Wildcard_Subscription_Available_Tests_Supported_V3",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Wildcard_Subscription_Available_Tests.Server_Reports_Wildcard_Subscription_Available_Tests_Supported_V5",
+          "line": 27,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/WillLifecycle_Tests.cs",
+      "bytes": 14651,
+      "sha256": "7ACCA905919D6DAA21B2C66A18425EC8F1F7A09786306ECF002DCC2D803AC11E",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Disconnect_Reason_Controls_Will",
+          "line": 16,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Abnormal_Disconnect_Observes_Will_Delay",
+          "line": 38,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Session_Expiry_Limits_Will_Delay",
+          "line": 52,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Reconnect_Resumes_Or_Ends_Pending_Will",
+          "line": 71,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Takeover_Uses_Old_Connection_Will",
+          "line": 89,
+          "staticDataRows": 3,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Reconnect_After_Expiry_Does_Not_Cancel_Will",
+          "line": 111,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Session_Deletion_And_Timer_Publish_Only_Once",
+          "line": 127,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Disabled_Persistence_Ends_Will_Delay",
+          "line": 147,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Stop_Restart_Preserves_Pending_Deadline",
+          "line": 158,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Rejected_Reconnect_Does_Not_Cancel_Pending_Will",
+          "line": 181,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Resumed_Connection_Owns_Its_New_Will",
+          "line": 198,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Will_Callback_Can_Stop_Server_Without_Losing_The_Next_Will",
+          "line": 213,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Nonpersistent_Shutdown_Does_Not_Recursively_Invoke_Will_Callbacks",
+          "line": 253,
+          "staticDataRows": 2,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Final_Disposal_Publishes_Pending_Will",
+          "line": 286,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.WillLifecycle_Tests.Delayed_Will_Retains_Message_Expiry_And_Retain_Flag",
+          "line": 297,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/Server/Will_Tests.cs",
+      "bytes": 2775,
+      "sha256": "19B46FE3788E703BF331E8BC3A064E1FF4D275839BCAE07EAF5288B4B8F5DB8D",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Will_Tests.Intercept_Will_Message",
+          "line": 10,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Will_Tests.Will_Message_Do_Not_Send_On_Clean_Disconnect",
+          "line": 33,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.Will_Tests.Will_Message_Send",
+          "line": 54,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    },
+    {
+      "path": "Source/MQTTnet.Tests/TopicFilterComparer_Tests.cs",
+      "bytes": 5604,
+      "sha256": "D5726037F197E9A26121EDBCDDBAE9551212AC45D839F18364F5025EA6DA7146",
+      "methods": [
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.AllLevelsWildcardMatch",
+          "line": 13,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.BeginningOneLevelWildcardMatch",
+          "line": 19,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.Compare_UTF8_String_Match",
+          "line": 25,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.Compare_UTF8_String_No_Match",
+          "line": 31,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.DirectMatch",
+          "line": 37,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.DirectNoMatch",
+          "line": 43,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.EndMultipleLevelsWildcardMatch",
+          "line": 49,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.EndMultipleLevelsWildcardMatchEmptyLevel",
+          "line": 55,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.EndMultipleLevelsWildcardNoMatch",
+          "line": 61,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.EndOneLevelWildcardMatch",
+          "line": 67,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.Hash_Match_With_Separator_Only",
+          "line": 73,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.MiddleOneLevelWildcardMatch",
+          "line": 80,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.MiddleOneLevelWildcardNoMatch",
+          "line": 86,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.MultiLevel_Sport",
+          "line": 92,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.Plus_Match_With_Separator_Only",
+          "line": 109,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.Reserved_Multi_Level_Wildcard_Only",
+          "line": 116,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.Reserved_Single_Level_Wildcard",
+          "line": 122,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.Reserved_Single_Level_Wildcard_Prefix",
+          "line": 128,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.Reserved_Single_Level_Wildcard_Suffix",
+          "line": 134,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        },
+        {
+          "fullyQualifiedName": "MQTTnet.Tests.MqttTopicFilterComparer_Tests.SingleLevel_Finance",
+          "line": 140,
+          "staticDataRows": 0,
+          "dynamicData": false,
+          "ignoreAttribute": false
+        }
+      ]
+    }
+  ],
+  "sourceInventoryNotRuntimeDiscovery": true,
+  "runtimeDiscoveryRequiredForAllRows": true
+}

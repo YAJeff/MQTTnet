@@ -1,0 +1,104 @@
+name: Native exact package and metadata discovery first gate
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: native-context-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  DOTNET_GENERATE_ASPNET_CERTIFICATE: 'false'
+  DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: 'false'
+jobs:
+  linux:
+    if: github.repository == 'YAJeff/MQTTnet' && github.ref == 'refs/heads/feature/server-certificate-context-lease'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.7'
+      - name: Export exact canonical source
+        timeout-minutes: 1
+        run: git archive --format=zip --output="${{ runner.temp }}/source-24208d37.zip" 24208d37d9bb9804f2c78b8d023ec1709d47e0f3
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: YAJeff/MQTTnet
+          run-id: '36792223162'
+          name: native-incoming-linux
+          path: ${{ runner.temp }}/original-abfa
+      - name: Acquire pinned archives and prepare exact offline private production stage
+        timeout-minutes: 6
+        run: |
+          python -B .github/native-package-phase1/phase1.py --mode acquire --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-package"
+          python -B .github/native-package-phase1/phase1.py --mode prepare --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-package" --source-zip "${{ runner.temp }}/source-24208d37.zip" --baseline "${{ runner.temp }}/original-abfa"
+      - name: Produce exact packages compare API and discover metadata only
+        timeout-minutes: 11
+        run: python -B .github/native-package-phase1/phase1.py --mode package-discovery --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-package"
+      - name: Prove exact owned isolation absence
+        if: always()
+        timeout-minutes: 2
+        run: python -B .github/native-package-phase1/phase1.py --mode cleanup --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-package"
+      - name: Retain original packages discovery binaries and receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-package-phase1-linux
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/native-package/transfer
+            ${{ runner.temp }}/native-package/receipts-*
+            ${{ runner.temp }}/native-package/PREPARATION.json
+            ${{ runner.temp }}/native-package/PHASE1-SOURCE-PREPARATION.json
+            ${{ runner.temp }}/native-package/OWNERSHIP.json
+            ${{ runner.temp }}/native-package/SOURCE-DERIVATION.json
+            ${{ runner.temp }}/native-package/ISOLATION-POSTFLIGHT.json
+            .github/native-package-phase1
+  windows:
+    needs: linux
+    if: github.repository == 'YAJeff/MQTTnet' && github.ref == 'refs/heads/feature/server-certificate-context-lease'
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.7'
+      - uses: actions/download-artifact@v4
+        with:
+          name: native-package-phase1-linux
+          path: ${{ runner.temp }}/native-package-phase1-linux
+      - name: Verify identical produced package binaries
+        timeout-minutes: 6
+        run: python -B .github/native-context/qualify.py --mode prepare --job-root "${{ runner.temp }}/native-package-windows" --transfer "${{ runner.temp }}/native-package-phase1-linux/transfer"
+      - name: Windows API old binary and creation guards only
+        timeout-minutes: 3
+        run: python -B .github/native-context/qualify.py --mode windows-api-guard --job-root "${{ runner.temp }}/native-package-windows"
+      - name: Prove exact private job absence
+        if: always()
+        timeout-minutes: 2
+        run: python -B .github/native-context/qualify.py --mode cleanup --job-root "${{ runner.temp }}/native-package-windows"
+      - name: Retain unchanged original Windows evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-package-phase1-windows
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/native-package-windows/receipts-*
+            ${{ runner.temp }}/native-package-windows/PREPARATION.json
+            ${{ runner.temp }}/native-package-windows/OWNERSHIP.json
+            ${{ runner.temp }}/native-package-windows/ISOLATION-POSTFLIGHT.json
