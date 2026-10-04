@@ -10,7 +10,7 @@ import sys
 import time
 import zipfile
 import xml.etree.ElementTree as ET
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from types import SimpleNamespace
 
 HERE = Path(__file__).resolve().parent
@@ -85,10 +85,26 @@ def check_trx(p, directory, method, bindings):
     return {'method': method, 'originalTrxSha256': p.sha(files[0]), 'rows': bindings, 'passed': count}
 
 
+def windows_package_records(records):
+    expected = {family + '.5.2.0-local.tlscontext.24208d37.' + extension
+        for family in ['MQTTnet', 'MQTTnet.Server', 'MQTTnet.AspNetCore']
+        for extension in ['nupkg', 'snupkg']}
+    selected = []
+    for row in records:
+        provenance = PureWindowsPath(row['path'])
+        if not provenance.is_absolute(): raise RuntimeError('Declared Windows package provenance must be absolute')
+        name = provenance.name
+        if name not in expected: raise RuntimeError('Exact original package filename/case differs: ' + name)
+        selected.append((row, name))
+    if len(selected) != 6 or {name for _, name in selected} != expected:
+        raise RuntimeError('Original six package identities differ or duplicate')
+    return selected
+
+
 def package_bytes(p, state):
     records = p.read(HERE / 'EXACT-PRODUCED-PACKAGES.json')
-    for record in records:
-        archive_path = state['work'] / 'feed' / Path(record['path']).name
+    for record, name in windows_package_records(records):
+        archive_path = state['work'] / 'feed' / name
         if archive_path.stat().st_size != record['bytes'] or p.sha(archive_path) != record['sha256']:
             raise RuntimeError('Original produced package changed')
         family = archive_path.name.split('.' + VERSION)[0]

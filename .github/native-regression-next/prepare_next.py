@@ -8,11 +8,27 @@ import json
 import os
 import time
 import zipfile
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from types import SimpleNamespace
 
 HERE = Path(__file__).resolve().parent
 ORIGINAL_ZIP_SHA256 = '643D14185BDCCA6A52E2AFA7D2928B7503F48E64A1D4DC8B613EAFC70498B662'
+
+
+def windows_package_records(records):
+    expected = {family + '.5.2.0-local.tlscontext.24208d37.' + extension
+        for family in ['MQTTnet', 'MQTTnet.Server', 'MQTTnet.AspNetCore']
+        for extension in ['nupkg', 'snupkg']}
+    selected = []
+    for row in records:
+        provenance = PureWindowsPath(row['path'])
+        if not provenance.is_absolute(): raise RuntimeError('Declared Windows package provenance must be absolute')
+        name = provenance.name
+        if name not in expected: raise RuntimeError('Exact original package filename/case differs: ' + name)
+        selected.append((row, name))
+    if len(selected) != 6 or {name for _, name in selected} != expected:
+        raise RuntimeError('Original six package identities differ or duplicate')
+    return selected
 
 
 def prepare(args):
@@ -62,8 +78,8 @@ def prepare(args):
         for row in p.read(Path(args.checkout) / '.github/native-package-phase1/SOURCELINK-PRODUCTION-CLOSURE.json')['archives']:
             q.download(row['officialUrl'], feed / (row['id'].lower() + '.' + row['version'] + '.nupkg'), row['sha256'])
         packages = scratch / 'receipts-package-discovery/produced-packages'
-        for row in p.read(HERE / 'EXACT-PRODUCED-PACKAGES.json'):
-            source = packages / Path(row['path']).name
+        for row, name in windows_package_records(p.read(HERE / 'EXACT-PRODUCED-PACKAGES.json')):
+            source = packages / name
             if source.stat().st_size != row['bytes'] or p.sha(source) != row['sha256']:
                 raise RuntimeError('Original package seal differs')
             p.bounded_copy(source, feed / source.name)
