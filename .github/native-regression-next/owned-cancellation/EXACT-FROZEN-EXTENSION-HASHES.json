@@ -1,0 +1,14 @@
+{
+  "net8.0": {
+    "MQTTnet.Extensions.Rpc.dll": "b979df89c579efb13e9a94ed25ca2cf20bc34446f2d71c6f9c19bd14a7eed357",
+    "MQTTnet.Extensions.Rpc.pdb": "f03731ecde354bf37e47d938a137ffd390d90f9a17c2558ca615996687b5eaae",
+    "MQTTnet.Extensions.TopicTemplate.dll": "7c068b0a6ba59382d6252445c42f148890dcd8b4d3820becd946bd52465eeeed",
+    "MQTTnet.Extensions.TopicTemplate.pdb": "681abd54e8e9becb7243d4f9d9e930f0f9a2e45365fcbde17fe986efaeeed422"
+  },
+  "net10.0": {
+    "MQTTnet.Extensions.Rpc.dll": "21ab2d325f0288083429ed6e507c4b0a808565c421e2dc3a84b82888c2a70151",
+    "MQTTnet.Extensions.Rpc.pdb": "202075af9564fca04037130b9197a72fca17d6a611815012881277d9a3b9a795",
+    "MQTTnet.Extensions.TopicTemplate.dll": "b4434fadfab19df1a84e5106ce235f79c3e2642a33057fbf0be82125f121549c",
+    "MQTTnet.Extensions.TopicTemplate.pdb": "eaa9541c75a99a0235d11d55c2f882c67ef753009e9ce7ccdb7db522c5afd6d1"
+  }
+}

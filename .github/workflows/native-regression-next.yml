@@ -20,12 +20,14 @@ jobs:
   linux:
     if: github.repository == 'YAJeff/MQTTnet' && github.ref == 'refs/heads/feature/server-certificate-context-lease'
     runs-on: ubuntu-24.04
-    timeout-minutes: 50
+    timeout-minutes: 110
     steps:
       - uses: actions/checkout@v4
+        timeout-minutes: 2
         with:
           persist-credentials: false
       - uses: actions/setup-python@v5
+        timeout-minutes: 2
         with:
           python-version: '3.13.7'
       - name: Fetch exact original V6 archive
@@ -44,24 +46,44 @@ jobs:
       - name: Package-only consumer compile identity and legacy checks
         timeout-minutes: 11
         run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment consumer
-      - name: Exact Linux NET8 method and typed case coverage
+      - name: Build explicitly derived NET8 tests from frozen packages
+        timeout-minutes: 11
+        run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment derived-build-net8.0
+      - name: Exact original NET8 807-case provenance partition
         timeout-minutes: 11
         run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment linux-whole-net8.0
-      - name: Exact Linux NET10 method and typed case coverage
+      - name: Exact derived NET8 two cancellation cases in owned fixture
+        timeout-minutes: 11
+        run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment owned-cancel-net8.0
+      - name: Build explicitly derived NET10 tests from frozen packages
+        timeout-minutes: 11
+        run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment derived-build-net10.0
+      - name: Exact original NET10 807-case provenance partition
         timeout-minutes: 11
         run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment linux-whole-net10.0
+      - name: Exact derived NET10 two cancellation cases in owned fixture
+        timeout-minutes: 11
+        run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment owned-cancel-net10.0
+      - name: Verify combined 809-case identity coverage with separate binary provenance
+        timeout-minutes: 2
+        run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment combined
       - name: Final original ownership and process absence proof
         if: always()
-        timeout-minutes: 2
+        timeout-minutes: 3
         run: |
           if test -f "${{ runner.temp }}/native-next/prepared/OWNERSHIP.json"; then
-            python -B .github/native-context/qualify.py --mode cleanup --job-root "${{ runner.temp }}/native-next/prepared"
+            fixture_status=0
+            original_status=0
+            python -B .github/native-regression-next/owned-cancellation/cleanup_owned.py --job-root "${{ runner.temp }}/native-next/prepared" || fixture_status=$?
+            python -B .github/native-context/qualify.py --mode cleanup --job-root "${{ runner.temp }}/native-next/prepared" || original_status=$?
+            test "$fixture_status" -eq 0 && test "$original_status" -eq 0
           else
             echo "No prepared ownership marker; preparation/startup failed. No native gate PASS."
           fi
       - name: Retain original failures results typed rows and exact evidence
         if: always()
         uses: actions/upload-artifact@v4
+        timeout-minutes: 4
         with:
           name: native-regression-next-linux
           include-hidden-files: true
@@ -74,3 +96,6 @@ jobs:
             ${{ runner.temp }}/native-next/prepared/OWNERSHIP.json
             ${{ runner.temp }}/native-next/prepared/ISOLATION-POSTFLIGHT.json
             ${{ runner.temp }}/native-next/prepared/consumer-transfer
+            ${{ runner.temp }}/native-next/prepared/DERIVED-BUILD-*.json
+            ${{ runner.temp }}/native-next/prepared/OWNED-FIXTURE-CLEANUP-*.json
+            ${{ runner.temp }}/native-next/prepared/COMBINED-REGRESSION-RESULT.json

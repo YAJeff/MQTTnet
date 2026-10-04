@@ -121,38 +121,71 @@ def package_bytes(p, state):
                     raise RuntimeError('Consumer does not use produced package DLL')
 
 
-def check_whole_trx(p, directory, bindings):
+def exact_trx_lookup(bindings):
+    lookup = {}
+    for method, rows in bindings.items():
+        class_name, bare_name = method.rsplit('.', 1)
+        for row in rows:
+            display = row['displayName']
+            escaped = ''
+            for character in display:
+                code = ord(character)
+                if code > 0xffff:
+                    code -= 0x10000
+                    escaped += '\\u%04x\\u%04x' % (0xd800 + (code >> 10), 0xdc00 + (code & 1023))
+                elif (code < 32 and code not in [9, 10, 13]) or 0xd800 <= code <= 0xdfff or code in [0xfffe, 0xffff]:
+                    escaped += '\\u%04x' % code
+                else:
+                    escaped += character
+            identity = (method, display)
+            for spelling in {display, escaped}:
+                for definition_name in {bare_name, spelling}:
+                    key = (class_name, definition_name, spelling)
+                    if key in lookup and lookup[key] != identity:
+                        raise RuntimeError('Ambiguous original typed TRX identity')
+                    lookup[key] = identity
+    return lookup
+
+
+def check_whole_trx(p, directory, bindings, expected_cases=809, expected_methods=620):
     files = list(directory.rglob('*.trx'))
     if len(files) != 1: raise RuntimeError('Missing/duplicate original full suite TRX')
     root = ET.fromstring(p.bounded_read(files[0]))
     counters = root.find('.//{*}Counters')
     expected = {(method, row['displayName']): row for method, rows in bindings.items() for row in rows}
-    if len(expected) != 809 or len(bindings) != 620:
+    if (expected_cases, expected_methods) not in ((809, 620), (807, 618)):
+        raise RuntimeError('Undeclared exact suite partition')
+    if len(expected) != expected_cases or len(bindings) != expected_methods:
         raise RuntimeError('Exact Linux method/static case set differs')
-    if counters is None or int(counters.get('total', '-1')) != 809 or int(counters.get('passed', '-1')) != 809:
+    if counters is None or int(counters.get('total', '-1')) != expected_cases or int(counters.get('executed', '-1')) != expected_cases or int(counters.get('passed', '-1')) != expected_cases:
         raise RuntimeError('Original full suite missing/failed/skipped cases')
-    for key in ['failed', 'error', 'timeout', 'aborted', 'inconclusive', 'notExecuted', 'disconnected']:
-        if int(counters.get(key, '0')) != 0: raise RuntimeError('Original nonpass counter: ' + key)
+    for key, value in counters.attrib.items():
+        if key not in ('total', 'executed', 'passed') and int(value) != 0:
+            raise RuntimeError('Original nonpass counter: ' + key)
+    lookup = exact_trx_lookup(bindings)
+    allowed_definitions = {(key[0], key[1]) for key in lookup}
     definitions = {}
     for unit in root.findall('.//{*}UnitTest'):
         definition = unit.find('{*}TestMethod')
         if definition is not None:
             if unit.get('id') in definitions: raise RuntimeError('Duplicate original test definition')
-            defined_method = definition.get('className', '').split(',')[0] + '.' + definition.get('name', '')
-            if defined_method not in bindings: raise RuntimeError('Unexpected original test definition')
+            name = (definition.get('className', '').split(',')[0], definition.get('name', ''))
+            if name not in allowed_definitions: raise RuntimeError('Unexpected original test definition')
             definitions[unit.get('id')] = definition
     observed = set()
     rows = root.findall('.//{*}UnitTestResult')
     for row in rows:
         definition = definitions.get(row.get('testId'))
         if definition is None: raise RuntimeError('Original result has no test definition')
-        method = definition.get('className', '').split(',')[0] + '.' + definition.get('name', '')
-        identity = (method, row.get('testName'))
+        key = (definition.get('className', '').split(',')[0], definition.get('name', ''), row.get('testName'))
+        identity = lookup.get(key)
         if identity not in expected or identity in observed or row.get('outcome') != 'Passed':
             raise RuntimeError('Unexpected/duplicate/failed/skipped original typed case')
         observed.add(identity)
-    if len(rows) != 809 or observed != set(expected): raise RuntimeError('Exact original typed case set differs')
-    return {'originalTrxSha256': p.sha(files[0]), 'methods': 620, 'passedCases': 809,
+    if {row.get('testId') for row in rows} != set(definitions):
+        raise RuntimeError('Unused/missing exact test definition')
+    if len(rows) != expected_cases or observed != set(expected): raise RuntimeError('Exact original typed case set differs')
+    return {'originalTrxSha256': p.sha(files[0]), 'methods': expected_methods, 'passedCases': expected_cases,
         'caseBindings': [{'method': method, 'row': row} for method, values in bindings.items() for row in values],
         'fullCanonicalCoverage': False, 'excludedCaseCount': 3}
 
@@ -166,6 +199,9 @@ def execute(args):
     p.ACTIVE_BUDGET = budget
     state = None
     q = None
+    sys.path.insert(0, str(HERE / 'owned-cancellation'))
+    import integration
+    import cleanup_owned
     receipts = root / ('receipts-next-' + args.assignment)
     primary = None
     secondary = []
@@ -201,6 +237,12 @@ def execute(args):
             whole = selected[0]
             if whole['expectedMethodCount'] != 620 or whole['expectedCaseCount'] != 809:
                 raise RuntimeError('Whole suite source inventory differs')
+        elif args.assignment == 'combined':
+            pass
+        elif args.assignment.startswith(('derived-build-', 'owned-cancel-')):
+            tfm = args.assignment.split('-', 2)[2]
+            if os.name == 'nt' or tfm not in integration.TFMS:
+                raise RuntimeError('Exact Linux derived assignment required')
         elif args.assignment != 'consumer':
             selected = [c for c in p.read(HERE / 'BOUNDED-SERIAL-COMMANDS.json') if c['id'] == args.assignment]
             if len(selected) != 1: raise RuntimeError('Exact single chunk required before native execution')
@@ -213,8 +255,9 @@ def execute(args):
             if allowed < 1: raise TimeoutError('No command/cleanup headroom')
             original_run(command, stem, allowed, state)
             budget.check()
+        state['budget'] = budget
         package_bytes(p, state)
-        if os.name != 'nt':
+        if os.name != 'nt' and args.assignment != 'combined':
             q.prove_owned_permissions(state)
             budget.check()
         if args.assignment == 'consumer':
@@ -285,19 +328,30 @@ def execute(args):
             revised['stagedSourceFiles'] = updated
             p.save(root / 'NEXT-PREPARATION-CONSUMER.json', {'originalPreparationSha256': p.sha(root / 'NEXT-PREPARATION.json'),
                 'consumerSourceFiles': p.bounded_inventory(HERE / 'consumer'), 'prepared': revised})
+        elif args.assignment == 'combined':
+            integration.combined(p, sys.modules[__name__], root)
+        elif args.assignment.startswith('derived-build-'):
+            integration.build(p, q, sys.modules[__name__], state, tfm, args.checkout, run)
+        elif args.assignment.startswith('owned-cancel-'):
+            integration.cancel(p, sys.modules[__name__], state, tfm)
         elif args.assignment.startswith('linux-whole-'):
             tfm = whole['framework']
             dll = state['stage'] / 'Source/MQTTnet.Tests/bin/Release' / tfm / 'MQTTnet.Tests.dll'
             probe = state['stage'] / 'consumer/bin/Release' / tfm / 'PackageOnlyConsumer.dll'
             run([state['exe'], str(probe), '--row-bindings', str(dll), str(receipts / (tfm + '-ROW-BINDINGS.json'))], 'row-bindings', 20)
-            bindings = check_bindings(p, state, tfm, whole['commands'])
+            original_commands = integration.split(whole)
+            bindings = check_bindings(p, state, tfm, original_commands)
             state['env']['MQTTNET_LEGACY_CERTIFICATE_PROVIDER_DLL'] = str(state['stage'] / '.github/legacy-certificate-provider/bin/Release' / tfm / 'LegacyCertificateProviderFixture.dll')
             state['ownedEnvKeys'].add('MQTTNET_LEGACY_CERTIFICATE_PROVIDER_DLL')
             directory = receipts / 'trx' / 'whole-suite'; directory.mkdir(parents=True)
             # Pass the exact conjunction as one argv element: no shell expansion,
             # substring exclusions, class-wide exclusions, retry or failure masking.
-            run([state['exe'], str(dll), '--filter', whole['filter'], '--report-trx', '--report-trx-filename', 'result.trx', '--results-directory', str(directory)], 'whole-suite', 480)
-            result = check_whole_trx(p, directory, bindings)
+            original_filter = whole['filter'] + ''.join('&FullyQualifiedName!=' + method for method in integration.METHODS)
+            p.save(receipts / 'EXPLICIT-PROVENANCE-PARTITION.json', {'originalMethods': 618, 'originalCases': 807, 'derivedSeparately': integration.METHODS, 'filter': original_filter, 'noRetry': True})
+            run([state['exe'], str(dll), '--filter', original_filter, '--report-trx', '--report-trx-filename', 'result.trx', '--results-directory', str(directory)], 'whole-suite', 480)
+            result = check_whole_trx(p, directory, bindings, 807, 618)
+            result['originalTestDllSha256'] = p.sha(dll)
+            result['derivedSeparately'] = integration.METHODS
             package_bytes(p, state)
             p.save(receipts / 'LINUX-WHOLE-SUITE-RESULT.json', {'assignment': args.assignment, 'result': result, 'excluded': whole['excluded'], 'retryCount': 0, 'wholeCanonicalRegressionQualified': False})
         else:
@@ -321,10 +375,18 @@ def execute(args):
                 results.append(check_trx(p, directory, method, bindings[method]))
             package_bytes(p, state)
             p.save(receipts / 'EXACT-CHUNK-RESULT.json', {'assignment': args.assignment, 'rows': results, 'wholeRegressionQualified': False})
+        package_bytes(p, state)
+        if args.assignment != 'consumer':
+            for directory, key in [(work / 'toolchain', 'toolchainFiles'), (work / 'feed', 'feedFiles'), (work / 'source', 'stagedSourceFiles'), (q.HERE, 'helperFiles'), (HERE, 'nextGateFiles')]:
+                if p.bounded_inventory(directory) != prepared[key]:
+                    raise RuntimeError('Final immutable original input set changed: ' + key)
         completed = True
     except BaseException as exc:
         primary = exc
     finally:
+        try:
+            cleanup_owned.cleanup(root)
+        except BaseException as exc: secondary.append({'ownedFixtureCleanup': repr(exc)})
         if q is not None:
             try:
                 budget.cleanup_mode = True
