@@ -223,10 +223,22 @@ def execute(args):
             run([state['exe'], 'restore', project, '--configfile', 'consumer/NuGet.Config', '--packages', str(work / 'packages')], 'consumer-restore', 120)
             run([state['exe'], 'build', project, '-c', 'Release', '--no-restore', '-m:1', '-nodeReuse:false', '-p:UseSharedCompilation=false', '-p:BuildInParallel=false'], 'consumer-build', 120)
             q.pin_configs(state['stage'] / 'consumer')
-            assets = p.read(state['stage'] / 'consumer/obj/project.assets.json')
+            asset_path = state['stage'] / 'consumer/obj/project.assets.json'
+            assets = p.read(asset_path)
+            p.bounded_copy(asset_path, receipts / 'original-project.assets.json')
             expected_folder = '/job/work/packages'
-            if set(assets['packageFolders']) != {expected_folder + '/'}:
-                raise RuntimeError('Consumer restored from an unowned cache')
+            actual_folders = list(assets['packageFolders'])
+            owned = p.read(receipts / 'OWNED-PERMISSIONS.json')
+            owned_rows = [row for row in owned['rows'] if row['path'] == expected_folder]
+            accepted = (len(actual_folders) == 1 and actual_folders[0] in
+                [expected_folder, expected_folder + '/'] and len(owned_rows) == 1 and
+                owned_rows[0]['uid'] == '1001' and owned_rows[0]['gid'] == '1001' and
+                owned_rows[0]['mode'] == '700' and owned_rows[0]['directoryAndFileWriteReadRemove'])
+            p.save(receipts / 'PACKAGE-FOLDER-OWNERSHIP.json', {'originalAssetsSha256': p.sha(asset_path),
+                'expectedContainerFolder': expected_folder, 'observedPackageFolders': actual_folders,
+                'originalOwnedPermissionRows': owned_rows, 'accepted': accepted})
+            if not accepted:
+                raise RuntimeError('Consumer restored from an unowned cache: ' + repr(actual_folders))
             allowed = {x['id'].lower() + '/' + x['version'] for x in p.read(q.HERE / 'TEST-PACKAGE-CLOSURE.json')['packages']}
             allowed |= {x['id'].lower() + '/' + x['version'] for x in p.read(Path(args.checkout) / '.github/native-package-phase1/SOURCELINK-PRODUCTION-CLOSURE.json')['archives']}
             allowed |= {x.lower() + '/' + VERSION for x in FAMILIES}
