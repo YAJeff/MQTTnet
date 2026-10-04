@@ -35,7 +35,7 @@ var fixture = assembly.GetType("MQTTnet.CompatibilityFixtures.LegacyCertificateP
 var oldProvider = (ICertificateProvider)fixture.GetConstructor(new[] { typeof(X509Certificate2) }).Invoke(new object[] { null });
 Check(oldProvider.GetCertificate() == null && oldProvider is not ICertificateContextProvider,
     "UnchangedOldBinaryProviderBindsToCandidate");
-var nativeLoaded = new[] { "MQTTnet", "MQTTnet.Server", "MQTTnet.AspNetCore" }.Select(name => Assembly.Load(name)).Select(a => new {
+var nativeLoaded = ConsumerAssemblyNames.Values.Select(name => Assembly.Load(name)).Select(a => new {
     name = a.GetName().Name, version = a.GetName().Version.ToString(), path = a.Location,
     mvid = a.ManifestModule.ModuleVersionId,
     sha256 = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(a.Location))) }).ToArray();
@@ -47,3 +47,8 @@ Console.WriteLine(JsonSerializer.Serialize(new { loaded = nativeLoaded, passed =
 }
 
 static void Check(bool condition, string name) { if (!condition) throw new InvalidOperationException(name); Console.WriteLine("PASS " + name); }
+
+static class ConsumerAssemblyNames
+{
+    internal static readonly string[] Values = { "MQTTnet", "MQTTnet.Server", "MQTTnet.AspNetCore" };
+}
