@@ -1,0 +1,76 @@
+name: Native package consumer and bounded Linux regression
+on:
+  push:
+    branches: [feature/server-certificate-context-lease]
+    paths:
+      - .github/native-regression-next/**
+      - .github/workflows/native-regression-next.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: native-context-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  DOTNET_GENERATE_ASPNET_CERTIFICATE: 'false'
+  DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: 'false'
+jobs:
+  linux:
+    if: github.repository == 'YAJeff/MQTTnet' && github.ref == 'refs/heads/feature/server-certificate-context-lease'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.7'
+      - name: Fetch exact original V6 archive
+        timeout-minutes: 3
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          curl --fail --silent --show-error --location --max-time 120 \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --output "${{ runner.temp }}/native-v6-original-linux.zip" \
+            https://api.github.com/repos/YAJeff/MQTTnet/actions/artifacts/11211612223/zip
+      - name: Prepare original binaries and private offline consumer inputs
+        timeout-minutes: 11
+        run: python -B .github/native-regression-next/prepare_next.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next" --original-zip "${{ runner.temp }}/native-v6-original-linux.zip"
+      - name: Package-only consumer compile identity and legacy checks
+        timeout-minutes: 11
+        run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment consumer
+      - name: Exact Linux NET8 method and typed case coverage
+        timeout-minutes: 11
+        run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment linux-whole-net8.0
+      - name: Exact Linux NET10 method and typed case coverage
+        timeout-minutes: 11
+        run: python -B .github/native-regression-next/next_gate.py --checkout "$GITHUB_WORKSPACE" --job-root "${{ runner.temp }}/native-next/prepared" --assignment linux-whole-net10.0
+      - name: Final original ownership and process absence proof
+        if: always()
+        timeout-minutes: 2
+        run: |
+          if test -f "${{ runner.temp }}/native-next/prepared/OWNERSHIP.json"; then
+            python -B .github/native-context/qualify.py --mode cleanup --job-root "${{ runner.temp }}/native-next/prepared"
+          else
+            echo "No prepared ownership marker; preparation/startup failed. No native gate PASS."
+          fi
+      - name: Retain original failures results typed rows and exact evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-regression-next-linux
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/native-next/prepared/receipts-*
+            ${{ runner.temp }}/native-next/prepared/*PREPARATION*.json
+            ${{ runner.temp }}/native-next/*RESULT.json
+            ${{ runner.temp }}/native-next/prepared/OWNERSHIP.json
+            ${{ runner.temp }}/native-next/prepared/ISOLATION-POSTFLIGHT.json
+            ${{ runner.temp }}/native-next/prepared/consumer-transfer

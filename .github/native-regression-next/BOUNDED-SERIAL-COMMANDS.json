@@ -1,0 +1,176 @@
+[
+  {
+    "id": "net8.0-windows-guard-000",
+    "route": "windows-guard",
+    "wholePhaseSeconds": 600,
+    "maximumNativeSeconds": 120,
+    "commands": [
+      {
+        "id": "net8.0-windows-guard-000-0",
+        "argv": [
+          "{sealedDotnet}",
+          "{sealedTestDll:net8.0}",
+          "--filter",
+          "FullyQualifiedName=MQTTnet.Tests.Server.CertificateContextLease_Tests.Windows_Synthetic_Context_Is_Rejected_Before_Create",
+          "--report-trx",
+          "--report-trx-filename",
+          "result.trx",
+          "--results-directory",
+          "{ownedReceipts}/net8.0-windows-guard-000/0"
+        ],
+        "timeoutSeconds": 120,
+        "expectedCases": 1,
+        "exactMethod": {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Windows_Synthetic_Context_Is_Rejected_Before_Create",
+          "metadataToken": 100663459,
+          "staticRows": [],
+          "dynamicData": false,
+          "ignored": false
+        }
+      }
+    ],
+    "queueAuthorized": false
+  },
+  {
+    "id": "net8.0-external-network-review-required-000",
+    "route": "external-network-review-required",
+    "wholePhaseSeconds": 600,
+    "maximumNativeSeconds": 240,
+    "commands": [
+      {
+        "id": "net8.0-external-network-review-required-000-0",
+        "argv": [
+          "{sealedDotnet}",
+          "{sealedTestDll:net8.0}",
+          "--filter",
+          "FullyQualifiedName=MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Connect_Send_Receive",
+          "--report-trx",
+          "--report-trx-filename",
+          "result.trx",
+          "--results-directory",
+          "{ownedReceipts}/net8.0-external-network-review-required-000/0"
+        ],
+        "timeoutSeconds": 120,
+        "expectedCases": 1,
+        "exactMethod": {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Connect_Send_Receive",
+          "metadataToken": 100664001,
+          "staticRows": [],
+          "dynamicData": false,
+          "ignored": false
+        }
+      },
+      {
+        "id": "net8.0-external-network-review-required-000-1",
+        "argv": [
+          "{sealedDotnet}",
+          "{sealedTestDll:net8.0}",
+          "--filter",
+          "FullyQualifiedName=MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Try_Connect_Invalid_Host",
+          "--report-trx",
+          "--report-trx-filename",
+          "result.trx",
+          "--results-directory",
+          "{ownedReceipts}/net8.0-external-network-review-required-000/1"
+        ],
+        "timeoutSeconds": 120,
+        "expectedCases": 1,
+        "exactMethod": {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Try_Connect_Invalid_Host",
+          "metadataToken": 100664002,
+          "staticRows": [],
+          "dynamicData": false,
+          "ignored": false
+        }
+      }
+    ],
+    "queueAuthorized": false
+  },
+  {
+    "id": "net10.0-windows-guard-000",
+    "route": "windows-guard",
+    "wholePhaseSeconds": 600,
+    "maximumNativeSeconds": 120,
+    "commands": [
+      {
+        "id": "net10.0-windows-guard-000-0",
+        "argv": [
+          "{sealedDotnet}",
+          "{sealedTestDll:net10.0}",
+          "--filter",
+          "FullyQualifiedName=MQTTnet.Tests.Server.CertificateContextLease_Tests.Windows_Synthetic_Context_Is_Rejected_Before_Create",
+          "--report-trx",
+          "--report-trx-filename",
+          "result.trx",
+          "--results-directory",
+          "{ownedReceipts}/net10.0-windows-guard-000/0"
+        ],
+        "timeoutSeconds": 120,
+        "expectedCases": 1,
+        "exactMethod": {
+          "fullyQualifiedName": "MQTTnet.Tests.Server.CertificateContextLease_Tests.Windows_Synthetic_Context_Is_Rejected_Before_Create",
+          "metadataToken": 100663459,
+          "staticRows": [],
+          "dynamicData": false,
+          "ignored": false
+        }
+      }
+    ],
+    "queueAuthorized": false
+  },
+  {
+    "id": "net10.0-external-network-review-required-000",
+    "route": "external-network-review-required",
+    "wholePhaseSeconds": 600,
+    "maximumNativeSeconds": 240,
+    "commands": [
+      {
+        "id": "net10.0-external-network-review-required-000-0",
+        "argv": [
+          "{sealedDotnet}",
+          "{sealedTestDll:net10.0}",
+          "--filter",
+          "FullyQualifiedName=MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Connect_Send_Receive",
+          "--report-trx",
+          "--report-trx-filename",
+          "result.trx",
+          "--results-directory",
+          "{ownedReceipts}/net10.0-external-network-review-required-000/0"
+        ],
+        "timeoutSeconds": 120,
+        "expectedCases": 1,
+        "exactMethod": {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Connect_Send_Receive",
+          "metadataToken": 100664001,
+          "staticRows": [],
+          "dynamicData": false,
+          "ignored": false
+        }
+      },
+      {
+        "id": "net10.0-external-network-review-required-000-1",
+        "argv": [
+          "{sealedDotnet}",
+          "{sealedTestDll:net10.0}",
+          "--filter",
+          "FullyQualifiedName=MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Try_Connect_Invalid_Host",
+          "--report-trx",
+          "--report-trx-filename",
+          "result.trx",
+          "--results-directory",
+          "{ownedReceipts}/net10.0-external-network-review-required-000/1"
+        ],
+        "timeoutSeconds": 120,
+        "expectedCases": 1,
+        "exactMethod": {
+          "fullyQualifiedName": "MQTTnet.Tests.Internal.CrossPlatformSocket_Tests.Try_Connect_Invalid_Host",
+          "metadataToken": 100664002,
+          "staticRows": [],
+          "dynamicData": false,
+          "ignored": false
+        }
+      }
+    ],
+    "queueAuthorized": false
+  }
+]

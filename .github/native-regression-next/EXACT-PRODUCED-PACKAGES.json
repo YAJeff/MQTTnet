@@ -1,0 +1,32 @@
+[
+  {
+    "path": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-phase1-v6-artifact-layout-20261001\\hosted-run36971184271\\original-produced-packages\\MQTTnet.5.2.0-local.tlscontext.24208d37.nupkg",
+    "bytes": 219344,
+    "sha256": "CFE4A143AB98EDFA9939F450A5F97539BA5A2DEFBBE01C70F08300AFB9FA8778"
+  },
+  {
+    "path": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-phase1-v6-artifact-layout-20261001\\hosted-run36971184271\\original-produced-packages\\MQTTnet.5.2.0-local.tlscontext.24208d37.snupkg",
+    "bytes": 100519,
+    "sha256": "E6EC6A7FEDF5B3069A29A6DFECFC1BEC5BAF58458857CC66A9D54D55D68622BE"
+  },
+  {
+    "path": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-phase1-v6-artifact-layout-20261001\\hosted-run36971184271\\original-produced-packages\\MQTTnet.AspNetCore.5.2.0-local.tlscontext.24208d37.nupkg",
+    "bytes": 48046,
+    "sha256": "0BDF7C7235F2CE13A87063C22E17629A687BBD59A081CB9A893E12CDE980FB42"
+  },
+  {
+    "path": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-phase1-v6-artifact-layout-20261001\\hosted-run36971184271\\original-produced-packages\\MQTTnet.AspNetCore.5.2.0-local.tlscontext.24208d37.snupkg",
+    "bytes": 37414,
+    "sha256": "4FA89A0CF1B847FE2F58E3CCBC163CC25F881DF6A4D557FD084DCDF8C7DD819C"
+  },
+  {
+    "path": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-phase1-v6-artifact-layout-20261001\\hosted-run36971184271\\original-produced-packages\\MQTTnet.Server.5.2.0-local.tlscontext.24208d37.nupkg",
+    "bytes": 262009,
+    "sha256": "BC66B27BA3B2D47B5CC8D574E3146BAA4A7451CA37C1CA3A77AD37141E453208"
+  },
+  {
+    "path": "C:\\corevar\\output\\mqttnet-scalability-review\\tls-context-package-phase1-v6-artifact-layout-20261001\\hosted-run36971184271\\original-produced-packages\\MQTTnet.Server.5.2.0-local.tlscontext.24208d37.snupkg",
+    "bytes": 94798,
+    "sha256": "74691ADB010F13CC6A8724B00FD2AAB515651473CABD426E88EE0DC9AF9E0F0B"
+  }
+]

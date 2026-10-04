@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFrameworks>net8.0;net10.0</TargetFrameworks><ImplicitUsings>enable</ImplicitUsings><Nullable>disable</Nullable><AssemblyVersion>1.0.0.0</AssemblyVersion><UseAppHost>false</UseAppHost><IsPackable>false</IsPackable><GeneratePackageOnBuild>false</GeneratePackageOnBuild></PropertyGroup>
+  <ItemGroup><FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="MQTTnet" Version="[5.2.0-local.tlscontext.24208d37]" />
+    <PackageReference Include="MQTTnet.Server" Version="[5.2.0-local.tlscontext.24208d37]" />
+    <PackageReference Include="MQTTnet.AspNetCore" Version="[5.2.0-local.tlscontext.24208d37]" />
+  </ItemGroup>
+</Project>
